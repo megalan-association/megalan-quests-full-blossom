@@ -1,6 +1,7 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import { api } from "~/utils/api";
 
 export default function Home() {
@@ -68,6 +69,22 @@ function AuthShowcase() {
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {secretMessage && <span> - {secretMessage}</span>}
       </p>
+      <p className="text-center text-2xl text-white">
+        {sessionData && `user id ${sessionData.user?.id}`}
+      </p>
+      <p className="text-center text-2xl text-white">
+        {sessionData && `email ${sessionData.user?.email}`}
+      </p>
+
+      {sessionData && (
+        <Image
+          alt="profile-picture"
+          src={sessionData.user?.image ? sessionData.user?.image : ""}
+          width={500}
+          height={500}
+          className="h-24 w-24 rounded-full"
+        />
+      )}
       <button
         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
         onClick={sessionData ? () => void signOut() : () => void signIn()}
