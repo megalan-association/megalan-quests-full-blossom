@@ -19,6 +19,10 @@ export default {
         green: "#6e8b1c",
         "light-green": "#d1d08c",
       },
+      fontFamily: {
+        heading: ["var(--font-fredoka)"],
+        body: ["var(--font-montserrat)"],
+      },
     },
   },
   plugins: [],
