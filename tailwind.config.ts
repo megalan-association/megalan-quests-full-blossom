@@ -18,6 +18,7 @@ export default {
         "light-pink": "#ffe6eb",
         green: "#6e8b1c",
         "light-green": "#d1d08c",
+        brown: "#794d2d",
       },
       fontFamily: {
         heading: ["var(--font-fredoka)"],
