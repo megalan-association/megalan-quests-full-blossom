@@ -28,7 +28,7 @@ const TaskCard = ({ id, title, description, society, difficulty, points, userCom
         <div className="w-full rounded-2xl">
           <div className="w-full p-2 bg-white rounded-t-xl flex flex-row space-x-2 ">
             {/* TEMPORARY IMAGE */}
-            <img className="h-12 my-0.5 rounded-full" src="https://avatars.githubusercontent.com/u/89776086?v=4" />
+            <img className="h-12 my-0.5 rounded-full" src="https://avatars.githubusercontent.com/u/89776086?v=4" alt="Society logo" />
             <div>
               <h4 className=" text-yellow-900 text-xl font-bold">{title}</h4>
               <p className="text-pink">{society}</p>
