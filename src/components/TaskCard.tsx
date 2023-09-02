@@ -29,8 +29,8 @@ const TaskCard = (data: taskInfo) => {
         </div>
         <div className="w-full h-full flex-grow p-2 rounded-b-xl bg-[#fdb3c2] grid grid-rows-[1fr_auto]">
           <div>
-            <p className="text-light-pink">{data.points} points upon completion!</p>
-            <p className="text-light-pink">{data.description}</p>
+            <p className="text-brown">{data.points} points upon completion!</p>
+            <p className="text-brown">{data.description}</p>
           </div>
           <p className=" text-right text-[#ea5873]">Difficulty: {data.difficulty}</p>
         </div>

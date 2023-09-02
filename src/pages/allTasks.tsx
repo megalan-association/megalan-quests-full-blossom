@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NextPage } from "next";
 import Layout from "~/layouts/Layout";
+import PageHeading from "~/components/PageHeading";
 import TaskCard from "~/components/TaskCard";
 
 import { taskInfo } from "~/utils/types";
@@ -97,7 +98,7 @@ const AllTasksPage: NextPage = () => {
   return (
     <>
     <Layout>
-      <h1 className="text-center font-heading font-bold text-5xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] bg-clip-text bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75%">Quests</h1>
+      <PageHeading heading="Quests" />
       <div className="w-full sm:w-4/5 md:w-[640px] m-auto p-4 font-heading font-bold">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="flex space-x-2 md:space-x-8 pt-2">
@@ -117,7 +118,7 @@ const AllTasksPage: NextPage = () => {
         </div>
       </div>
       <div className="w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:w-[1280px] m-auto">
-        {displayTasks.map(t => {return <TaskCard id={t.id} title={t.title} description={t.description} society={t.society} difficulty={t.difficulty} points={t.points} userCompleted={false}/>})}
+        {displayTasks.map(t => {return <TaskCard key={t.id} id={t.id} title={t.title} description={t.description} society={t.society} difficulty={t.difficulty} points={t.points} userCompleted={false}/>})}
       </div>
     </Layout>
     </>
