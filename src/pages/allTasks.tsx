@@ -29,6 +29,7 @@ const AllTasksPage: NextPage = () => {
   for (let i = 0; i < 4; i++) {
     allTasks.push({
       id: t1,
+      isSponsorTask: false,
       title: t2,
       description: t3,
       society: t4,
@@ -38,6 +39,7 @@ const AllTasksPage: NextPage = () => {
     })
     allTasks.push({
       id: t1,
+      isSponsorTask: true,
       title: t2,
       description: t3,
       society: t4,
@@ -47,6 +49,7 @@ const AllTasksPage: NextPage = () => {
     })
     allTasks.push({
       id: t1,
+      isSponsorTask: false,
       title: t2,
       description: t3,
       society: t4,
@@ -55,6 +58,19 @@ const AllTasksPage: NextPage = () => {
       userCompleted: false
     })
   }
+
+  function sponsorsFirst(a: taskInfo, b: taskInfo) {
+    if (a.isSponsorTask && b.isSponsorTask) {
+      return 0
+    } else if (a.isSponsorTask) {
+      return -1
+    } else if (b.isSponsorTask) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+  allTasks.sort(sponsorsFirst)
 
   let [displayTasks, setDisplayTasks] = useState(allTasks)
   let filterDifficulty = ""
@@ -118,7 +134,7 @@ const AllTasksPage: NextPage = () => {
         </div>
       </div>
       <div className="w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:w-[1280px] m-auto">
-        {displayTasks.map(t => {return <TaskCard key={t.id} id={t.id} title={t.title} description={t.description} society={t.society} difficulty={t.difficulty} points={t.points} userCompleted={false}/>})}
+        {displayTasks.map(t => {return <TaskCard key={t.id} data={t}/>})}
       </div>
     </Layout>
     </>

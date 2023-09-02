@@ -2,7 +2,7 @@ import { taskInfo } from "~/utils/types";
 
 // const props = { taskId: string, title: string, socName: string, desc: string, diff: string, compStat: boolean};
 
-const TaskCard = (data: taskInfo) => {
+const TaskCard = ({data}: {data: taskInfo}) => {
   // task id
   // title
   // society name
