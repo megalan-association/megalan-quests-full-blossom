@@ -7,16 +7,6 @@ import TaskCard from "~/components/TaskCard";
 import { taskInfo } from "~/utils/types";
 
 const AllTasksPage: NextPage = () => {
-
-  // after the api call to the tasks
-  // list of all the tasks 
-  // const allTasks: unknown[] = [];
-
-  // Title
-  // searchbar 
-  // Filter section 
-  // List of the Tasks 
-
   // TEST DATA - remove when API is ready
   let t1 = "COCKATOO"
   let t2 = "Cockatoo task"
@@ -59,7 +49,7 @@ const AllTasksPage: NextPage = () => {
     })
   }
 
-  function sponsorsFirst(a: taskInfo, b: taskInfo) {
+  const sponsorsFirst = (a: taskInfo, b: taskInfo) => {
     if (a.isSponsorTask && b.isSponsorTask) {
       return 0
     } else if (a.isSponsorTask) {
@@ -76,11 +66,11 @@ const AllTasksPage: NextPage = () => {
   let filterDifficulty = ""
   let filterSociety = ""
 
-  function filterTasks() {
+  const filterTasks = () => {
     let intermediate: taskInfo[] = []
     let result: taskInfo[] = []
     for (let task of allTasks) {
-      if (filterDifficulty != "") {
+      if (filterDifficulty != "" && filterDifficulty != "_") {
         if (task.difficulty == filterDifficulty) {
           intermediate.push(task)
         }
@@ -90,7 +80,7 @@ const AllTasksPage: NextPage = () => {
     }
 
     for (let task of intermediate) {
-      if (filterSociety != "") {
+      if (filterSociety != "" && filterSociety != "_") {
         if (task.society == filterSociety) {
           result.push(task)
         }
@@ -101,12 +91,12 @@ const AllTasksPage: NextPage = () => {
     return result
   }
 
-  function updateDifficultyFilter(e: any) {
+  const updateDifficultyFilter = (e: any) => {
     filterDifficulty = e.target.value
     setDisplayTasks(filterTasks())
   }
 
-  function updateSocietyFilter(e: any) {
+  const updateSocietyFilter = (e: any) => {
     filterSociety = e.target.value
     setDisplayTasks(filterTasks())
   }
@@ -118,15 +108,15 @@ const AllTasksPage: NextPage = () => {
       <div className="w-full sm:w-4/5 md:w-[640px] m-auto p-4 font-heading font-bold">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="flex space-x-2 md:space-x-8 pt-2">
-          <select onChange={updateDifficultyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
-            <option value="" selected disabled>Task difficulty</option>
+          <select defaultValue="_" onChange={updateDifficultyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
+            <option value="_" disabled>Task difficulty</option>
             <option value="">All difficulties</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
           </select>
-          <select onChange={updateSocietyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
-            <option value="" selected disabled>Society</option>
+          <select defaultValue="_" onChange={updateSocietyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
+            <option value="_" disabled>Society</option>
             <option value="">All societies</option>
             <option value="Cockatoo society">Cockatoo society</option>
             <option value="Not a society">Not a society</option>
