@@ -1,16 +1,8 @@
-type taskInfo = {
-  id: string,
-  title: string,
-  description: string,
-  society: string,
-  difficulty: string,
-  points: number,
-  userCompleted: boolean
-}
+import { taskInfo } from "~/utils/types";
 
 // const props = { taskId: string, title: string, socName: string, desc: string, diff: string, compStat: boolean};
 
-const TaskCard = ({ id, title, description, society, difficulty, points, userCompleted }: taskInfo) => {
+const TaskCard = (data: taskInfo) => {
   // task id
   // title
   // society name
@@ -30,17 +22,17 @@ const TaskCard = ({ id, title, description, society, difficulty, points, userCom
             {/* TEMPORARY IMAGE */}
             <img className="h-12 my-0.5 rounded-full" src="https://avatars.githubusercontent.com/u/89776086?v=4" alt="Society logo" />
             <div>
-              <h4 className=" text-yellow-900 text-xl font-bold">{title}</h4>
-              <p className="text-pink">{society}</p>
+              <h4 className=" text-yellow-900 text-xl font-bold">{data.title}</h4>
+              <p className="text-pink">{data.society}</p>
             </div>
           </div>
         </div>
         <div className="w-full h-full flex-grow p-2 rounded-b-xl bg-[#fdb3c2] grid grid-rows-[1fr_auto]">
           <div>
-            <p className="text-light-pink">{points} points upon completion!</p>
-            <p className="text-light-pink">{description}</p>
+            <p className="text-light-pink">{data.points} points upon completion!</p>
+            <p className="text-light-pink">{data.description}</p>
           </div>
-          <p className=" text-right text-[#ea5873]">Difficulty: {difficulty}</p>
+          <p className=" text-right text-[#ea5873]">Difficulty: {data.difficulty}</p>
         </div>
       {/* <div className="w-80 h-44 left-[30px] top-[92px] absolute bg-pink-300 rounded-bl-2xl rounded-br-2xl border-2 border-yellow-900" />
       <div className="w-80 h-14 left-[30px] top-[34px] absolute bg-white rounded-tl-2xl rounded-tr-2xl border-2 border-yellow-900" />
