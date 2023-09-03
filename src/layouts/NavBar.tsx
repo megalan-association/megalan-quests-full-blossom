@@ -21,7 +21,7 @@ const NavBar = () => {
 
   return (
     <>
-      <div className="fixed z-50 hidden lg:grid h-fit w-full grid-cols-[auto_1fr_auto] justify-between bg-beige px-4 py-2 lg:px-8">
+      <div className="fixed z-50 hidden h-fit w-full flex-row justify-between bg-beige px-4 py-2 md:flex md:px-8">
         <Link href={"/"}>
           <Image
             alt="logo"
@@ -33,26 +33,26 @@ const NavBar = () => {
             className="h-16 w-fit object-contain invert"
           />
         </Link>
-        <div className="hidden lg:grid h-full w-full text-center grid-cols-3 focus:outline-none">
+        <div className="hidden h-full flex-row space-x-24 py-2 focus:outline-none md:flex">
           {links.map((link) => (
             <Link
               href={link.href}
               key={link.href}
-              className="group px-3 h-full font-body text-2xl"
+              className="group p-2 font-body text-3xl"
             >
-              <div className="py-4 text-center">{link.name}</div>
+              {link.name}
               <span className="block h-0.5 w-0 transform bg-brown transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
         </div>
-        <button className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg lg:block">
+        <button className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg md:block">
           <p className="font-body text-xl">Login / Sign Up</p>
         </button>
       </div>
       <Menu>
         {({ open }: { open: boolean }) => (
           <div
-            className={`fixed z-50 flex h-fit w-full flex-col bg-beige px-4 lg:hidden ${
+            className={`fixed z-50 flex h-fit w-full flex-col bg-beige px-4 md:hidden ${
               open && "bg-brown text-beige"
             } `}
           >
@@ -68,7 +68,7 @@ const NavBar = () => {
                   className="h-16 w-fit object-contain invert"
                 />
               </Menu.Item>
-              <Menu.Button className="block text-2xl focus:outline-none lg:hidden">
+              <Menu.Button className="block text-2xl focus:outline-none md:hidden">
                 <Bars3Icon
                   className={`h-8 w-8 ${open ? "text-beige" : "text-brown"} `}
                 />
@@ -82,7 +82,7 @@ const NavBar = () => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Menu.Items className="flex h-full flex-col space-y-8 py-4 focus:outline-none lg:hidden">
+              <Menu.Items className="flex h-full flex-col space-y-8 py-4 focus:outline-none md:hidden">
                 {links.map((link) => (
                   <Menu.Item
                     as="a"
