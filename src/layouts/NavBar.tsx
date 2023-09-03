@@ -46,7 +46,7 @@ const NavBar = () => {
           ))}
         </div>
         <button className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg md:block">
-          <p className="font-body text-xl">Login / Sign Up</p>
+          <p className="font-body text-xl">Login</p>
         </button>
       </div>
       <Menu>
