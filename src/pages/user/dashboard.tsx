@@ -3,7 +3,7 @@ import ProgressBar from "~/components/ProgressBar";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { roomsList } from "~/utils/constants";
 
-const dashboard = () => {
+const Dashboard = () => {
   const rooms = roomsList;
 
   return (
@@ -63,4 +63,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;
