@@ -7,6 +7,8 @@ import { api } from "~/utils/api";
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
+  console.error("welcome");
+
   return (
     <>
       <Head>
@@ -51,6 +53,7 @@ export default function Home() {
             </p>
             <AuthShowcase />
           </div>
+          {/* <QRScanner /> */}
         </div>
       </main>
     </>
