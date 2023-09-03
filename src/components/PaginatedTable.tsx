@@ -1,5 +1,6 @@
+import { isServer } from "@tanstack/react-query";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface User {
   id: string;
@@ -32,7 +33,15 @@ const data: User[] = generateRandomUserData(50); // Generate 50 random users
 
 const PaginatedTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [data, setData] = useState<User[]>([]);
 
+  useEffect(() => {
+    if (!isServer) {
+      // Generate random user data on the client side
+      const randomData = generateRandomUserData(50);
+      setData(randomData);
+    }
+  }, []);
   const totalPages = Math.ceil(data.length / pageSize);
 
   const startIndex = currentPage * pageSize;
