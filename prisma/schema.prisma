@@ -100,7 +100,7 @@ model User {
     sessions       Session[]
     totalPoints    Int             @default(0)
     completedTasks CompletedTask[]
-    type           UserType
+    type           UserType @default(PARTICIPANT)
 }
 
 model VerificationToken {
