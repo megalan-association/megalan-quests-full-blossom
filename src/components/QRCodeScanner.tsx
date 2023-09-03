@@ -2,25 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
-const QRCodeScanner = () => {
+const QRCodeScanner = ({setScanned} : {setScanned: CallableFunction}) => {
   const [scannedCodes, setScannedCodes] = useState("");
-  const [scanning, setScanning] = useState(true);
-  // function activateLasers() {
-  //   var decodedText = "asdf";
-  //   var decodedResult = "asdfasdfasdf";
-  //   console.log(scannedCodes);
-
-  //   setScannedCodes(scannedCodes.concat([{ decodedText, decodedResult }]));
-  // }
   function onScanSuccess(decodedText: string, decodedResult: any) {
     // handle the scanned code as you like, for example:
     console.log(`Code matched = ${decodedText}`, decodedResult);
     setScannedCodes(decodedText);
+
+    // send the request to the backend
+    // if the result is true 
+    setScanned(true);
   }
 
   function onScanFailure(error:string) {
     // handle scan failure, usually better to ignore and keep scanning.
     // for example:
+    setScanned("");
     console.warn(`Code scan error = ${error}`);
   }
 

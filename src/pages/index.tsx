@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
-import QRScanner from "~/components/QRCodeScanner";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -52,7 +51,7 @@ export default function Home() {
             </p>
             <AuthShowcase />
           </div>
-          <QRScanner />
+          {/* <QRScanner /> */}
         </div>
       </main>
     </>
