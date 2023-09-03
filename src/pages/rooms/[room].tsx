@@ -1,7 +1,6 @@
 import { type GetStaticProps, type GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 import UserPageLayout from "~/layouts/UserPageLayout";
-import { api } from "~/utils/api";
 import { roomsList } from "~/utils/constants";
 
 interface Task {
@@ -21,7 +20,7 @@ const room = ({ tasks }: RoomPageProps) => {
   return (
     <UserPageLayout headingText="Quests">
       <div>{room}</div> {/* Updated variable name */}
-      <div>{tasks.toString()}</div>
+      <div>{JSON.stringify(tasks)}</div>
     </UserPageLayout>
   );
 };
