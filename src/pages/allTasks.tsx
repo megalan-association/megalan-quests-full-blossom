@@ -4,47 +4,45 @@ import Layout from "~/layouts/Layout";
 import PageHeading from "~/components/PageHeading";
 import TaskCard from "~/components/TaskCard";
 
-import { taskInfo } from "~/utils/types";
+import type { taskInfo } from "~/utils/types";
 
 const AllTasksPage: NextPage = () => {
   // TEST DATA - remove when API is ready
-  let t1 = "COCKATOO"
-  let t2 = "Cockatoo task"
-  let t3 = "Cockatoo description"
-  let t4 = "Cockatoo society"
-  let t5 = "Cockatoo"
-  let t6 = 10000
+  const testTitle = "Cockatoo task"
+  const testDescription = "Cockatoo description"
+  const testSociety = "Cockatoo society"
+  const testPoints = 10000
 
-  let allTasks: taskInfo[] = []
+  const allTasks: taskInfo[] = []
   for (let i = 0; i < 4; i++) {
     allTasks.push({
-      id: t1,
+      id: String(i),
       isSponsorTask: false,
-      title: t2,
-      description: t3,
-      society: t4,
+      title: testTitle,
+      description: testDescription,
+      society: testSociety,
       difficulty: "Easy",
-      points: t6,
+      points: testPoints,
       userCompleted: false
     })
     allTasks.push({
-      id: t1,
+      id: String(i),
       isSponsorTask: true,
-      title: t2,
-      description: t3,
-      society: t4,
+      title: testTitle,
+      description: testDescription,
+      society: testSociety,
       difficulty: "Medium",
-      points: t6,
+      points: testPoints,
       userCompleted: false
     })
     allTasks.push({
-      id: t1,
+      id: String(i),
       isSponsorTask: false,
-      title: t2,
-      description: t3,
-      society: t4,
+      title: testTitle,
+      description: testDescription,
+      society: testSociety,
       difficulty: "Hard",
-      points: t6,
+      points: testPoints,
       userCompleted: false
     })
   }
@@ -62,14 +60,14 @@ const AllTasksPage: NextPage = () => {
   }
   allTasks.sort(sponsorsFirst)
 
-  let [displayTasks, setDisplayTasks] = useState(allTasks)
+  const [displayTasks, setDisplayTasks] = useState(allTasks)
   let filterDifficulty = ""
   let filterSociety = ""
 
   const filterTasks = () => {
-    let intermediate: taskInfo[] = []
-    let result: taskInfo[] = []
-    for (let task of allTasks) {
+    const intermediate: taskInfo[] = []
+    const result: taskInfo[] = []
+    for (const task of allTasks) {
       if (filterDifficulty != "" && filterDifficulty != "_") {
         if (task.difficulty == filterDifficulty) {
           intermediate.push(task)
@@ -79,7 +77,7 @@ const AllTasksPage: NextPage = () => {
       }
     }
 
-    for (let task of intermediate) {
+    for (const task of intermediate) {
       if (filterSociety != "" && filterSociety != "_") {
         if (task.society == filterSociety) {
           result.push(task)
@@ -91,16 +89,6 @@ const AllTasksPage: NextPage = () => {
     return result
   }
 
-  const updateDifficultyFilter = (e: any) => {
-    filterDifficulty = e.target.value
-    setDisplayTasks(filterTasks())
-  }
-
-  const updateSocietyFilter = (e: any) => {
-    filterSociety = e.target.value
-    setDisplayTasks(filterTasks())
-  }
-  
   return (
     <>
     <Layout>
@@ -108,14 +96,20 @@ const AllTasksPage: NextPage = () => {
       <div className="w-full sm:w-4/5 md:w-[640px] m-auto p-4 font-heading font-bold">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="flex space-x-2 md:space-x-8 pt-2">
-          <select defaultValue="_" onChange={updateDifficultyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
+          <select defaultValue="_" onChange={(e) => {
+            filterDifficulty = e.target.value
+            setDisplayTasks(filterTasks())
+          }} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
             <option value="_" disabled>Task difficulty</option>
             <option value="">All difficulties</option>
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
           </select>
-          <select defaultValue="_" onChange={updateSocietyFilter} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
+          <select defaultValue="_" onChange={(e) => {
+            filterSociety = e.target.value
+            setDisplayTasks(filterTasks())
+          }} className="appearance-none block w-full p-3 rounded-full bg-[#FFE5E5] border-4 border-[#F38DB4] text-center text-[#F38DB4]">
             <option value="_" disabled>Society</option>
             <option value="">All societies</option>
             <option value="Cockatoo society">Cockatoo society</option>

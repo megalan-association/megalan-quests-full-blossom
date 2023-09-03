@@ -1,4 +1,4 @@
-export default ({heading}: {heading: string}) => {
+const PageHeading = ({heading}: {heading: string}) => {
   return (
     <div className="grid grid-cols-[1fr_auto_1fr]">
       <div className="text-right">
@@ -11,3 +11,5 @@ export default ({heading}: {heading: string}) => {
     </div>
   )
 }
+
+export default PageHeading
