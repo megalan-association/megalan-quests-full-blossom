@@ -33,12 +33,12 @@ const NavBar = () => {
             className="h-16 w-fit object-contain invert"
           />
         </Link>
-        <div className="hidden h-full flex-row space-x-24 py-2 focus:outline-none md:flex">
+        <div className="hidden h-full flex-row sm:space-x-3 lg:space-x-12 xl:space-x-24 py-2 focus:outline-none md:flex">
           {links.map((link) => (
             <Link
               href={link.href}
               key={link.href}
-              className="group p-2 font-body text-3xl"
+              className="group p-2 font-body text-2xl"
             >
               {link.name}
               <span className="block h-0.5 w-0 transform bg-brown transition-all duration-300 group-hover:w-full" />
@@ -46,7 +46,7 @@ const NavBar = () => {
           ))}
         </div>
         <button className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg md:block">
-          <p className="font-body text-xl">Login / Sign Up</p>
+          <p className="font-body text-xl">Login</p>
         </button>
       </div>
       <Menu>
