@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { taskInfo } from "~/utils/types";
 
 const TaskCard = ({data}: {data: taskInfo}) => {
@@ -7,7 +8,7 @@ const TaskCard = ({data}: {data: taskInfo}) => {
         <div className="w-full rounded-2xl">
           <div className="w-full p-2 bg-white rounded-t-xl flex flex-row space-x-2 ">
             {/* TEMPORARY IMAGE - remove when society logos are available */}
-            <img className="h-12 my-0.5 rounded-full" src="https://avatars.githubusercontent.com/u/89776086?v=4" alt="Society logo" />
+            <Image className="h-12 my-0.5 rounded-full" src="https://avatars.githubusercontent.com/u/89776086?v=4" alt="Society logo" />
             <div>
               <h4 className=" text-yellow-900 text-xl font-bold">{data.title}</h4>
               <p className="text-pink">{data.society}</p>

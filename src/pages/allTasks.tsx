@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useState } from "react";
 import Layout from "~/layouts/Layout";
 import PageHeading from "~/components/PageHeading";
