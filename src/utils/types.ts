@@ -1,4 +1,4 @@
-export type taskInfo = {
+export interface taskInfo {
     id: string,
     isSponsorTask: boolean
     title: string,

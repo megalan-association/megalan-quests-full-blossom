@@ -1,4 +1,4 @@
-import { taskInfo } from "~/utils/types";
+import type { taskInfo } from "~/utils/types";
 
 const TaskCard = ({data}: {data: taskInfo}) => {
   return (<>
