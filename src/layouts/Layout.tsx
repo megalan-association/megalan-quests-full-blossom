@@ -6,7 +6,8 @@ interface Props {
 }
 
 const Layout: React.FC<Props> = ({ children }) => {
-  return (
+  return (<>
+    <div className="absolute h-full w-full -z-50 left-0 top-o bg-beige"></div>
     <main className="flex h-full w-full flex-col justify-between bg-beige text-black">
       <div className="">
         <NavBar />
@@ -15,7 +16,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       <div>Footer Here</div>
       {/* <Footer /> */}
     </main>
-  );
+    </>);
 };
 
 export default Layout;
