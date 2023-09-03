@@ -6,7 +6,6 @@ interface Props {
 
 const ProgressBar: React.FC<Props> = ({ points, totalPoints }) => {
   const widthPercentage = (points / totalPoints) * 100;
-  console.log(widthPercentage);
   return (
     <div className="flex h-10 w-full flex-row rounded-2xl bg-green drop-shadow">
       <div className="flex w-full flex-row items-center">

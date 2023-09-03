@@ -37,13 +37,8 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps<RoomPageProps> = ({ params }) => {
+export const getStaticProps: GetStaticProps<RoomPageProps> = ({}) => {
   // Fetch necessary data for the blog post using params.room
-  console.log(params);
-
-  //   const { data: roomData } = api.example.hello.useQuery({
-  //     text: params.room,
-  //   });
 
   return {
     props: {
