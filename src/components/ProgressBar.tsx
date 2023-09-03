@@ -11,25 +11,25 @@ const ProgressBar: React.FC<Props> = ({ points, totalPoints }) => {
     <div className="flex h-10 w-full flex-row rounded-2xl bg-green drop-shadow">
       <div className="flex w-full flex-row items-center">
         <div
-          className="flex h-10 flex-col items-center justify-center rounded-l-2xl bg-light-green"
+          className="relative flex h-10 flex-col items-end justify-center rounded-2xl bg-light-green"
           style={{ width: `${widthPercentage}%` }}
         >
           {widthPercentage > 50 && (
-            <p className="font-body font-semibold text-green">
+            <p className="w-full px-4 text-left font-body font-semibold text-green">
               {points} / {totalPoints}
             </p>
           )}
+          <Image
+            src="/flower-petals.png"
+            alt="Header banner"
+            width={250}
+            height={200}
+            className="absolute h-20 w-fit translate-x-8"
+          />
         </div>
-        <Image
-          src="/flower-petals.png"
-          alt="Header banner"
-          width={250}
-          height={200}
-          className="h-20 w-fit -translate-x-14"
-        />
       </div>
       <div
-        className=" flex h-10 flex-col items-center justify-center rounded-r-2xl bg-green "
+        className=" flex h-10 flex-col items-center justify-center rounded-2xl bg-green "
         style={{ width: `${100 - widthPercentage}%` }}
       >
         {widthPercentage < 50 && (

@@ -29,7 +29,7 @@ const dashboard = () => {
               60%
             </p>
           </div>
-          <ProgressBar points={7000} totalPoints={10000} />
+          <ProgressBar points={8000} totalPoints={10000} />
         </div>
       </section>
       <section
