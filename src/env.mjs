@@ -25,6 +25,10 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string(),
     OSU_CLIENT_ID: z.string(),
     OSU_CLIENT_SECRET: z.string(),
+    TWITTER_CLIENT_ID: z.string(),
+    TWITTER_CLIENT_SECRET: z.string(),
+    TWITTER_CLIENT_ID_TWO: z.string(),
+    TWITTER_CLIENT_SECRET_TWO: z.string()
   },
 
   /**
@@ -49,6 +53,10 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     OSU_CLIENT_ID: process.env.OSU_CLIENT_ID,
     OSU_CLIENT_SECRET: process.env.OSU_CLIENT_SECRET,
+    TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID,
+    TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET,
+    TWITTER_CLIENT_ID_TWO: process.env.TWITTER_CLIENT_ID_TWO,
+    TWITTER_CLIENT_SECRET_TWO: process.env.TWITTER_CLIENT_SECRET_TWO
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
