@@ -1,4 +1,5 @@
 export const roomsList = [
+  "All Tasks",
   "BYOPC",
   "Mini Esports Arena",
   "PC Rhythm",
