@@ -15,21 +15,22 @@ const BackgroundImageLayout: React.FC<Props> = ({
 }) => {
   return (
     <main className="relative flex h-full min-h-screen w-full flex-col justify-between bg-beige text-black">
-      <div className="relative z-10">
+      <div className="relative z-10 w-full">
         <NavBar />
-        <div className="pt-24">
+        <div className="relative w-full pt-24">
           <Header headingText={headerText} />
           {children}
         </div>
       </div>
+
       <Image
         alt="background-image"
         src={imageURL}
         height={1000}
         width={1000}
-        className="fixed left-0 top-0 z-0 h-screen w-full object-cover blur-sm"
+        className="fixed left-0 top-0 z-0 h-screen w-full object-cover object-center blur-sm"
       />
-      <div className="relative z-10">Footer Here</div>
+      <div className="z-10">Footer Here</div>
     </main>
   );
 };

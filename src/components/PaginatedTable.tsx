@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 import { isServer } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -29,8 +30,6 @@ const generateRandomUserData = (count: number): User[] => {
   return users;
 };
 
-const data: User[] = generateRandomUserData(50); // Generate 50 random users
-
 const PaginatedTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [data, setData] = useState<User[]>([]);
@@ -39,6 +38,9 @@ const PaginatedTable: React.FC = () => {
     if (!isServer) {
       // Generate random user data on the client side
       const randomData = generateRandomUserData(50);
+      randomData.sort((a, b) => {
+        return a.points > b.points ? -1 : 1;
+      });
       setData(randomData);
     }
   }, []);
@@ -53,51 +55,70 @@ const PaginatedTable: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <table className="w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="px-4 py-2 text-left font-semibold">Rank</th>
-            <th className="px-4 py-2 text-left font-semibold">User</th>
-            <th className="px-4 py-2 text-left font-semibold">Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentData.map((user, index) => (
-            <tr key={user.id} className="hover:bg-gray-100">
-              <td className="px-4 py-2">{startIndex + index + 1}</td>
-              <td className="px-4 py-2">
-                <div className="flex items-center">
-                  <Image
-                    width={100}
-                    height={100}
-                    src={user.profilepicture}
-                    alt={user.name}
-                    className="mr-2 h-8 w-8 rounded-full"
-                  />
-                  {user.name}
-                </div>
-              </td>
-              <td className="px-4 py-2">{user.points}</td>
+    <div className="w-full p-4">
+      <div className="overflow-hidden rounded-2xl border-4 border-light-pink">
+        <table className="w-full table-auto border-collapse">
+          <thead className="">
+            <tr className=" border-b-2 border-light-pink bg-light-green/60 font-heading text-brown">
+              <th className="px-4 py-2 text-center text-2xl font-semibold">
+                Rank
+              </th>
+              <th className="px-4 py-2 text-center text-2xl font-semibold">
+                User
+              </th>
+              <th className="px-4 py-2 text-center text-2xl font-semibold">
+                Points
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-4 flex justify-between">
+          </thead>
+          <tbody>
+            {currentData.map((user, index) => (
+              <tr
+                key={user.id}
+                className="bg-pink/80 text-center text-lg font-semibold text-light-pink "
+              >
+                <td className="border-b-2 border-light-pink px-4 py-2">
+                  {startIndex + index + 1}
+                </td>
+                <td className="border-b-2 border-light-pink px-4 py-2">
+                  <div className="flex items-center justify-center space-x-2">
+                    <Image
+                      width={100}
+                      height={100}
+                      src={user.profilepicture}
+                      alt={user.name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                    <p>{user.name}</p>
+                  </div>
+                </td>
+                <td className="border-b-2 border-light-pink px-4 py-2">
+                  {user.points}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex flex-row items-center justify-between pt-4">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 0}
+          className="text-heading rounded-2xl border-2 border-light-pink bg-pink px-4 py-2 text-lg font-semibold text-light-pink"
         >
-          Previous
+          <ArrowLeftIcon className="h-6 w-6 text-light-pink" />
         </button>
         <div>
-          Page {currentPage + 1} of {totalPages}
+          <p className="font-heading text-2xl font-semibold text-pink">
+            Page {currentPage + 1} of {totalPages}
+          </p>
         </div>
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages - 1}
+          className="text-heading rounded-2xl border-2 border-light-pink bg-pink px-4 py-2 text-lg font-semibold text-light-pink"
         >
-          Next
+          <ArrowRightIcon className="h-6 w-6 text-light-pink" />
         </button>
       </div>
     </div>

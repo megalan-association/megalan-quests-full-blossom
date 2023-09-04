@@ -4,8 +4,11 @@ import BackgroundImageLayout from "~/layouts/BackgroudImageLayout";
 const Leaderboard = () => {
   return (
     <BackgroundImageLayout headerText="Leaderboard" imageURL="/cherry-bg.png">
-      <h1 className="">Leaderboard</h1>
-      <PaginatedTable />
+      <div className="flex h-full w-full flex-row justify-center">
+        <div className="w-full md:container">
+          <PaginatedTable />
+        </div>
+      </div>
     </BackgroundImageLayout>
   );
 };

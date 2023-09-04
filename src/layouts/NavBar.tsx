@@ -6,7 +6,7 @@ import Link from "next/link";
 const NavBar = () => {
   const links = [
     {
-      href: "dashboard",
+      href: "/user/dashboard",
       name: "Dashboard",
     },
     {
