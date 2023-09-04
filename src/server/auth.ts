@@ -9,6 +9,7 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import OsuProvider from "next-auth/providers/osu";
 import TwitterProvider from "next-auth/providers/twitter";
+import TwitchProvider from "next-auth/providers/twitch";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 
@@ -65,6 +66,10 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.TWITTER_CLIENT_SECRET_TWO,
       version: "2.0"
     }),
+    TwitchProvider({
+      clientId: env.TWITCH_CLIENT_ID,
+      clientSecret: env.TWITCH_CLIENT_SECRET
+    })
     /**
      * ...add more providers here.
      *
