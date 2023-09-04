@@ -24,7 +24,6 @@
     "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-qr-reader": "^3.0.0-beta-1",
     "superjson": "1.12.2",
     "zod": "^3.21.4"
   },

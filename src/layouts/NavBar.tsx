@@ -6,7 +6,7 @@ import Link from "next/link";
 const NavBar = () => {
   const links = [
     {
-      href: "dashboard",
+      href: "/user/dashboard",
       name: "Dashboard",
     },
     {
@@ -16,6 +16,10 @@ const NavBar = () => {
     {
       href: "about-us",
       name: "About Us",
+    },
+    {
+      href: "/auth/login",
+      name: "Login / Sign up",
     },
   ];
 
@@ -34,7 +38,7 @@ const NavBar = () => {
           />
         </Link>
         <div className="hidden h-full flex-row sm:space-x-3 lg:space-x-12 xl:space-x-24 py-2 focus:outline-none md:flex">
-          {links.map((link) => (
+          {links.slice(0, -1).map((link) => (
             <Link
               href={link.href}
               key={link.href}
@@ -84,13 +88,13 @@ const NavBar = () => {
             >
               <Menu.Items className="flex h-full flex-col space-y-8 py-4 focus:outline-none md:hidden">
                 {links.map((link) => (
-                  <Menu.Item
-                    as="a"
-                    href={link.href}
-                    key={link.href}
-                    className="p-2 font-body text-3xl font-bold"
-                  >
-                    {link.name}
+                  <Menu.Item key={link.href}>
+                    <Link
+                      href={"/" + link.href}
+                      className="p-2 font-body text-3xl font-bold"
+                    >
+                      {link.name}
+                    </Link>
                   </Menu.Item>
                 ))}
               </Menu.Items>
