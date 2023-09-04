@@ -30,6 +30,7 @@ const QRCodeScanner = ({setScanned} : {setScanned: CallableFunction}) => {
       /* verbose= */ false
     );
     html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import NavBar from "./NavBar";
 
 interface Props {
   children: React.ReactNode;
-  headerText: string;
+  headerText?: string;
   imageURL: string;
 }
 
@@ -18,7 +18,7 @@ const BackgroundImageLayout: React.FC<Props> = ({
       <div className="relative z-10 w-full">
         <NavBar />
         <div className="relative w-full pt-24">
-          <Header headingText={headerText} />
+          {headerText && <Header headingText={headerText} />}
           {children}
         </div>
       </div>

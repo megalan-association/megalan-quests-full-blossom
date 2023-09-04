@@ -17,6 +17,10 @@ const NavBar = () => {
       href: "about-us",
       name: "About Us",
     },
+    {
+      href: "/auth/login",
+      name: "Login / Sign up",
+    },
   ];
 
   return (
@@ -34,7 +38,7 @@ const NavBar = () => {
           />
         </Link>
         <div className="hidden h-full flex-row space-x-24 py-2 focus:outline-none md:flex">
-          {links.map((link) => (
+          {links.slice(0, -1).map((link) => (
             <Link
               href={link.href}
               key={link.href}
