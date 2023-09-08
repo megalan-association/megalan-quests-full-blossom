@@ -22,7 +22,7 @@ const Login = ({
         <h2 className="w-full pt-16 text-left font-heading text-xl font-medium text-green md:container">
           Sign in with
         </h2>
-        <div className="w-full space-y-8 pb-16 pt-4 md:container">
+        <div className="w-full space-y-4 pb-16 pt-4 md:container">
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
               <button
