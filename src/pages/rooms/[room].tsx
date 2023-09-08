@@ -103,7 +103,7 @@ const Room = () => {
 
   return (
     <UserPageLayout headingText="Quests">
-      <div className="m-auto w-full p-4 font-heading font-bold sm:w-4/5 md:w-[640px]">
+      <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="flex space-x-2 pt-2 md:space-x-8">
           <select

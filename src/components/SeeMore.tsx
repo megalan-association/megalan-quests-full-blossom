@@ -9,7 +9,7 @@ const SeeMore: React.FC<Props> = ({ text }) => {
 
   return (
     <>
-      {text.length > 100 && (
+      {text.length > 100 ? (
         <>
           {text.substring(0, 100)}
           {open && text.substring(100)}
@@ -20,6 +20,8 @@ const SeeMore: React.FC<Props> = ({ text }) => {
             {!open ? "see more" : "see less"}
           </button>
         </>
+      ) : (
+        <>{text}</>
       )}
     </>
   );

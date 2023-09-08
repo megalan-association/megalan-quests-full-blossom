@@ -10,7 +10,7 @@ const Header: React.FC<Props> = ({ headingText }) => {
       <div className="flex h-full w-fit flex-row items-center">
         <div className="flex-1 text-right">
           <Image
-            className="h-12 w-full object-contain"
+            className="h-12 w-fit object-contain"
             src="/h1-petals.png"
             alt="flowers"
             width={250}

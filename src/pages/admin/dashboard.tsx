@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import BackgroundImageLayout from "~/layouts/BackgroudImageLayout";
+import BackgroundImageLayout from "~/layouts/BackgroundImageLayout";
 
 const Dashboard = () => {
   return (
