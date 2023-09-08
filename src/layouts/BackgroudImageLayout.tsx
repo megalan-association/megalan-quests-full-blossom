@@ -28,7 +28,7 @@ const BackgroundImageLayout: React.FC<Props> = ({
         src={imageURL}
         height={1000}
         width={1000}
-        className="fixed left-0 top-0 z-0 h-screen w-full object-cover object-center blur-sm"
+        className="fixed left-0 top-0 z-0 h-screen w-screen bg-gradient-to-b from-beige to-[#f9c4cf] to-90% object-cover object-center blur-sm"
       />
       <div className="z-10">Footer Here</div>
     </main>
