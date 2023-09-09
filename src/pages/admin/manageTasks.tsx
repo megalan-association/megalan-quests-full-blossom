@@ -22,7 +22,7 @@ const ManageTasks = () => {
         <Disclosure>
           {({ open }) => (
             <>
-              <Disclosure.Button className="flex h-full w-full flex-row justify-between rounded-2xl bg-gradient-to-br from-light-pink to-[#f9c4cf] p-4">
+              <Disclosure.Button className="flex h-full w-full flex-row items-center justify-between rounded-2xl bg-gradient-to-br from-light-pink to-[#f9c4cf] p-4">
                 <h1 className="font-heading text-xl font-semibold text-pink md:text-3xl">
                   RGS Tasks
                 </h1>
