@@ -1,4 +1,4 @@
-import { type taskCardInfo } from "./types";
+import { TaskDifficultyEnum, type taskCardInfo } from "./types";
 
 export const placeholderTaskData: taskCardInfo[] = [
   {
@@ -8,7 +8,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyName: "Lorem Ipsum Society 1",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: "Medium",
+    taskDifficulty: TaskDifficultyEnum.Medium,
     taskPoints: 50,
   },
   {
@@ -18,7 +18,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyName: "Lorem Ipsum Society 2",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: "Easy",
+    taskDifficulty: TaskDifficultyEnum.Easy,
     taskPoints: 20,
   },
   {
@@ -28,7 +28,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyName: "Lorem Ipsum Society 3",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: "Hard",
+    taskDifficulty: TaskDifficultyEnum.Hard,
     taskPoints: 80,
   },
 ];
