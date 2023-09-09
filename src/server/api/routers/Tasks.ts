@@ -4,8 +4,9 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
-  protectedProcedure,
+  // protectedProcedure,
   publicProcedure,
+  // adminProcedure
 } from "~/server/api/trpc";
 
 export const tasksRouter = createTRPCRouter({
@@ -21,12 +22,15 @@ export const tasksRouter = createTRPCRouter({
   getRoomTasks: publicProcedure
   .input(z.object({ roomId: z.string() }))
   .query(async ({input, ctx}) => {
-    const roomTasks = await ctx.prisma.task.findMany({
+    const roomTasks = await ctx.prisma.society.findMany({
       where: {roomId: input.roomId},
-      select: {id: true, name: true, points: true, type: true, promotedBy: true, society: true}
+      select: {
+        id: true,
+        name: true,
+        tasks : {select: {id: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true, society: true}}
+      }
     });
     return roomTasks;
   }),
 
-  
 });

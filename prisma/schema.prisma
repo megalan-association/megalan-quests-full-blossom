@@ -52,14 +52,15 @@ model Room {
 }
 
 model Task {
-    id         String          @id @default(cuid())
-    name       String
-    points     Int             @default(100)
-    type       TaskType        @default(SOCIETY)
-    users      CompletedTask[]
-    promotedBy String?
-    society    Society?        @relation(fields: [societyId], references: [id])
-    societyId  String?
+    id          String          @id @default(cuid())
+    name        String
+    points      Int             @default(100)
+    type        TaskType        @default(SOCIETY)
+    users       CompletedTask[]
+    isAvailable Boolean
+    promotedBy  String?
+    society     Society?        @relation(fields: [societyId], references: [id])
+    societyId   String?
 }
 
 model User {
