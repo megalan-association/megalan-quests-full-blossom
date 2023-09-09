@@ -10,6 +10,7 @@ export interface taskInfo {
 }
 
 export interface taskCardInfo {
+  id: string;
   societyImage?: string;
   taskName: string;
   societyName: string;

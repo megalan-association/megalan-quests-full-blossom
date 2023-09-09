@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
-  const router = useRouter();
+  const path = usePathname();
   return (
     <div className="h-fit w-full p-4">
       <p className="font-body text-base font-semibold tracking-wider text-brown md:text-xl">
-        {router.pathname.replaceAll("/", " / ")}
+        {path.replaceAll("/", " / ")}
       </p>
     </div>
   );

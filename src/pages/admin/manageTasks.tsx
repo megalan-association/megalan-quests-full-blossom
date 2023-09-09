@@ -1,39 +1,17 @@
-import { Disclosure, Transition } from "@headlessui/react";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { Disclosure } from "@headlessui/react";
+import { type Transition, motion } from "framer-motion";
+import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import AdminTaskCard from "~/components/AdminTaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
-import { type taskCardInfo } from "~/utils/types";
+import { placeholderTaskData } from "~/utils/dummydata";
 
 const ManageTasks = () => {
-  const placeholderTaskData: taskCardInfo[] = [
-    {
-      societyImage: "",
-      taskName: "Lorem Ipsum Task 1",
-      societyName: "Lorem Ipsum Society 1",
-      taskDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-      taskDifficulty: "Medium",
-      taskPoints: 50,
-    },
-    {
-      societyImage: "",
-      taskName: "Lorem Ipsum Task 2",
-      societyName: "Lorem Ipsum Society 2",
-      taskDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-      taskDifficulty: "Easy",
-      taskPoints: 20,
-    },
-    {
-      societyImage: "",
-      taskName: "Lorem Ipsum Task 3",
-      societyName: "Lorem Ipsum Society 3",
-      taskDescription:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-      taskDifficulty: "Hard",
-      taskPoints: 80,
-    },
-  ];
+  const springTransition: Transition = {
+    type: "spring",
+    duration: 1,
+    ease: [0.4, 0.0, 0.2, 1], // You can adjust the easing values here
+  };
+
   return (
     <UserPageLayout
       headingText="Manage Tasks"
@@ -44,33 +22,34 @@ const ManageTasks = () => {
         <Disclosure>
           {({ open }) => (
             <>
-              <Disclosure.Button className="flex h-full w-full flex-row justify-between rounded-2xl bg-light-pink p-4">
-                <h1 className="font-heading text-2xl font-semibold text-pink md:text-5xl">
+              <Disclosure.Button className="flex h-full w-full flex-row justify-between rounded-2xl bg-gradient-to-br from-light-pink to-[#f9c4cf] p-4">
+                <h1 className="font-heading text-xl font-semibold text-pink md:text-3xl">
                   RGS Tasks
                 </h1>
-                <ChevronRightIcon
-                  className={`h-6 w-6 text-pink ${
-                    open ? "rotate-90 transform" : ""
+                <ChevronUpIcon
+                  className={`h-6 w-6 transform text-pink duration-150 ${
+                    open ? "rotate-180" : ""
                   }`}
                 />
               </Disclosure.Button>
-              <Transition
-                show={open}
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
+              <Disclosure.Panel
+                as="div"
+                className="grid h-full w-full grid-cols-1 gap-8 py-4 md:grid-cols-3"
               >
-                <Disclosure.Panel>
-                  <div className="grid h-full w-full grid-cols-1 gap-8 py-4 md:grid-cols-3">
-                    {placeholderTaskData.map((task, index) => (
-                      <AdminTaskCard key={index} data={task} />
-                    ))}
-                  </div>
-                </Disclosure.Panel>
-              </Transition>
+                {placeholderTaskData.map((task, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      ...springTransition,
+                      delay: index / 10,
+                    }}
+                  >
+                    <AdminTaskCard key={index} data={task} />
+                  </motion.div>
+                ))}
+              </Disclosure.Panel>
             </>
           )}
         </Disclosure>

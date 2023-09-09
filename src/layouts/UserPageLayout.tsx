@@ -20,8 +20,8 @@ const UserPageLayout: React.FC<Props> = ({
     <main className="flex h-full min-h-screen w-full flex-col justify-between bg-beige text-black">
       <div className="w-full">
         <NavBar />
-        <div className="flex w-full flex-row items-start justify-center pt-24">
-          <div className="space-y-4 p-4 md:container">
+        <div className="flex w-full flex-row items-start justify-center px-4 pt-24">
+          <div className="w-full space-y-4 md:container">
             {backHref && backText && (
               <BackButton href={backHref} text={backText} />
             )}
