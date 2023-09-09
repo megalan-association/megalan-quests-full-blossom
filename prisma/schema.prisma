@@ -74,8 +74,7 @@ model User {
     totalPoints    Int             @default(0)
     completedTasks CompletedTask[]
     type           UserType        @default(PARTICIPANT)
-    Society        Society?        @relation(fields: [societyId], references: [id])
-    societyId      String?
+    societies      Society[]
 }
 
 model CompletedTask {
