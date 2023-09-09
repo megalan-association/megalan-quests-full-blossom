@@ -15,6 +15,12 @@ export interface taskCardInfo {
   taskName: string;
   societyName: string;
   taskDescription: string;
-  taskDifficulty: "Hard" | "Medium" | "Easy";
+  taskDifficulty: TaskDifficultyEnum;
   taskPoints: number;
+}
+
+export enum TaskDifficultyEnum {
+  Hard,
+  Medium,
+  Easy,
 }
