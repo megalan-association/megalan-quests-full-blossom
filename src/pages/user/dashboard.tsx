@@ -44,7 +44,7 @@ const Dashboard = () => {
             href={`/rooms/[room]`}
             as={`/rooms/${rooms[0]}`}
             key={rooms[0]}
-            className="col-span-1 row-span-1 flex aspect-square flex-col items-center justify-center rounded-xl border border-pink/40 bg-gradient-to-br from-light-pink to-pink p-4 md:aspect-auto md:p-8"
+            className="col-span-3 row-span-1 flex h-24 flex-col items-center justify-center rounded-xl border border-pink/40 bg-gradient-to-br from-light-pink to-pink p-4 md:aspect-auto md:p-8"
           >
             <p className="text-body text-center text-lg leading-4 text-brown md:text-3xl">
               All Tasks
