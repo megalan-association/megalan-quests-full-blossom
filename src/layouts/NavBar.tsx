@@ -2,6 +2,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const NavBar = () => {
   const links = [
@@ -16,12 +17,10 @@ const NavBar = () => {
     {
       href: "about-us",
       name: "About Us",
-    },
-    {
-      href: "/auth/login",
-      name: "Login / Sign up",
-    },
+    }
   ];
+
+  const { data: sessionData } = useSession();
 
   return (
     <>
@@ -38,7 +37,7 @@ const NavBar = () => {
           />
         </Link>
         <div className="hidden h-full flex-row py-2 focus:outline-none sm:space-x-3 md:flex lg:space-x-12 xl:space-x-24">
-          {links.slice(0, -1).map((link) => (
+          {links.map((link) => (
             <Link
               href={link.href}
               key={link.href}
@@ -49,8 +48,8 @@ const NavBar = () => {
             </Link>
           ))}
         </div>
-        <button className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg md:block">
-          <p className="font-body text-xl">Login</p>
+        <button onClick={sessionData ? () => void signOut() : () => void signIn()} className="bg-primary-red hidden h-fit border border-brown p-4 drop-shadow-lg md:block">
+          <p className="font-body text-xl">{sessionData ? "Sign out" : "Sign in"}</p>
         </button>
       </div>
       <Menu>
@@ -97,6 +96,9 @@ const NavBar = () => {
                     </Link>
                   </Menu.Item>
                 ))}
+                  <Menu.Item key="login">
+                    <button onClick={sessionData ? () => void signOut() : () => void signIn()} className="p-2 font-body text-3xl font-bold">{sessionData ? "Sign out" : "Sign in"}</button>
+                  </Menu.Item>
               </Menu.Items>
             </Transition>
           </div>

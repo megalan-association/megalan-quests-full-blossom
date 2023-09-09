@@ -1,4 +1,5 @@
 import { type NextPage } from "next"
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image"
 import Link from "next/link"
 
@@ -10,7 +11,7 @@ import Link from "next/link"
 const Landing: NextPage = () => {
   const links = [
     {
-      href: "dashboard",
+      href: "user/dashboard",
       name: "Dashboard",
     },
     {
@@ -22,6 +23,7 @@ const Landing: NextPage = () => {
       name: "About Us",
     },
   ]
+  const { data: sessionData } = useSession();
   
   return (<>
     <div className="w-full min-h-screen top-0 left-0 bg-[#FFE6EB]">
@@ -43,7 +45,9 @@ const Landing: NextPage = () => {
             </Link>
           ))}
           <button className="block w-full my-8 p-[2px] bg-gradient-to-b from-[#FDB5C4] to-[#C58895] rounded-md">
-            <div className="p-2 rounded-md bg-[#FED7DF] font-heading text-[#EA5873] text-center font-bold text-xl">Login / sign up</div>
+            <div onClick={sessionData ? () => void signOut() : () => void signIn()} className="p-2 rounded-md bg-[#FED7DF] font-heading text-[#EA5873] text-center font-bold text-xl">
+              {sessionData ? "Sign out" : "Sign in"}
+            </div>
           </button>
         </div>
       </div>
