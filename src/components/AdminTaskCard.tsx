@@ -4,6 +4,7 @@ import SeeMore from "./SeeMore";
 import { useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import EditTaskModal from "./modals/EditTaskModal";
+import { ConvertDifficultyToString } from "~/utils/helpers";
 
 interface Props {
   data: taskCardInfo;
@@ -12,7 +13,6 @@ interface Props {
 const AdminTaskCard: React.FC<Props> = ({ data }) => {
   const [enabled, setEnabled] = useState(false);
   const [editing, setEditing] = useState(false);
-  console.log(editing);
   return (
     <>
       <EditTaskModal
@@ -67,7 +67,8 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
                 <SeeMore text={data.taskDescription} />
               </p>
               <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
-                Task Difficulty: {data.taskDifficulty}
+                Task Difficulty:{" "}
+                {ConvertDifficultyToString(data.taskDifficulty)}
               </p>
             </div>
           </div>

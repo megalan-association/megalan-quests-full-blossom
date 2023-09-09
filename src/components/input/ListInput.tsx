@@ -18,7 +18,6 @@ const ListInput: React.FC<Props> = ({
   const [selected, setSelected] = useState(selectedOption);
 
   const handleChange = (value: string | number) => {
-    console.log(value);
     setSelected(value);
     onSelect(value);
   };

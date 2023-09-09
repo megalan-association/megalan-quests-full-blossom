@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { taskCardInfo } from "~/utils/types";
 import SeeMore from "./SeeMore";
+import { ConvertDifficultyToString } from "~/utils/helpers";
 
 const TaskCard = ({ data }: { data: taskCardInfo }) => {
   return (
@@ -30,7 +31,7 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
             )}
             <div>
               <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
-                {data.taskName.repeat(2)}
+                {data.taskName}
               </h1>
               <h2 className="font-heading text-xs font-medium text-pink md:text-base">
                 {data.societyName}
@@ -56,7 +57,7 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
               <SeeMore text={data.taskDescription} />
             </p>
             <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
-              Task Difficulty: {data.taskDifficulty}
+              Task Difficulty: {ConvertDifficultyToString(data.taskDifficulty)}
             </p>
           </div>
         </div>

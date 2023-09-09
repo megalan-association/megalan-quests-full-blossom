@@ -3,6 +3,8 @@ import { Fragment, useState, type SyntheticEvent } from "react";
 import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
 import { type TaskDifficultyEnum, type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
+import { PencilIcon } from "@heroicons/react/24/solid";
+import { ConvertDifficultyToString } from "~/utils/helpers";
 
 interface Props {
   isOpen: boolean;
@@ -35,6 +37,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
       tempData.taskDifficulty = value as TaskDifficultyEnum;
     }
     setTaskData(tempData);
+    console.log(tempData);
   };
 
   return (
@@ -65,10 +68,13 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
             >
               <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-beige p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
-                  as="h3"
-                  className="font-heading text-xl font-semibold text-pink"
+                  as="div"
+                  className="flex flex-row items-center justify-between text-pink"
                 >
-                  {data.taskName}
+                  <h1 className="font-heading text-xl font-semibold ">
+                    Editing {data.taskName}
+                  </h1>
+                  <PencilIcon className="h-6 w-6 flex-shrink-0" />
                 </Dialog.Title>
                 <div className="mt-2">
                   <form className="space-y-2" onSubmit={submitForm}>
@@ -84,7 +90,9 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         type="text"
                         placeholder={data.taskName}
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onSubmit={() => console.log("a")}
+                        onSubmit={(e) =>
+                          updateForm("title", e.currentTarget.value)
+                        }
                       />
                     </div>
                     <div>
@@ -129,7 +137,9 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="points"
                         onSelect={(value) => updateForm("difficulty", value)}
                         options={TaskDifficultyOptions}
-                        selectedOption={taskData.taskDifficulty}
+                        selectedOption={ConvertDifficultyToString(
+                          data.taskDifficulty
+                        )}
                       />
                     </div>
                     <div className="flex flex-row justify-end space-x-4">
