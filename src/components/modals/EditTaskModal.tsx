@@ -88,7 +88,8 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <input
                         id="title"
                         type="text"
-                        placeholder={data.taskName}
+                        value={taskData.taskName}
+                        placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
                         onSubmit={(e) =>
                           updateForm("title", e.currentTarget.value)
