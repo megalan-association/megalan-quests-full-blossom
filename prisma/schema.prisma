@@ -15,13 +15,79 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+enum TaskType {
+    COSPLAY
+    SOCIAL
+    SOCIETY
+}
+
+enum UserType {
+    PARTICIPANT
+    ADMIN
+}
+
+model Society {
+    id     String  @id @default(cuid())
+    admins User[]
+    name   String
+    tasks  Task[]
+    Room   Room?   @relation(fields: [roomId], references: [id])
+    roomId String?
 }
 
 // Necessary for Next auth
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Room {
+    id        String    @id @default(cuid())
+    name      String    @unique
+    societies Society[]
+}
+
+model Task {
+    id          String          @id @default(cuid())
+    name        String
+    points      Int             @default(100)
+    type        TaskType        @default(SOCIETY)
+    users       CompletedTask[]
+    isAvailable Boolean
+    promotedBy  String?
+    society     Society?        @relation(fields: [societyId], references: [id])
+    societyId   String?
+}
+
+model User {
+    id             String          @id @default(cuid())
+    name           String?
+    email          String?         @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    totalPoints    Int             @default(0)
+    completedTasks CompletedTask[]
+    type           UserType        @default(PARTICIPANT)
+    societies      Society[]
+}
+
+model CompletedTask {
+    task         Task     @relation(fields: [taskID], references: [id])
+    taskID       String
+    user         User     @relation(fields: [userID], references: [id])
+    userID       String
+    completedAt  DateTime @default(now())
+    authorisedBy String
+
+    @@id([taskID, userID])
+}
+
 model Account {
     id                String  @id @default(cuid())
     userId            String
@@ -37,70 +103,8 @@ model Account {
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+
     @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-enum TaskType {
-    COSPLAY
-    SOCIAL
-    SOCIETY
-}
-
-enum UserType {
-    PARTICIPANT
-    ADMIN
-}
-
-model Task {
-    id         String          @id @default(cuid())
-    name       String
-    points     Int             @default(100)
-    type       TaskType        @default(SOCIETY)
-    Society    String
-    societyId  String?
-    users      CompletedTask[]
-    Room       Room?           @relation(fields: [roomId], references: [id])
-    roomId     String?
-    promotedBy String
-}
-
-model CompletedTask {
-    task         Task     @relation(fields: [taskID], references: [id])
-    taskID       String
-    user         User     @relation(fields: [userID], references: [id])
-    userID       String
-    completedAt  DateTime @default(now())
-    authorisedBy String
-
-    @@id([taskID, userID])
-}
-
-model Room {
-    id        String   @id @default(cuid())
-    name      String   @unique
-    tasks     Task[]
-    societies String[]
-}
-
-model User {
-    id             String          @id @default(cuid())
-    name           String?
-    email          String?         @unique
-    emailVerified  DateTime?
-    image          String?
-    accounts       Account[]
-    sessions       Session[]
-    totalPoints    Int             @default(0)
-    completedTasks CompletedTask[]
-    type           UserType        @default(PARTICIPANT)
 }
 
 model VerificationToken {
