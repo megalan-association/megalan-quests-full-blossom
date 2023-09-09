@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
 import {
@@ -7,6 +8,8 @@ import {
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import OsuProvider from "next-auth/providers/osu";
+import TwitterProvider from "next-auth/providers/twitter";
+import TwitchProvider from "next-auth/providers/twitch";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
 
@@ -56,6 +59,17 @@ export const authOptions: NextAuthOptions = {
       clientId: env.OSU_CLIENT_ID,
       clientSecret: env.OSU_CLIENT_SECRET,
     }),
+    TwitterProvider({
+      // clientId: env.TWITTER_CLIENT_ID,
+      // clientSecret: env.TWITTER_CLIENT_SECRET,
+      clientId: env.TWITTER_CLIENT_ID_TWO,
+      clientSecret: env.TWITTER_CLIENT_SECRET_TWO,
+      version: "2.0"
+    }),
+    TwitchProvider({
+      clientId: env.TWITCH_CLIENT_ID,
+      clientSecret: env.TWITCH_CLIENT_SECRET
+    })
     /**
      * ...add more providers here.
      *
@@ -66,6 +80,10 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  pages: {
+    signIn: "/auth/login",
+    error: "/", // go back home if any error
+  },
 };
 
 /**

@@ -1,43 +1,68 @@
 import Image from "next/image";
-import type { taskInfo } from "~/utils/types";
+import type { taskCardInfo } from "~/utils/types";
+import SeeMore from "./SeeMore";
+import { ConvertDifficultyToString } from "~/utils/helpers";
 
-const TaskCard = ({ data }: { data: taskInfo }) => {
+const TaskCard = ({ data }: { data: taskCardInfo }) => {
   return (
-    <>
-      <div className="h-72 w-full p-4 font-heading font-bold">
-        <div className="flex h-full w-full flex-col items-center space-y-2 rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786]  p-2">
-          <div className="w-full rounded-2xl">
-            <div className="flex w-full flex-row space-x-2 rounded-t-xl bg-white p-2 ">
-              {/* TEMPORARY IMAGE - remove when society logos are available */}
+    <div className="block h-fit w-full rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
+      <div className="flex h-full w-full flex-col gap-2">
+        <div className="relative rounded-t-xl bg-white">
+          <div className="pointer-events-none absolute -right-4 -top-10 flex h-full w-full flex-row items-end justify-end">
+            <Image
+              alt="flower"
+              src="/cherry-4.png"
+              width={150}
+              height={150}
+              className="h-fit w-14 object-contain"
+            />
+          </div>
+          <div className="flex w-full flex-row items-center justify-start space-x-4 px-4 py-2">
+            {data.societyImage ? (
               <Image
-                className="my-0.5 h-12 w-12 rounded-full"
-                width={250}
-                height={250}
-                src="https://avatars.githubusercontent.com/u/89776086?v=4"
-                alt="Society logo"
+                alt="society logo"
+                src={data.societyImage}
+                width={150}
+                height={150}
+                className="h-12 w-12 flex-shrink-0 rounded-3xl object-cover"
               />
-              <div>
-                <h4 className=" text-xl font-bold text-yellow-900">
-                  {data.title}
-                </h4>
-                <p className="text-pink">{data.society}</p>
-              </div>
+            ) : (
+              <div className="h-12 w-12 flex-shrink-0 rounded-3xl bg-gray-500" />
+            )}
+            <div>
+              <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
+                {data.taskName}
+              </h1>
+              <h2 className="font-heading text-xs font-medium text-pink md:text-base">
+                {data.societyName}
+              </h2>
             </div>
           </div>
-          <div className="grid h-full w-full flex-grow grid-rows-[1fr_auto] rounded-b-xl bg-[#fdb3c2] p-2">
-            <div>
-              <p className="text-brown">
-                {data.points} points upon completion!
-              </p>
-              <p className="text-brown">{data.description}</p>
-            </div>
-            <p className=" text-right text-[#ea5873]">
-              Difficulty: {data.difficulty}
+        </div>
+        <div className="relative h-full space-y-2 rounded-b-xl bg-[#FDB3C2]">
+          <div className="pointer-events-none absolute -bottom-6 -left-6 flex h-full w-full flex-row items-end justify-start">
+            <Image
+              alt="flower"
+              src="/cherry-2.png"
+              width={150}
+              height={150}
+              className="h-fit w-20 object-contain"
+            />
+          </div>
+          <div className="h-full w-full px-4 py-2">
+            <p className="font-heading text-base font-medium text-white md:text-xl">
+              {data.taskPoints} Points upon completion !
+            </p>
+            <p className="font-body text-xs font-medium text-white md:text-base">
+              <SeeMore text={data.taskDescription} />
+            </p>
+            <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
+              Task Difficulty: {ConvertDifficultyToString(data.taskDifficulty)}
             </p>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
