@@ -37,7 +37,7 @@ const NavBar = () => {
             className="h-16 w-fit object-contain invert"
           />
         </Link>
-        <div className="hidden h-full flex-row sm:space-x-3 lg:space-x-12 xl:space-x-24 py-2 focus:outline-none md:flex">
+        <div className="hidden h-full flex-row py-2 focus:outline-none sm:space-x-3 md:flex lg:space-x-12 xl:space-x-24">
           {links.slice(0, -1).map((link) => (
             <Link
               href={link.href}

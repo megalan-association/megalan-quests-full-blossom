@@ -4,7 +4,7 @@ import {
 } from "next";
 import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
-import BackgroundImageLayout from "~/layouts/BackgroudImageLayout";
+import BackgroundImageLayout from "~/layouts/BackgroundImageLayout";
 import { authOptions } from "~/server/auth";
 
 const Login = ({

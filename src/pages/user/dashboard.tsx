@@ -10,7 +10,7 @@ const Dashboard = () => {
     <UserPageLayout headingText="Quests">
       <section
         id="rank-progress"
-        className="w-full space-y-6 p-4 xs:p-8 md:space-y-8"
+        className="w-full space-y-6 xs:p-4 md:space-y-8"
       >
         <div className="flex flex-row items-end justify-between">
           <h1 className="font-heading text-2xl font-semibold text-brown md:text-5xl ">
@@ -34,7 +34,7 @@ const Dashboard = () => {
       </section>
       <section
         id="rooms-selector"
-        className="flex w-full flex-col space-y-4 px-4 xs:px-8 md:space-y-8"
+        className="flex w-full flex-col space-y-4 xs:px-4 md:space-y-8"
       >
         <h1 className="font-heading text-2xl font-semibold text-brown md:text-5xl ">
           Tasks

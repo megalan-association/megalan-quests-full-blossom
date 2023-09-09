@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 interface Props {
   children: React.ReactNode;
@@ -30,7 +31,9 @@ const BackgroundImageLayout: React.FC<Props> = ({
         width={1000}
         className="fixed left-0 top-0 z-0 h-screen w-screen bg-gradient-to-b from-beige to-[#f9c4cf] to-90% object-cover object-center blur-sm"
       />
-      <div className="z-10">Footer Here</div>
+      <div className="z-10">
+        <Footer />
+      </div>
     </main>
   );
 };

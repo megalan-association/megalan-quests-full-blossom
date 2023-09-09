@@ -9,3 +9,6 @@ export const roomsList = [
   "Fight Arena",
   "Dojo",
 ];
+
+export const TaskPointsOptions = [100, 200, 300, 400];
+export const TaskDifficultyOptions = ["Hard", "Medium", "Easy"];
