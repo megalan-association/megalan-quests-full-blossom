@@ -1,8 +1,9 @@
-import { type Transition, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { type GetStaticProps, type GetStaticPaths } from "next";
 import { useRouter } from "next/router";
 import TaskCard from "~/components/TaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
+import { springTransition } from "~/utils/animations";
 import { roomsList } from "~/utils/constants";
 import { placeholderTaskData } from "~/utils/dummydata";
 
@@ -20,11 +21,6 @@ const Room = () => {
   const { room } = router.query; // Updated parameter name
   console.log(room);
 
-  const springTransition: Transition = {
-    type: "spring",
-    duration: 1,
-    ease: [0.4, 0.0, 0.2, 1], // You can adjust the easing values here
-  };
   return (
     <UserPageLayout headingText="Quests">
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
