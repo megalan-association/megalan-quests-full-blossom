@@ -6,8 +6,9 @@ import {
   createTRPCRouter,
   // protectedProcedure,
   publicProcedure,
-  // adminProcedure
+  adminProcedure,
 } from "~/server/api/trpc";
+
 
 export const tasksRouter = createTRPCRouter({
   
@@ -22,6 +23,7 @@ export const tasksRouter = createTRPCRouter({
   getRoomTasks: publicProcedure
   .input(z.object({ roomId: z.string() }))
   .query(async ({input, ctx}) => {
+    
     const roomTasks = await ctx.prisma.society.findMany({
       where: {roomId: input.roomId},
       select: {
@@ -32,5 +34,12 @@ export const tasksRouter = createTRPCRouter({
     });
     return roomTasks;
   }),
+
+ 
+
+
+
+
+
 
 });
