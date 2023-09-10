@@ -6,10 +6,10 @@ import UserPageLayout from "~/layouts/UserPageLayout";
 import { motion } from "framer-motion";
 import { springTransition } from "~/utils/animations";
 
-const New = () => {
+const Setup = () => {
   const nameOptionsList = ["Keep Current Name", "Choose New Name"];
   const [nameOption, setNameOption] = useState(nameOptionsList[0]);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [name, setName] = useState("");
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -92,4 +92,4 @@ const New = () => {
     </UserPageLayout>
   );
 };
-export default New;
+export default Setup;
