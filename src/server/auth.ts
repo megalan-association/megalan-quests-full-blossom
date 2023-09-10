@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
     error: "/", // go back home if any error
-    newUser: "/",
+    newUser: "/user/new",
     signOut: "/",
   },
 };
