@@ -69,7 +69,10 @@ const NavBar = () => {
         </div>
         <div className="flex w-fit flex-row items-center space-x-4">
           {sessionData && sessionData.user && (
-            <div className="group flex w-full items-center space-x-2 rounded-xl bg-brown px-2 py-2 text-beige drop-shadow-lg ">
+            <Link
+              href="/user/settings"
+              className="group flex w-full items-center space-x-2 rounded-xl bg-brown px-2 py-2 text-beige drop-shadow-lg "
+            >
               <Image
                 alt="pfp"
                 src={sessionData.user.image ? sessionData.user.image : ""}
@@ -80,7 +83,7 @@ const NavBar = () => {
               <p className="hidden font-heading group-hover:block">
                 {sessionData.user.name}
               </p>
-            </div>
+            </Link>
           )}
           <button
             onClick={sessionData ? () => void signOut() : () => void signIn()}
@@ -111,7 +114,8 @@ const NavBar = () => {
               </Menu.Item>
               <div className="flex w-fit flex-row space-x-2">
                 {sessionData && sessionData.user && (
-                  <div
+                  <Link
+                    href="/user/settings"
                     className={`flex w-full items-center space-x-2 rounded-xl px-2 py-2 drop-shadow-lg transition-all duration-150 ${
                       open ? "bg-beige text-brown" : "bg-brown text-beige"
                     }`}
@@ -141,7 +145,7 @@ const NavBar = () => {
                         {sessionData.user.name}
                       </motion.p>
                     )}
-                  </div>
+                  </Link>
                 )}
                 <Menu.Button
                   className={`block h-fit rounded-xl p-2 text-2xl drop-shadow-lg transition-all duration-150 focus:outline-none md:hidden ${
