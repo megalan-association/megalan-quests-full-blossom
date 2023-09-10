@@ -45,15 +45,12 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, user }) => {
-      // Assuming you have some logic to determine if the user is an admin
-      const isAdmin = user.type; // Replace with your logic to check admin status
-
+      session.user.type = user.type;
       return {
         ...session,
         user: {
           ...session.user,
           id: user.id,
-          isAdmin, // Add the isAdmin property to the user
         },
       };
     },
@@ -92,6 +89,8 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/login",
     error: "/", // go back home if any error
+    newUser: "/",
+    signOut: "/",
   },
 };
 
