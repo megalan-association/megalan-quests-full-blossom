@@ -24,3 +24,12 @@ export enum TaskDifficultyEnum {
   Medium,
   Easy,
 }
+
+export type SocietyAdminData = {
+  societyId: string;
+  societyName: string;
+  admins: {
+    id: string;
+    name: string;
+  }[];
+};
