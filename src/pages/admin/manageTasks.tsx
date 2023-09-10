@@ -1,17 +1,12 @@
 import { Disclosure } from "@headlessui/react";
-import { type Transition, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
 import AdminTaskCard from "~/components/AdminTaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { placeholderTaskData } from "~/utils/dummydata";
+import { springTransition } from "~/utils/animations";
 
 const ManageTasks = () => {
-  const springTransition: Transition = {
-    type: "spring",
-    duration: 1,
-    ease: [0.4, 0.0, 0.2, 1], // You can adjust the easing values here
-  };
-
   return (
     <UserPageLayout
       headingText="Manage Tasks"
