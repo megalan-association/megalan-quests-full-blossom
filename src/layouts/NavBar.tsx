@@ -138,7 +138,6 @@ const NavBar = () => {
                         exit={{ width: 0 }}
                         transition={{
                           ...springTransition,
-                          duration: 1,
                         }}
                         className="font-heading"
                       >
