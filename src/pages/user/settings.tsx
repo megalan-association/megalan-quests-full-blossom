@@ -4,6 +4,8 @@ import { useState } from "react";
 import ProfileCard from "~/components/ProfileCard";
 import NotLoggedIn from "~/components/pages/NotLoggedIn";
 import UserPageLayout from "~/layouts/UserPageLayout";
+import { api } from "~/utils/api";
+
 
 const Settings = () => {
   const { data: session } = useSession();
@@ -15,6 +17,12 @@ const Settings = () => {
   const [nameSuccess, setNameSuccess] = useState(false);
 
   if (!session?.user) return <NotLoggedIn />;
+
+  const updateNameMutation = api.user.changeName.useMutation()
+  const changeName = async (newName: string) => {
+    const result = await updateNameMutation.mutateAsync( {userId: session.user.id, newName: newName} )
+    console.log(result);
+  }
 
   const handleNameChangeSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -95,6 +103,9 @@ const Settings = () => {
                   <button
                     type="submit"
                     className="rounded-xl bg-green/20 px-8 py-2 text-green"
+                    onClick={() => {
+                      changeName(newName).catch((error) => {console.log(error)}); 
+                    }}
                   >
                     Save
                   </button>
