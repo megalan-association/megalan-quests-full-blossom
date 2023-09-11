@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import TaskCard from "~/components/TaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
+import { api } from "~/utils/api";
 import { roomsList } from "~/utils/constants";
-import { placeholderTaskData } from "~/utils/dummydata";
 
 interface Task {
   id: string;
@@ -19,6 +19,20 @@ interface RoomPageProps {
 const Room = () => {
   const router = useRouter();
   const { room } = router.query; // Updated parameter name
+
+  // const getAllTasksRoute = api.tasks.getAllTasks.useQuery()
+  // const getRoomTasksRoute = api.tasks.getRoomTasks.useQuery({roomId: room || "All Tasks"})
+
+  const getData = () => {
+    if (typeof(room) == "string" && room != "All Tasks") {
+      return api.tasks.getRoomTasks.useQuery({roomId: room}).data
+    } else {
+      return api.tasks.getAllTasks.useQuery().data
+    }
+  }
+
+  const tasksData = getData()
+
   console.log(room);
 
   return (
@@ -54,7 +68,7 @@ const Room = () => {
         </div>
       </div>
       <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
-        {placeholderTaskData.map((task, index) => (
+        {tasksData.map((task, index) => (
           <motion.div
             key={index}
             initial={{ y: 50, opacity: 0 }}
@@ -64,7 +78,14 @@ const Room = () => {
               delay: index / 10,
             }}
           >
-            <TaskCard key={index} data={task} />
+            <TaskCard key={index} data={{
+              id: task.id,
+              taskName: task.name,
+              societyName: task.society.name || "",
+              taskDescription: "", // API does not return a description
+              taskDifficulty: 0, // API does not return a difficulty
+              taskPoints: task.points
+            }} />
           </motion.div>
         ))}
       </div>
