@@ -8,6 +8,8 @@ import { placeholderAdminsData } from "~/utils/dummydata";
 const ManageAdmins = () => {
   const handleAdminRemove = (adminId: string, societyId: string) => {
     // api call here
+    console.log(adminId);
+    console.log(societyId);
   };
   return (
     <UserPageLayout
