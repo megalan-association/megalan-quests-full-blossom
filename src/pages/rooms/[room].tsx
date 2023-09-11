@@ -6,6 +6,7 @@ import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { roomsList } from "~/utils/constants";
+import type { taskCardInfo } from "~/utils/types";
 
 interface Task {
   id: string;
@@ -23,15 +24,38 @@ const Room = () => {
   // const getAllTasksRoute = api.tasks.getAllTasks.useQuery()
   // const getRoomTasksRoute = api.tasks.getRoomTasks.useQuery({roomId: room || "All Tasks"})
 
-  const getData = () => {
-    if (typeof(room) == "string" && room != "All Tasks") {
-      return api.tasks.getRoomTasks.useQuery({roomId: room}).data
-    } else {
-      return api.tasks.getAllTasks.useQuery().data
-    }
-  }
+  const allTasksData = api.tasks.getAllTasks.useQuery().data || []
+  // const roomTasksData = api.tasks.getRoomTasks.useQuery({roomId: typeof(room) == "string" ? room : "none"}).data || []
 
-  const tasksData = getData()
+  const displayData: taskCardInfo[] = []
+  for (const t of allTasksData) {
+    displayData.push({
+      id: t.id,
+      taskName: t.name,
+      taskDescription: "API does not provide a description",
+      taskPoints: t.points,
+      taskDifficulty: 0, // API does not provide a task difficulty
+      societyName: t.society?.name || "Society not found",
+      societyImage: "null" 
+    })
+  }
+  // if (room == "All Tasks") {
+  //   for (const t of allTasksData) {
+  //     displayData.push({
+  //       id: t.id,
+  //       taskName: t.name,
+  //       taskDescription: "API does not provide a description",
+  //       taskPoints: t.points,
+  //       taskDifficulty: 0, // API does not provide a task difficulty
+  //       societyName: t.society?.name || "Society not found",
+  //       societyImage: "null" 
+  //     })
+  //   }
+  // } else {
+  //   for (const t of roomTasksData) {
+  //     displayData.
+  //   }
+  // }
 
   console.log(room);
 
@@ -68,7 +92,7 @@ const Room = () => {
         </div>
       </div>
       <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
-        {tasksData.map((task, index) => (
+        {displayData.map((task, index) => (
           <motion.div
             key={index}
             initial={{ y: 50, opacity: 0 }}
@@ -78,14 +102,7 @@ const Room = () => {
               delay: index / 10,
             }}
           >
-            <TaskCard key={index} data={{
-              id: task.id,
-              taskName: task.name,
-              societyName: task.society.name || "",
-              taskDescription: "", // API does not return a description
-              taskDifficulty: 0, // API does not return a difficulty
-              taskPoints: task.points
-            }} />
+            <TaskCard key={index} data={task} />
           </motion.div>
         ))}
       </div>
