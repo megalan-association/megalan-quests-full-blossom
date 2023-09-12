@@ -9,9 +9,8 @@ const Dashboard = () => {
   const rooms = api.tasks.getRooms.useQuery();
   let roomsData = rooms.data;
   if (!roomsData?.length) {
-    roomsData = [{name: "no data"}]
+    roomsData = [{ name: "no data" }];
   }
-
 
   return (
     <UserPageLayout headingText="Dashboard">
@@ -33,10 +32,10 @@ const Dashboard = () => {
               Progress
             </h1>
             <p className="font-heading text-2xl font-semibold text-green md:text-5xl">
-              60%
+              {Math.round((1200 / 10000) * 100)}%
             </p>
           </div>
-          <ProgressBar points={5000} totalPoints={10000} />
+          <ProgressBar points={1200} totalPoints={10000} />
         </div>
       </section>
       <section
