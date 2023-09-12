@@ -36,6 +36,7 @@ model Society {
     id     String  @id @default(cuid())
     admins User[]
     name   String
+    image  String
     tasks  Task[]
     Room   Room?   @relation(fields: [roomId], references: [id])
     roomId String?
@@ -61,7 +62,7 @@ model Task {
     id          String          @id @default(cuid())
     name        String
     points      Int             @default(100)
-    description String
+    description String?
     difficulty  TaskDifficulty  @default(Easy)
     type        TaskType        @default(SOCIETY)
     users       CompletedTask[]
