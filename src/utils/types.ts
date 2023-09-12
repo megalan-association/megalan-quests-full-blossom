@@ -14,6 +14,7 @@ export interface taskCardInfo {
   societyImage?: string;
   taskName: string;
   societyName: string;
+  societyId: string;
   taskDescription: string;
   taskDifficulty: TaskDifficultyEnum;
   taskPoints: number;
