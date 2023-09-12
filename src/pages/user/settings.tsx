@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProfileCard from "~/components/ProfileCard";
 import NotLoggedIn from "~/components/pages/NotLoggedIn";
 import UserPageLayout from "~/layouts/UserPageLayout";
+import { api } from "~/utils/api";
 
 const Settings = () => {
   const { data: session } = useSession();
@@ -13,17 +14,39 @@ const Settings = () => {
   const [tokenError, setTokenError] = useState(false);
   const [tokenSuccess, setTokenSuccess] = useState(false);
   const [nameSuccess, setNameSuccess] = useState(false);
+  const updateNameMutation = api.user.changeName.useMutation();
 
-  if (!session?.user) return <NotLoggedIn />;
+  if (!(session && session.user)) return <NotLoggedIn />;
 
   const handleNameChangeSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     // api call here
-    setNewName("");
-    setNameSuccess(true);
-    setTimeout(() => {
-      setNameSuccess(false);
-    }, 2500);
+    const target = e.target as typeof e.target & {
+      username: { value: string };
+    };
+    const newName = target.username.value;
+
+    if (!newName) {
+      setNameError(true);
+      return;
+    }
+
+    updateNameMutation
+      .mutateAsync({
+        userId: session.user.id,
+        newName,
+      })
+      .then(() => {
+        setNameSuccess(true);
+        setNameError(false);
+        setTimeout(() => {
+          setNameSuccess(false);
+        }, 2500);
+      })
+      .catch(() => {
+        setNameSuccess(false);
+        setNameError(true);
+      });
   };
 
   const handleAdminTokenSubmit = (e: React.SyntheticEvent) => {
@@ -45,7 +68,7 @@ const Settings = () => {
       <section className="h-full w-full space-y-8 py-8">
         <ProfileCard />
         <div className="flex w-full flex-col items-center justify-center space-y-4">
-          <div className="flex w-full flex-col items-center">
+          <div className="flex w-full flex-col items-center px-2">
             <div className="flex w-full items-center justify-between space-x-4 px-2">
               <p className="font-heading text-xl font-medium text-brown">
                 Change Name
@@ -78,7 +101,7 @@ const Settings = () => {
                 />
                 {nameError && (
                   <p className="px-4 font-body text-xs font-medium text-red-500">
-                    *{newName} is already taken
+                    *Encountered Error while Setting Name
                   </p>
                 )}
                 {nameSuccess && (
@@ -95,6 +118,7 @@ const Settings = () => {
                   <button
                     type="submit"
                     className="rounded-xl bg-green/20 px-8 py-2 text-green"
+                    onClick={() => handleNameChangeSubmit}
                   >
                     Save
                   </button>
