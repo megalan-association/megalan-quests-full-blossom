@@ -1,3 +1,4 @@
+import { TaskDifficulty } from "@prisma/client";
 import {
   type SocietyAdminData,
   TaskDifficultyEnum,
@@ -13,8 +14,10 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyName: "Lorem Ipsum Society 1",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Medium,
+    taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 50,
+  promotion : "",
+  taskAvailability: true
   },
   {
     id: "2",
@@ -24,8 +27,11 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyId: "2",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Easy,
+    taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 20,
+    promotion: "",
+    taskAvailability: true
+
   },
   {
     id: "3",
@@ -35,8 +41,10 @@ export const placeholderTaskData: taskCardInfo[] = [
     societyId: "3",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Hard,
+    taskDifficulty: TaskDifficulty.Medium,
     taskPoints: 80,
+    promotion: "",
+    taskAvailability: true
   },
 ];
 

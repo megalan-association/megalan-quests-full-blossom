@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
+  protectedProcedure,
   // protectedProcedure,
   publicProcedure,
   // adminProcedure,
@@ -11,6 +12,14 @@ import {
 
 
 export const tasksRouter = createTRPCRouter({
+
+  getRooms: protectedProcedure
+  .query(async ({ctx}) => {
+    const rooms = await ctx.prisma.room.findMany({
+      select: {name:true}
+    });
+    return rooms;
+  }),
   
   getAllTasks: publicProcedure
     .query(async ({ ctx }) => {
@@ -21,25 +30,45 @@ export const tasksRouter = createTRPCRouter({
     }),
   
   getRoomTasks: publicProcedure
-  .input(z.object({ roomId: z.string() }))
+  .input(z.object({ roomName: z.string() }))
   .query(async ({input, ctx}) => {
     
     const roomTasks = await ctx.prisma.society.findMany({
-      where: {roomId: input.roomId},
+      where: {name: input.roomName},
       select: {
         id: true,
         name: true,
-        tasks : {select: {id: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true, society: true}}
+        image: true,
+        
+        tasks : {select: {id: true, description: true, difficulty: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true,}}
       }
     });
-    return roomTasks;
+
+    const tasks = []
+
+    for (const s of roomTasks) {
+      // let td = s.tasks;
+      for (const t of s.tasks) {
+        tasks.push({
+          id: t.id,
+          societyImage: s.image,
+          taskName: t.name,
+          societyName: s.name,
+          societyId: s.id,
+          taskDescription: t.description,
+          taskDifficulty: t.difficulty,
+          taskPoints: t.points,
+          taskAvailability: t.isAvailable,
+          promotion: t.promotedBy,
+        });
+
+      }
+
+
+    }
+
+
+    return tasks;
   }),
-
- 
-
-
-
-
-
 
 });

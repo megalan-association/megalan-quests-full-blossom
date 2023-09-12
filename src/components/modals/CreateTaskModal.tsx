@@ -3,8 +3,9 @@ import { PencilIcon } from "@heroicons/react/24/solid";
 import { useState, type SyntheticEvent, Fragment } from "react";
 import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
 import { ConvertDifficultyToString } from "~/utils/helpers";
-import { TaskDifficultyEnum, type taskCardInfo } from "~/utils/types";
+import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
+import { TaskDifficulty } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
@@ -23,8 +24,11 @@ const initTask: taskCardInfo = {
   societyName: "",
   societyId: "",
   taskDescription: "",
-  taskDifficulty: TaskDifficultyEnum.Easy,
+  taskDifficulty: TaskDifficulty.Easy,
   taskPoints: 100,
+  societyImage: "",
+  taskAvailability: false,
+  promotion: null
 };
 
 const CreateTaskModal: React.FC<Props> = ({
@@ -68,7 +72,7 @@ const CreateTaskModal: React.FC<Props> = ({
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
-      tempData.taskDifficulty = value as TaskDifficultyEnum;
+      tempData.taskDifficulty = value as TaskDifficulty;
     }
     setTaskData(tempData);
     console.log(tempData);
@@ -183,7 +187,7 @@ const CreateTaskModal: React.FC<Props> = ({
                         id="description"
                         placeholder="description here"
                         className="h-40 w-full rounded-t-xl rounded-bl-xl px-4 py-2 text-brown drop-shadow-md"
-                        defaultValue={taskData.taskDescription}
+                        defaultValue={taskData.taskDescription ? taskData.taskDescription : ""}
                         onChange={(value) =>
                           updateForm("description", value.target.value)
                         }
@@ -200,9 +204,9 @@ const CreateTaskModal: React.FC<Props> = ({
                         id="points"
                         onSelect={(value) => updateForm("difficulty", value)}
                         options={TaskDifficultyOptions}
-                        selectedOption={ConvertDifficultyToString(
+                        selectedOption={
                           taskData.taskDifficulty
-                        )}
+                        }
                       />
                     </div>
 

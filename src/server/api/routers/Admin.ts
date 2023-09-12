@@ -12,7 +12,7 @@ import {
 
 
 
-export const tasksRouter = createTRPCRouter({
+export const adminRouter = createTRPCRouter({
   getAdminTasks: adminProcedure
   .query(async ({ctx}) => {
     const adminTasks = ctx.prisma.society.findMany({

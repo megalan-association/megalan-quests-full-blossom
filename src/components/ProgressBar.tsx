@@ -31,7 +31,7 @@ const ProgressBar: React.FC<Props> = ({ points, totalPoints }) => {
         className=" flex h-10 flex-col items-center justify-center rounded-2xl bg-green "
         style={{ width: `${100 - widthPercentage}%` }}
       >
-        {widthPercentage < 50 && (
+        {widthPercentage <= 50 && (
           <p className="font-body font-semibold text-light-green">
             {points} / {totalPoints}
           </p>
