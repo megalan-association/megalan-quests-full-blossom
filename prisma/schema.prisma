@@ -26,6 +26,12 @@ enum UserType {
     ADMIN
 }
 
+enum TaskDifficulty {
+    Easy
+    Medium
+    Hard
+}
+
 model Society {
     id     String  @id @default(cuid())
     admins User[]
@@ -55,6 +61,8 @@ model Task {
     id          String          @id @default(cuid())
     name        String
     points      Int             @default(100)
+    description String
+    difficulty  TaskDifficulty  @default(Easy)
     type        TaskType        @default(SOCIETY)
     users       CompletedTask[]
     isAvailable Boolean
@@ -94,15 +102,14 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
 
     @@unique([provider, providerAccountId])
 }
