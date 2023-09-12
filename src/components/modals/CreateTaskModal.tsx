@@ -1,28 +1,65 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, type SyntheticEvent } from "react";
+import { PencilIcon } from "@heroicons/react/24/solid";
+import { useState, type SyntheticEvent, Fragment } from "react";
 import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
+import { ConvertDifficultyToString } from "~/utils/helpers";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
-import { PencilIcon } from "@heroicons/react/24/solid";
-import { ConvertDifficultyToString } from "~/utils/helpers";
 import { TaskDifficulty } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
-  data: taskCardInfo;
+  societies: Society[];
   closeModal: () => void;
 }
 
-const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
-  const [taskData, setTaskData] = useState<taskCardInfo>(data);
+type Society = {
+  id: string;
+  name: string;
+};
+
+const initTask: taskCardInfo = {
+  id: "",
+  taskName: "",
+  societyName: "",
+  societyId: "",
+  taskDescription: "",
+  taskDifficulty: TaskDifficulty.Easy,
+  taskPoints: 100,
+  societyImage: "",
+  taskAvailability: false,
+  promotion: null
+};
+
+const CreateTaskModal: React.FC<Props> = ({
+  isOpen,
+  societies,
+  closeModal,
+}) => {
+  const [taskData, setTaskData] = useState<taskCardInfo>(initTask);
+  const [error, setError] = useState(false);
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log("Submitted");
+    if (taskData.societyId && taskData.taskName) {
+      // add remaining properties about society
+      console.log(taskData.taskName);
+      console.log(taskData.societyId);
+      console.log("Success");
+      closeModal;
+    }
+    setError(true);
   };
 
   const updateForm = (field: string, value: string | number) => {
     const tempData = taskData;
+    if (field === "society") {
+      const soc = societies.find((s) => s.name === value);
+      if (soc) {
+        tempData.societyName = soc.name;
+        tempData.societyId = soc.id;
+      }
+    }
     if (field === "title") {
       tempData.taskName = value as string;
     }
@@ -67,18 +104,40 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-2xl bg-beige p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="max-h-[80dvh] w-full max-w-md transform overflow-y-auto rounded-2xl bg-beige p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="div"
                   className="flex flex-row items-center justify-between text-pink"
                 >
                   <h1 className="font-heading text-xl font-semibold ">
-                    Editing {data.taskName}
+                    New Task
                   </h1>
                   <PencilIcon className="h-6 w-6 flex-shrink-0" />
                 </Dialog.Title>
+
                 <div className="mt-2">
                   <form className="space-y-2" onSubmit={submitForm}>
+                    <div>
+                      <label
+                        htmlFor="society"
+                        className="font-heading text-base font-medium text-brown"
+                      >
+                        Society
+                      </label>
+                      <ListInput
+                        id="society"
+                        onSelect={(value) => updateForm("society", value)}
+                        options={societies.map((s) => {
+                          return s.name;
+                        })}
+                        selectedOption={"Choose a Society"}
+                      />
+                    </div>
+                    {error && !taskData.societyId && (
+                      <p className="font-heading text-xs font-medium text-red-500">
+                        Field is Required
+                      </p>
+                    )}
                     <div>
                       <label
                         htmlFor="title"
@@ -89,14 +148,20 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <input
                         id="title"
                         type="text"
-                        value={taskData.taskName}
+                        defaultValue={taskData.taskName}
                         placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onSubmit={(e) =>
-                          updateForm("title", e.currentTarget.value)
-                        }
+                        onChange={(e) => {
+                          console.log(e.currentTarget.value);
+                          updateForm("title", e.currentTarget.value);
+                        }}
                       />
                     </div>
+                    {error && !taskData.taskName && (
+                      <p className="font-heading text-xs font-medium text-red-500">
+                        Field is Required
+                      </p>
+                    )}
                     <div>
                       <label
                         htmlFor="points"
@@ -122,7 +187,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="description"
                         placeholder="description here"
                         className="h-40 w-full rounded-t-xl rounded-bl-xl px-4 py-2 text-brown drop-shadow-md"
-                        defaultValue={taskData.taskDescription ? taskData.taskDescription : "" }
+                        defaultValue={taskData.taskDescription ? taskData.taskDescription : ""}
                         onChange={(value) =>
                           updateForm("description", value.target.value)
                         }
@@ -139,9 +204,17 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="points"
                         onSelect={(value) => updateForm("difficulty", value)}
                         options={TaskDifficultyOptions}
-                        selectedOption={data.taskDifficulty}
+                        selectedOption={
+                          taskData.taskDifficulty
+                        }
                       />
                     </div>
+
+                    {error && (
+                      <p className="text-xs text-red-500">
+                        Encountered Error, Make sure all fields are filled in
+                      </p>
+                    )}
                     <div className="flex flex-row justify-end space-x-4">
                       <button
                         type="button"
@@ -153,7 +226,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border-2 border-green/20 bg-light-green/40 px-4 py-2 text-base font-medium text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={closeModal}
+                        onClick={submitForm}
                       >
                         Submit
                       </button>
@@ -168,4 +241,4 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
     </Transition>
   );
 };
-export default EditTaskModal;
+export default CreateTaskModal;

@@ -6,7 +6,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   console.error("welcome");
 
@@ -50,7 +49,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col items-center gap-2">
             <p className="font-body text-2xl text-white">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+               Loading tRPC query...
             </p>
             <AuthShowcase />
           </div>
@@ -64,16 +63,12 @@ export default function Home() {
 function AuthShowcase() {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 font-body">
       <p className="text-center text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
+        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <p className="text-center text-2xl text-white">
         {sessionData && `user id ${sessionData.user?.id}`}

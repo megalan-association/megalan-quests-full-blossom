@@ -1,3 +1,4 @@
+import { TaskDifficulty } from "@prisma/client";
 import {
   type SocietyAdminData,
   TaskDifficultyEnum,
@@ -8,32 +9,55 @@ export const placeholderTaskData: taskCardInfo[] = [
   {
     id: "1",
     societyImage: "",
+    societyId: "1",
     taskName: "Lorem Ipsum Task 1",
     societyName: "Lorem Ipsum Society 1",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Medium,
+    taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 50,
+  promotion : "",
+  taskAvailability: true
   },
   {
     id: "2",
     societyImage: "",
     taskName: "Lorem Ipsum Task 2",
     societyName: "Lorem Ipsum Society 2",
+    societyId: "2",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Easy,
+    taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 20,
+    promotion: "",
+    taskAvailability: true
+
   },
   {
     id: "3",
     societyImage: "",
     taskName: "Lorem Ipsum Task 3",
     societyName: "Lorem Ipsum Society 3",
+    societyId: "3",
     taskDescription:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
-    taskDifficulty: TaskDifficultyEnum.Hard,
+    taskDifficulty: TaskDifficulty.Medium,
     taskPoints: 80,
+    promotion: "",
+    taskAvailability: true
+  },
+];
+
+export const placeholderAdminTasksData = [
+  {
+    societyId: "1",
+    societyName: "Lorem Ipsum 1",
+    tasks: placeholderTaskData,
+  },
+  {
+    societyId: "2",
+    societyName: "Lorem Ipsum 2",
+    tasks: placeholderTaskData,
   },
 ];
 
