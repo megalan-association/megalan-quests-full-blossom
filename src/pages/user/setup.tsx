@@ -5,15 +5,51 @@ import ProfileCard from "~/components/ProfileCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { motion } from "framer-motion";
 import { springTransition } from "~/utils/animations";
+import { api } from "~/utils/api";
+import { useSession } from "next-auth/react";
+import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import { useRouter } from "next/router";
 
 const Setup = () => {
+  const { data: sessionData } = useSession();
+  const router = useRouter();
+
   const nameOptionsList = ["Keep Current Name", "Choose New Name"];
   const [nameOption, setNameOption] = useState(nameOptionsList[0]);
   const [error, setError] = useState(false);
-  const [name, setName] = useState("");
+  const changeNameMutation = api.user.changeName.useMutation();
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    // if they want to keep current name go to dashboard
+    if (nameOption === nameOptionsList[0]) {
+      router.push("/user/dashboard");
+      return;
+    }
+
+    const target = e.target as typeof e.target & {
+      username: { value: string };
+    };
+
+    if (!target.username.value) {
+      setError(true);
+      return;
+    }
+
+    changeNameMutation
+      .mutateAsync({
+        userId: sessionData.user.id,
+        newName: target.username.value,
+      })
+      .then(() => {
+        router.push("/user/dashboard");
+      })
+      .catch(() => {
+        setError(true);
+      });
   };
 
   // if current name is already taken then directly ask for new name and disable the first radio button option
@@ -69,11 +105,10 @@ const Setup = () => {
                   error ? "border-4 border-red-500" : "border-4 border-green"
                 } `}
                 placeholder="username here"
-                onChange={(e) => setName(e.currentTarget.value)}
               />
               {error && (
                 <p className="px-4 font-body text-xs font-medium text-red-500">
-                  *{name} is already taken
+                  *Encountered Error While Setting Name
                 </p>
               )}
             </div>
