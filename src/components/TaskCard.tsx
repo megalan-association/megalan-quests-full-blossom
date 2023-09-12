@@ -54,10 +54,10 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
               {data.taskPoints} Points upon completion !
             </p>
             <p className="font-body text-xs font-medium text-white md:text-base">
-              <SeeMore text={data.taskDescription} />
+              {data.taskDescription && <SeeMore text={data.taskDescription} />}
             </p>
             <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
-              Task Difficulty: {ConvertDifficultyToString(data.taskDifficulty)}
+              Task Difficulty: {data.taskDifficulty}
             </p>
           </div>
         </div>

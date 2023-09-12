@@ -1,3 +1,5 @@
+import { TaskDifficulty } from "@prisma/client";
+
 export interface taskInfo {
   id: string;
   isSponsorTask: boolean;
@@ -11,13 +13,15 @@ export interface taskInfo {
 
 export interface taskCardInfo {
   id: string;
-  societyImage?: string;
+  societyImage: string;
   taskName: string;
   societyName: string;
   societyId: string;
-  taskDescription: string;
-  taskDifficulty: TaskDifficultyEnum;
+  taskDescription: string|null;
+  taskDifficulty: TaskDifficulty;
   taskPoints: number;
+  taskAvailability: boolean;
+  promotion: string | null;
 }
 
 export enum TaskDifficultyEnum {

@@ -1,10 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, type SyntheticEvent } from "react";
 import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
-import { type TaskDifficultyEnum, type taskCardInfo } from "~/utils/types";
+import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { ConvertDifficultyToString } from "~/utils/helpers";
+import { TaskDifficulty } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
@@ -34,7 +35,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
-      tempData.taskDifficulty = value as TaskDifficultyEnum;
+      tempData.taskDifficulty = value as TaskDifficulty;
     }
     setTaskData(tempData);
     console.log(tempData);
@@ -121,7 +122,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="description"
                         placeholder="description here"
                         className="h-40 w-full rounded-t-xl rounded-bl-xl px-4 py-2 text-brown drop-shadow-md"
-                        defaultValue={taskData.taskDescription}
+                        defaultValue={taskData.taskDescription ? taskData.taskDescription : "" }
                         onChange={(value) =>
                           updateForm("description", value.target.value)
                         }
@@ -138,9 +139,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="points"
                         onSelect={(value) => updateForm("difficulty", value)}
                         options={TaskDifficultyOptions}
-                        selectedOption={ConvertDifficultyToString(
-                          data.taskDifficulty
-                        )}
+                        selectedOption={data.taskDifficulty}
                       />
                     </div>
                     <div className="flex flex-row justify-end space-x-4">
