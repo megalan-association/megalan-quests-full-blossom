@@ -4,7 +4,6 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   publicProcedure,
-  protectedProcedure,
 } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
@@ -16,11 +15,11 @@ export const userRouter = createTRPCRouter({
                 where: {id: input.userId},
                 data: {name: input.newName}
             });
-            return { statsus: "success" };
+            return { status: "success" };
         } catch (error) {
             throw new TRPCError({
                 code: "INTERNAL_SERVER_ERROR",
-                message: "An unexpected error occured, please try again later.",
+                message: "An unexpected error occurred, please try again later.",
                 cause: error,
             });
         }
