@@ -8,9 +8,9 @@ const ProgressBar: React.FC<Props> = ({ points, totalPoints }) => {
   const progressPercentage = (points / totalPoints) * 100;
 
   return (
-    <div className="relative h-10 w-full rounded-xl bg-light-green">
+    <div className="relative h-10 w-full rounded-xl bg-light-green drop-shadow">
       <div
-        className="relative h-full rounded-2xl bg-green"
+        className="relative h-full rounded-xl bg-green"
         style={{ width: `${progressPercentage}%` }}
       >
         <Image
