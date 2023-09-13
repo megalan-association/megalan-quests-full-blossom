@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import TaskCard from "~/components/TaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
@@ -13,6 +14,9 @@ const Room = () => {
   let roomData : taskCardInfo[] | undefined = []
   const {data: tasks} = api.tasks.getRoomTasks.useQuery({ roomName: room.slug as string });
   roomData = tasks;
+  const { data: sessionData } = useSession();
+  if (!(sessionData && sessionData.user)) return <>Loading</>
+
 
   return (
     <>
@@ -59,7 +63,7 @@ const Room = () => {
               delay: index / 10,
             }}
           >
-            <TaskCard key={index} data={task} />
+            <TaskCard key={index} data={task} userId={sessionData?.user.id} />
           </motion.div>
         ))}
       </div>

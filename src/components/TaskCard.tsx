@@ -4,13 +4,14 @@ import SeeMore from "./SeeMore";
 import { useState } from "react";
 import CompleteTaskModal from "./modals/CompleteTaskModal";
 
-const TaskCard = ({ data }: { data: taskCardInfo }) => {
+const TaskCard = ({ data, userId }: { data: taskCardInfo, userId:string }) => {
   
   const [showModal, setShowModal] = useState(false);
+
   
   return (
     <>
-    <CompleteTaskModal isOpen={showModal} taskId={data.id} closeModal={() => setShowModal(false)} />
+    <CompleteTaskModal isOpen={showModal} taskId={data.id} userId={userId} closeModal={() => setShowModal(false)} />
     <div className="block h-fit w-full rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
       <div className="flex h-full w-full flex-col gap-2">
         <div className="relative rounded-t-xl bg-white">
