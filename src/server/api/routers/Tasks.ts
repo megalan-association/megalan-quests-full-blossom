@@ -22,7 +22,7 @@ export const tasksRouter = createTRPCRouter({
       return rooms;
     }),
 
-  getAllTasks: publicProcedure
+  getAllTasks: protectedProcedure
     .query(async ({ ctx }) => {
       const data = await ctx.prisma.task.findMany({
         select: {
@@ -34,7 +34,9 @@ export const tasksRouter = createTRPCRouter({
           type: true, 
           promotedBy: true, 
           society: true, 
-          isAvailable: true
+          isAvailable: true,
+          users: {where: {userID: ctx.session.user.id}}
+          
         }
       });
 
@@ -44,7 +46,11 @@ export const tasksRouter = createTRPCRouter({
       for (const t of data) {
 
         if (!t.society) break
-        tasks.push({
+        let completed = false;
+        if (t.users.length) {
+          completed = true
+        }
+        const t1 = {
           id: t.id,
           societyImage: t.society.image,
           taskName: t.name,
@@ -55,7 +61,9 @@ export const tasksRouter = createTRPCRouter({
           taskPoints: t.points,
           taskAvailability: t.isAvailable,
           promotion: t.promotedBy,
-        });
+          completed: completed
+        }
+        tasks.push(t1);
       }
 
       return tasks;
@@ -67,7 +75,7 @@ export const tasksRouter = createTRPCRouter({
 
       const rt = await ctx.prisma.room.findFirst({
         where: { name: input.roomName },
-        select: { societies: { select: { id: true, name: true, image: true, tasks: { select: { id: true, description: true, difficulty: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true, } } } } }
+        select: { societies: { select: { id: true, name: true, image: true, tasks: { select: { id: true, description: true, users:true,difficulty: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true, } } } } }
       });
 
       if (!rt) {
@@ -84,7 +92,11 @@ export const tasksRouter = createTRPCRouter({
       for (const s of rt.societies) {
         // let td = s.tasks;
         for (const t of s.tasks) {
-          tasks.push({
+          let completed = false;
+          if (t.users.length) {
+            completed = true
+          }
+          const t1 = {
             id: t.id,
             societyImage: s.image,
             taskName: t.name,
@@ -95,9 +107,12 @@ export const tasksRouter = createTRPCRouter({
             taskPoints: t.points,
             taskAvailability: t.isAvailable,
             promotion: t.promotedBy,
-          });
+            completed: completed
+          }
+          tasks.push(t1);
         }
-      }
+        }
+      
       return tasks;
     }),
 
