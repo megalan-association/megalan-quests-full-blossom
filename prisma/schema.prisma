@@ -37,6 +37,7 @@ model Society {
     admins User[]
     name   String
     image  String
+    secret String  @unique @default("secret")
     tasks  Task[]
     Room   Room?   @relation(fields: [roomId], references: [id])
     roomId String?

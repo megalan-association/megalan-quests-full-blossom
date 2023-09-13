@@ -3,7 +3,6 @@ import ProgressBar from "~/components/ProgressBar";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { api } from "~/utils/api";
 
-
 const Dashboard = () => {
   // get the rooms from the db
   const rooms = api.tasks.getRooms.useQuery();
@@ -47,8 +46,8 @@ const Dashboard = () => {
         </h1>
         <div className="grid aspect-square h-fit w-full grid-flow-row grid-cols-3 gap-2 md:aspect-auto md:gap-4">
           <Link
-            href={`/allTasks`}
-            as={`/AllTasks`}
+            href={`/user/allTasks`}
+            as={`/user/allTasks`}
             key={0}
             className="col-span-3 row-span-1 flex h-24 flex-col items-center justify-center rounded-xl border border-pink/40 bg-gradient-to-br from-light-pink to-pink p-4 md:aspect-auto md:p-8"
           >

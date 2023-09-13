@@ -1,21 +1,22 @@
 import { TaskDifficulty } from "@prisma/client";
 import { motion } from "framer-motion";
-
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import TaskCard from "~/components/TaskCard";
 import ListInput from "~/components/input/ListInput";
+import LoadingPage from "~/components/pages/LoadingPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { type taskCardInfo } from "~/utils/types";
 
 const Room = () => {
- 
   const router = useRouter();
   const room  = router.query; // Updated parameter name
   const societies: string[] = []
 
+  const { data: sessionData } = useSession();
   const [filterDifficulty, updateFilterDifficulty] = useState("All difficulties")
   const [filterSociety, updateFilterSociety] = useState("All societies")
 
@@ -48,9 +49,11 @@ const Room = () => {
     return result
   }
 
-  return (
+  if (!(sessionData && sessionData.user)) return <LoadingPage />;
+
+  return (requestData.isSuccess ? (
     <>
-     <UserPageLayout headingText="Quests">
+    <UserPageLayout headingText="Quests">
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="grid grid-cols-2 space-x-2">
@@ -83,12 +86,14 @@ const Room = () => {
               delay: index / 10,
             }}
           >
-            <TaskCard key={index} data={task} />
+            <TaskCard key={index} data={task} userId={sessionData.user.id} />
           </motion.div>
         ))}
       </div>
     </UserPageLayout>
-    </>
+    </>) : (
+      <LoadingPage />
+    )
   );
 };
 

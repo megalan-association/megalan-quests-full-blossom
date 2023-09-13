@@ -22,6 +22,7 @@ export interface taskCardInfo {
   taskPoints: number;
   taskAvailability: boolean;
   promotion: string | null;
+  completed: boolean;
 }
 
 export enum TaskDifficultyEnum {
