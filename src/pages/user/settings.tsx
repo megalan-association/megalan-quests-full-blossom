@@ -15,6 +15,7 @@ const Settings = () => {
   const [tokenSuccess, setTokenSuccess] = useState(false);
   const [nameSuccess, setNameSuccess] = useState(false);
   const updateNameMutation = api.user.changeName.useMutation();
+  const becomeAdminMutation = api.admin.becomeAdmin.useMutation();
 
   if (!(session && session.user)) return <NotLoggedIn />;
 
@@ -51,14 +52,32 @@ const Settings = () => {
 
   const handleAdminTokenSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    const target = e.target as typeof e.target & {
+      adminToken: { value: string };
+    };
+    const secret = target.adminToken.value;
+
+    if (!secret) {
+      setTokenError(true);
+      return;
+    }
     // api call here
-    setAdminToken("");
-    setTokenSuccess(false);
-    setTokenError(true);
-    setTimeout(() => {
+    becomeAdminMutation.mutateAsync({
+      secret
+    }).then(() => {
       setTokenError(false);
       setTokenSuccess(true);
-    }, 2500);
+      setTimeout(() => {
+        setTokenSuccess(false);
+      }, 2500);
+
+    }).catch(() => {
+      setAdminToken("");
+      setTokenSuccess(false);
+      setTokenError(true);
+    });
+
+
   };
 
   return (
@@ -93,11 +112,10 @@ const Settings = () => {
                   id="username"
                   type="text"
                   value={newName}
-                  className={`w-full rounded-xl p-4 ${
-                    nameError
+                  className={`w-full rounded-xl p-4 ${nameError
                       ? "border-4 border-red-500"
                       : "border-4 border-green"
-                  } `}
+                    } `}
                   placeholder="username"
                   onChange={(e) => setNewName(e.currentTarget.value)}
                 />
@@ -149,14 +167,13 @@ const Settings = () => {
                   Add Society Token
                 </label>
                 <input
-                  id="admin-token"
+                  id="adminToken"
                   type="text"
                   value={adminToken}
-                  className={`w-full rounded-xl p-4 ${
-                    tokenError
+                  className={`w-full rounded-xl p-4 ${tokenError
                       ? "border-4 border-red-500"
                       : "border-4 border-green"
-                  } `}
+                    } `}
                   placeholder="Society Token"
                   onChange={(e) => setAdminToken(e.currentTarget.value)}
                 />
