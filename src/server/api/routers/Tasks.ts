@@ -34,7 +34,7 @@ export const tasksRouter = createTRPCRouter({
   .query(async ({input, ctx}) => {
     
     const roomTasks = await ctx.prisma.society.findMany({
-      where: {name: input.roomName},
+      where: {Room: {s}}
       select: {
         id: true,
         name: true,

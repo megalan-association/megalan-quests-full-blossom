@@ -48,7 +48,7 @@ const Dashboard = () => {
         <div className="grid aspect-square h-fit w-full grid-flow-row grid-cols-3 gap-2 md:aspect-auto md:gap-4">
           <Link
             href={`/rooms/[room]`}
-            as={`/rooms/${roomsList[0]}}`}
+            as={`/rooms/${roomsList[0]}`}
             key={0}
             className="col-span-3 row-span-1 flex h-24 flex-col items-center justify-center rounded-xl border border-pink/40 bg-gradient-to-br from-light-pink to-pink p-4 md:aspect-auto md:p-8"
           >

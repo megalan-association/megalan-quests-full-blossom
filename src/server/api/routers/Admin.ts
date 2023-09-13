@@ -5,8 +5,8 @@ import { z } from "zod";
 
 import {
   createTRPCRouter,
-  // protectedProcedure,
-  publicProcedure,
+  protectedProcedure,
+  // publicProcedure,
   adminProcedure,
 } from "~/server/api/trpc";
 
@@ -47,7 +47,7 @@ export const adminRouter = createTRPCRouter({
   completeTask: adminProcedure
   .input(z.object({ taskId: z.string(), userId: z.string()}))
   .mutation(async ({input, ctx}) => {
-    
+
   const check = await ctx.prisma.user.findFirst({
     where: {id: input.userId},
     select: {type:true}
@@ -89,6 +89,36 @@ export const adminRouter = createTRPCRouter({
     });
   }
   }),
+
+  // becomeAdmin: protectedProcedure
+  // .input(z.object({ secret: z.string()}))
+  // .mutation(async({input, ctx}) => {
+
+  //   // get the soc id from the secret
+  //   const soc = ctx.prisma.society.findFirst({
+  //     where:{secret: input.secret},
+  //     select:{id: true}
+  //   });
+
+    
+
+  //   if (!soc) {
+  //     throw new TRPCError({
+  //       code: 'UNAUTHORIZED',
+  //       message: 'Incorrect secret',
+  //       // cause: ,
+  //     });
+  //   }
+
+  //   await ctx.prisma.user.update({
+  //     where: {id: ctx.session.user.id},
+  //     data: {type: UserType.ADMIN, totalPoints: 0, societies: {connect: {id: soc.}}}
+  //   });
+
+
+
+
+  // }),
 
 
 

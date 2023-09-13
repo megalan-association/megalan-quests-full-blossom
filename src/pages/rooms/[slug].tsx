@@ -14,6 +14,12 @@ const Room = () => {
   if (!room) {
     return;
   }
+
+  console.log(room.slug);
+
+  
+
+
   const roomData = api.tasks.getRoomTasks.useQuery({ roomName: room.slug as string });
   if (!roomData.data) {
     return;
