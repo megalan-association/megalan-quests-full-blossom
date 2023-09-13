@@ -53,9 +53,11 @@ const Settings = () => {
     e.preventDefault();
     // api call here
     setAdminToken("");
-    setTokenSuccess(true);
+    setTokenSuccess(false);
+    setTokenError(true);
     setTimeout(() => {
-      setTokenSuccess(false);
+      setTokenError(false);
+      setTokenSuccess(true);
     }, 2500);
   };
 

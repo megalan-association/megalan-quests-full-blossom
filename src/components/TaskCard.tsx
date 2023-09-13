@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { taskCardInfo } from "~/utils/types";
 import SeeMore from "./SeeMore";
-import { ConvertDifficultyToString } from "~/utils/helpers";
 
 const TaskCard = ({ data }: { data: taskCardInfo }) => {
   return (

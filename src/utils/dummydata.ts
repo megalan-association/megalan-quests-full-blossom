@@ -1,9 +1,5 @@
 import { TaskDifficulty } from "@prisma/client";
-import {
-  type SocietyAdminData,
-  TaskDifficultyEnum,
-  type taskCardInfo,
-} from "./types";
+import { type SocietyAdminData, type taskCardInfo } from "./types";
 
 export const placeholderTaskData: taskCardInfo[] = [
   {
@@ -16,8 +12,8 @@ export const placeholderTaskData: taskCardInfo[] = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus tincidunt mauris, id interdum ligula tincidunt a. Integer feugiat suscipit justo, vel congue lorem feugiat id. Sed vulputate eros et libero vulputate.",
     taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 50,
-  promotion : "",
-  taskAvailability: true
+    promotion: "",
+    taskAvailability: true,
   },
   {
     id: "2",
@@ -30,8 +26,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     taskDifficulty: TaskDifficulty.Hard,
     taskPoints: 20,
     promotion: "",
-    taskAvailability: true
-
+    taskAvailability: true,
   },
   {
     id: "3",
@@ -44,7 +39,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     taskDifficulty: TaskDifficulty.Medium,
     taskPoints: 80,
     promotion: "",
-    taskAvailability: true
+    taskAvailability: true,
   },
 ];
 
