@@ -4,25 +4,22 @@ import TaskCard from "~/components/TaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
+import { type taskCardInfo } from "~/utils/types";
 
 
 
 const Room = () => {
-  const router = useRouter();
-  const room  = router.query; // Updated parameter name
-  
-  if (!room) {
-    return;
-  }
-  const roomData = api.tasks.getRoomTasks.useQuery({ roomName: room.slug as string });
-  if (!roomData.data) {
-    return;
-  }
 
+  
+  const router = useRouter();
+  const room  = router.query;   
+  let roomData : taskCardInfo[] | undefined = []
+  const {data: tasks} = api.tasks.getRoomTasks.useQuery({ roomName: room.slug as string });
+  roomData = tasks;
 
   return (
     <>
-    { true ?
+    { roomData?.length ?
      <UserPageLayout headingText="Quests">
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
@@ -55,7 +52,7 @@ const Room = () => {
         </div>
       </div>
       <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
-        {roomData.data.map((task, index) => (
+        {roomData?.map((task, index) => (
           <motion.div
             key={index}
             initial={{ y: 50, opacity: 0 }}
@@ -69,7 +66,7 @@ const Room = () => {
           </motion.div>
         ))}
       </div>
-    </UserPageLayout> : <>hello</>}
+    </UserPageLayout> : <>Loading</>}
     </>
   );
 };
