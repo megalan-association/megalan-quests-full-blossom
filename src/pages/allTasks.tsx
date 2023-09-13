@@ -1,51 +1,43 @@
+import { TaskDifficulty } from "@prisma/client";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import TaskCard from "~/components/TaskCard";
 import ListInput from "~/components/input/ListInput";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
-import { TaskDifficultyEnum, type taskCardInfo } from "~/utils/types";
-
-
+import { type taskCardInfo } from "~/utils/types";
 
 const Room = () => {
-
-  const rawData: taskCardInfo[] = api.tasks.getAllTasks.useQuery().data || []
+  const requestData = api.tasks.getAllTasks.useQuery()
   const societies: string[] = []
 
-  for (const t of rawData) {
+  for (const t of (requestData.data || [])) {
     if (!societies.includes(t.societyName)) {
       societies.push(t.societyName)
     }
   }
 
-  const [filteredData, updateFilteredData] = useState(rawData)
-  let filterDifficulty = ""
-  let filterSociety = ""
-  const updateFilter = () => {
+  const [filterDifficulty, updateFilterDifficulty] = useState("All difficulties")
+  const [filterSociety, updateFilterSociety] = useState("All societies")
+  const doFilter = (rawData: taskCardInfo[]) => {
     const intermediate: taskCardInfo[] = []
     const result: taskCardInfo[] = []
     for (const t of rawData) {
-      if (filterSociety == "" || filterSociety == "_") {
+      if (filterSociety === "All societies") {
         intermediate.push(t)
       } else if (t.societyName == filterSociety) {
         intermediate.push(t)
       }
     }
     for (const t of intermediate) {
-      if (filterDifficulty == "" || filterDifficulty == "_") {
+      if (filterDifficulty === "All difficulties") {
         result.push(t)
-      } else if (filterDifficulty == "Easy" && t.taskDifficulty == TaskDifficultyEnum.Easy) {
-        result.push(t)
-      } else if (filterDifficulty == "Medium" && t.taskDifficulty == TaskDifficultyEnum.Medium ) {
-        result.push(t)
-      } else if (filterDifficulty == "Hard" && t.taskDifficulty == TaskDifficultyEnum.Hard) {
+      } else if (filterDifficulty == t.taskDifficulty) {
         result.push(t)
       }
     }
-    updateFilteredData(result)
+    return result
   }
 
   return (
@@ -56,11 +48,10 @@ const Room = () => {
         <div className="grid grid-cols-2 space-x-2">
           <ListInput 
             id="difficulty-filter"
-            options={["All difficulties", "Easy", "Medium", "Hard"]}
+            options={["All difficulties", TaskDifficulty.Easy, TaskDifficulty.Medium, TaskDifficulty.Hard]}
             selectedOption="All difficulties"
             onSelect={(v) => {
-              filterDifficulty = v.toString()
-              updateFilter()
+              updateFilterDifficulty(v.toString())
             }} 
           />
           <ListInput 
@@ -68,14 +59,13 @@ const Room = () => {
             options={["All societies", ...societies]}
             selectedOption="All societies"
             onSelect={(v) => {
-              filterSociety = v.toString()
-              updateFilter()
+              updateFilterSociety(v.toString())
             }}
           />
         </div>
       </div>
       <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
-        {filteredData.map((task, index) => (
+        {doFilter(requestData.data || []).map((task, index) => (
           <motion.div
             key={index}
             initial={{ y: 50, opacity: 0 }}
