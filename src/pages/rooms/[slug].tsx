@@ -55,7 +55,6 @@ const Room = () => {
 
   return (
     <>
-    { roomData?.length ?
      <UserPageLayout headingText="Quests">
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
@@ -95,7 +94,7 @@ const Room = () => {
           </motion.div>
         ))}
       </div>
-    </UserPageLayout> : <>Loading</>}
+    </UserPageLayout>
     </>
   );
 };
