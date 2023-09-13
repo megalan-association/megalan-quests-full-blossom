@@ -14,7 +14,6 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
-import z from "zod";
 
 /**
  * 1. CONTEXT
@@ -130,11 +129,10 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
-
 /**
  * Admin User (only admins)
- * 
- * 
+ *
+ *
  */
 
 const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
@@ -142,7 +140,9 @@ const enforceUserIsAdmin = t.middleware(async ({ ctx, next }) => {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   // check if the user is an admin
-  const user = await ctx.prisma.user.findFirst({ where: {id: ctx.session.user.id}});
+  const user = await ctx.prisma.user.findFirst({
+    where: { id: ctx.session.user.id },
+  });
   if (user?.type !== "ADMIN") throw new TRPCError({ code: "UNAUTHORIZED" });
 
   return next({

@@ -4,8 +4,7 @@ import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { ConvertDifficultyToString } from "~/utils/helpers";
-import { TaskDifficulty } from "@prisma/client";
+import { type TaskDifficulty } from "@prisma/client";
 
 interface Props {
   isOpen: boolean;
@@ -122,7 +121,11 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         id="description"
                         placeholder="description here"
                         className="h-40 w-full rounded-t-xl rounded-bl-xl px-4 py-2 text-brown drop-shadow-md"
-                        defaultValue={taskData.taskDescription ? taskData.taskDescription : "" }
+                        defaultValue={
+                          taskData.taskDescription
+                            ? taskData.taskDescription
+                            : ""
+                        }
                         onChange={(value) =>
                           updateForm("description", value.target.value)
                         }
