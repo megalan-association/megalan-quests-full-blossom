@@ -6,11 +6,8 @@ import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { type taskCardInfo } from "~/utils/types";
 
-
-
 const Room = () => {
-
-  
+ 
   const router = useRouter();
   const room  = router.query;   
   let roomData : taskCardInfo[] | undefined = []
