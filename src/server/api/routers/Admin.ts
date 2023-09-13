@@ -89,38 +89,27 @@ export const adminRouter = createTRPCRouter({
   }
   }),
 
-  // becomeAdmin: protectedProcedure
-  // .input(z.object({ secret: z.string()}))
-  // .mutation(async({input, ctx}) => {
+  becomeAdmin: protectedProcedure
+  .input(z.object({ secret: z.string()}))
+  .mutation(async({input, ctx}) => {
 
-  //   // get the soc id from the secret
-  //   const soc = ctx.prisma.society.findFirst({
-  //     where:{secret: input.secret},
-  //     select:{id: true}
-  //   });
+    // get the soc id from the secret
+    const soc = await ctx.prisma.society.findUnique({
+      where:{secret: input.secret},
+      select:{id: true}
+    });
 
-    
+    if (!soc) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'Incorrect secret',
+        // cause: ,
+      });
+    }
 
-  //   if (!soc) {
-  //     throw new TRPCError({
-  //       code: 'UNAUTHORIZED',
-  //       message: 'Incorrect secret',
-  //       // cause: ,
-  //     });
-  //   }
-
-  //   await ctx.prisma.user.update({
-  //     where: {id: ctx.session.user.id},
-  //     data: {type: UserType.ADMIN, totalPoints: 0, societies: {connect: {id: soc.}}}
-  //   });
-
-
-
-
-  // }),
-
-
-
-
-
+    await ctx.prisma.user.update({
+      where: {id: ctx.session.user.id},
+      data: {type: UserType.ADMIN, totalPoints: 0, societies: {connect: {id: soc.id}}}
+    });
+  }),
 });
