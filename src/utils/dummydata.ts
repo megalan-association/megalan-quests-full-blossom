@@ -14,6 +14,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     taskPoints: 50,
     promotion: "",
     taskAvailability: true,
+    completed: false
   },
   {
     id: "2",
@@ -27,6 +28,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     taskPoints: 20,
     promotion: "",
     taskAvailability: true,
+    completed: false
   },
   {
     id: "3",
@@ -40,6 +42,7 @@ export const placeholderTaskData: taskCardInfo[] = [
     taskPoints: 80,
     promotion: "",
     taskAvailability: true,
+    completed: false
   },
 ];
 
