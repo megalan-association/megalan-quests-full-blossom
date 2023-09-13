@@ -1,4 +1,4 @@
-import { TaskDifficulty } from "@prisma/client";
+import { type TaskDifficulty } from "@prisma/client";
 
 export interface taskInfo {
   id: string;
@@ -17,7 +17,7 @@ export interface taskCardInfo {
   taskName: string;
   societyName: string;
   societyId: string;
-  taskDescription: string|null;
+  taskDescription: string | null;
   taskDifficulty: TaskDifficulty;
   taskPoints: number;
   taskAvailability: boolean;

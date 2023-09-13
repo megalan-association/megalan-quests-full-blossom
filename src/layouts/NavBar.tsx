@@ -120,13 +120,18 @@ const NavBar = () => {
                       open ? "bg-beige text-brown" : "bg-brown text-beige"
                     }`}
                   >
-                    <Image
-                      alt="pfp"
-                      src={sessionData.user.image ? sessionData.user.image : ""}
-                      width={150}
-                      height={150}
-                      className="h-8 w-8 rounded-lg object-cover"
-                    />
+                    {sessionData.user.image ? (
+                      <Image
+                        alt="pfp"
+                        src={sessionData.user.image}
+                        width={150}
+                        height={150}
+                        className="h-8 w-8 rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="block h-8 w-8 rounded-lg" />
+                    )}
+
                     {open && (
                       <motion.p
                         initial={{
@@ -139,7 +144,7 @@ const NavBar = () => {
                         transition={{
                           ...springTransition,
                         }}
-                        className="font-heading"
+                        className="whitespace-nowrap font-heading"
                       >
                         {sessionData.user.name}
                       </motion.p>
