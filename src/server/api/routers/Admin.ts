@@ -1,3 +1,4 @@
+import { UserType } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
@@ -26,7 +27,6 @@ export const adminRouter = createTRPCRouter({
   }),
 
   toggleTaskAvailability: adminProcedure
-
     .input(z.object({ taskId: z.string(), availability: z.boolean()}))
     .mutation(async ({ input, ctx }) => {
       try {
@@ -43,5 +43,55 @@ export const adminRouter = createTRPCRouter({
         });
       }   
     }),
+
+  completeTask: adminProcedure
+  .input(z.object({ taskId: z.string(), userId: z.string()}))
+  .mutation(async ({input, ctx}) => {
+    
+  const check = await ctx.prisma.user.findFirst({
+    where: {id: input.userId},
+    select: {type:true}
+  });
+
+  if (check?.type !== UserType.PARTICIPANT) {
+    throw new TRPCError({
+      code: 'FORBIDDEN',
+      message: 'An unexpected error occurred, please try again later.',
+      cause: "User is not a Participant",
+    });
+  }
+
+  try {
+    const task = await ctx.prisma.task.findFirst({
+      where: {id: input.taskId},
+      select: {points: true}
+
+    });
+    await ctx.prisma.user.update({
+      where: { id: input.userId },
+      data: {
+        completedTasks: {
+          create: {
+            authorisedBy: ctx.session.user.name as string,
+            task: { connect: { id: input.taskId } },
+          },
+        },
+        totalPoints: {increment: task?.points}
+      },
+    });
+    return { status: "success" };
+
+  } catch (error) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'An unexpected error occurred, please try again later.',
+      cause: error,
+    });
+  }
+  }),
+
+
+
+
 
 });
