@@ -8,9 +8,8 @@ import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { TaskDifficultyEnum, type taskCardInfo } from "~/utils/types";
 
-
-
 const Room = () => {
+ 
   const router = useRouter();
   const room  = router.query; // Updated parameter name
   let rawData: taskCardInfo[] = []
@@ -56,7 +55,7 @@ const Room = () => {
 
   return (
     <>
-    { true ?
+    { roomData?.length ?
      <UserPageLayout headingText="Quests">
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
@@ -96,7 +95,7 @@ const Room = () => {
           </motion.div>
         ))}
       </div>
-    </UserPageLayout> : <>hello</>}
+    </UserPageLayout> : <>Loading</>}
     </>
   );
 };
