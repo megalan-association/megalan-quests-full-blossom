@@ -28,6 +28,7 @@ const initTask: taskCardInfo = {
   societyImage: "",
   taskAvailability: false,
   promotion: null,
+  completed: false
 };
 
 const CreateTaskModal: React.FC<Props> = ({

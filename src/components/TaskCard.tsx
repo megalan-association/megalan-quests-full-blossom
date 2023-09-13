@@ -1,9 +1,16 @@
 import Image from "next/image";
 import type { taskCardInfo } from "~/utils/types";
 import SeeMore from "./SeeMore";
+import { useState } from "react";
+import CompleteTaskModal from "./modals/CompleteTaskModal";
 
 const TaskCard = ({ data }: { data: taskCardInfo }) => {
+  
+  const [showModal, setShowModal] = useState(false);
+  
   return (
+    <>
+    <CompleteTaskModal isOpen={showModal} taskId={data.id} closeModal={() => setShowModal(false)} />
     <div className="block h-fit w-full rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
       <div className="flex h-full w-full flex-col gap-2">
         <div className="relative rounded-t-xl bg-white">
@@ -30,7 +37,7 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
             )}
             <div>
               <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
-                {data.taskName}
+                {data.taskName.repeat(2)}
               </h1>
               <h2 className="font-heading text-xs font-medium text-pink md:text-base">
                 {data.societyName}
@@ -38,7 +45,22 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
             </div>
           </div>
         </div>
-        <div className="relative h-full space-y-2 rounded-b-xl bg-[#FDB3C2]">
+        <div className="relative h-full space-y-2 bg-[#FDB3C2]">
+          <div className="h-full w-full px-4 py-2">
+            <p className="font-heading text-base font-medium text-white md:text-xl">
+              {data.taskPoints} Points upon completion !
+            </p>
+            <p className="font-body text-xs font-medium text-white md:text-base">
+              {data.taskDescription && (
+                <SeeMore text={data.taskDescription} />
+              )}
+            </p>
+            <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
+              Task Difficulty: {data.taskDifficulty}
+            </p>
+          </div>
+        </div>
+        <div className="relative rounded-b-xl bg-white">
           <div className="pointer-events-none absolute -bottom-6 -left-6 flex h-full w-full flex-row items-end justify-start">
             <Image
               alt="flower"
@@ -48,20 +70,20 @@ const TaskCard = ({ data }: { data: taskCardInfo }) => {
               className="h-fit w-20 object-contain"
             />
           </div>
-          <div className="h-full w-full px-4 py-2">
-            <p className="font-heading text-base font-medium text-white md:text-xl">
-              {data.taskPoints} Points upon completion !
-            </p>
-            <p className="font-body text-xs font-medium text-white md:text-base">
-              {data.taskDescription && <SeeMore text={data.taskDescription} />}
-            </p>
-            <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
-              Task Difficulty: {data.taskDifficulty}
-            </p>
+          <div className="flex h-full w-full flex-row items-center justify-end gap-2 px-4 py-2">
+            <button
+
+              disabled={data.completed}
+              onClick={() => setShowModal(true)}
+              className="flex items-center rounded-xl border-2 border-brown/20 bg-light-green/40 px-4 py-2 font-heading text-xs font-medium text-brown md:text-base"
+            >
+              {data.completed? "Completed" : "Complete Task"}
+            </button>
           </div>
         </div>
       </div>
     </div>
+    </>
   );
 };
 

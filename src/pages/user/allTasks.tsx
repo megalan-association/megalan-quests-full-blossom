@@ -16,6 +16,7 @@ const Room = () => {
 
   const { data: tasks } = api.tasks.getAllTasks.useQuery();
   roomData = tasks;
+  console.log(roomData);
 
 
 
