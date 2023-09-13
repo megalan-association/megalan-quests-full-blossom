@@ -1,32 +1,28 @@
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import TaskCard from "~/components/TaskCard";
+import LoadingPage from "~/components/pages/LoadingPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { type taskCardInfo } from "~/utils/types";
 
-
-
 const Room = () => {
   // const router = useRouter();
   // const room = router.query;
-  let roomData: taskCardInfo[] | undefined = []
-
+  let roomData: taskCardInfo[] | undefined = [];
 
   const { data: tasks } = api.tasks.getAllTasks.useQuery();
   roomData = tasks;
   console.log(roomData);
   const { data: sessionData } = useSession();
-  if (!(sessionData && sessionData.user)) return <>Loading</>
-
-
-
+  if (!(sessionData && sessionData.user)) return <LoadingPage />;
 
   return (
     <>
-      {roomData?.length ?
+      {!roomData?.length ? (
+        <LoadingPage />
+      ) : (
         <UserPageLayout headingText="Quests">
           <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
             <p className="text-[#F38DB4]">Filter By:</p>
@@ -69,11 +65,16 @@ const Room = () => {
                   delay: index / 10,
                 }}
               >
-                <TaskCard key={index} data={task} userId={sessionData.user.id}/>
+                <TaskCard
+                  key={index}
+                  data={task}
+                  userId={sessionData.user.id}
+                />
               </motion.div>
             ))}
           </div>
-        </UserPageLayout> : <>Loading</>}
+        </UserPageLayout>
+      )}
     </>
   );
 };
