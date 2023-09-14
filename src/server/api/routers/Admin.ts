@@ -122,49 +122,84 @@ export const adminRouter = createTRPCRouter({
       });
     }),
 
-  getAllAdmins: protectedProcedure
-    .input(z.object({ userId: z.string() }))
-    .query(async ({ input, ctx }) => {
-      // get user
-      const user = await ctx.prisma.user.findUnique({
-        where: { id: input.userId },
-        include: {
-          societies: true,
-        },
-      });
-
-      if (!(user && user.type === "ADMIN"))
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "user not found or lacks permissions",
-        });
-
-      // get list of societies
-      const societies = user.societies.map((soc) => {
-        return soc.id;
-      });
-
-      const data = await ctx.prisma.society.findMany({
-        where: {
-          id: {
-            in: societies,
+  getAllAdmins: protectedProcedure.query(async ({ ctx }) => {
+    const admin = await ctx.prisma.user.findFirst({
+      where: { id: ctx.session.user.id },
+      select: {
+        societies: {
+          include: {
+            admins: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
-        include: {
-          admins: true,
+      },
+    });
+
+    if (!admin) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "admin not found",
+      });
+    }
+    const response: SocietyAdminData[] = [];
+    admin.societies.forEach((soc) => {
+      response.push({
+        societyId: soc.id,
+        societyName: soc.name,
+        admins: soc.admins.map((admin) => {
+          return {
+            id: admin.id,
+            name: admin.name ?? "unknown name",
+          };
+        }),
+      });
+    });
+
+    return response;
+  }),
+
+  removeAdmin: protectedProcedure
+    .input(z.object({ adminId: z.string(), societyId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.society.update({
+        where: { id: input.societyId },
+        data: { admins: { disconnect: { id: input.adminId } } },
+      });
+      const admin = await ctx.prisma.user.findFirst({
+        where: { id: ctx.session.user.id },
+        select: {
+          societies: {
+            include: {
+              admins: {
+                select: {
+                  id: true,
+                  name: true,
+                },
+              },
+            },
+          },
         },
       });
 
+      if (!admin) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "admin not found",
+        });
+      }
       const response: SocietyAdminData[] = [];
-
-      data.forEach((soc) => {
+      admin.societies.forEach((soc) => {
         response.push({
           societyId: soc.id,
           societyName: soc.name,
           admins: soc.admins.map((admin) => {
             return {
               id: admin.id,
-              name: admin.name ?? "",
+              name: admin.name ?? "unknown name",
             };
           }),
         });
