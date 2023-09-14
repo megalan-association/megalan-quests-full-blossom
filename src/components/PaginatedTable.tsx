@@ -13,44 +13,12 @@ interface User {
 
 const pageSize = 10; // Number of rows per page
 
-// const generateRandomUserData = (count: number): User[] => {
-//   const users: User[] = [];
-//   const profilePicture =
-//     "https://cdn.discordapp.com/avatars/756052899804479519/66cf284f32de43e56b468fa5113611aa.png";
-
-//   for (let i = 0; i < count; i++) {
-//     const user: User = {
-//       id: `${i + 1}`,
-//       name: `User ${i + 1}`,
-//       image: profilePicture,
-//       points: Math.floor(Math.random() * 1000), // Random points between 0 and 999
-//     };
-//     users.push(user);
-//   }
-
-//   return users;
-// };
-
 const PaginatedTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   // const [data, setData] = useState<User[]>([]);
   const users = api.tasks.getLeaderBoard.useQuery();
 
   const data: User[] = users.data ?? [];
-
-
-
-  // useEffect(() => {
-  //   if (!isServer) {
-  //     // Generate random user data on the client side
-  //     const randomData = generateRandomUserData(50);
-  //     randomData.sort((a, b) => {
-  //       return a.points > b.points ? -1 : 1;
-  //     });
-  //     setData(randomData);
-  //   }
-  // }, []);
-
 
   const totalPages = Math.ceil(data.length / pageSize);
 
