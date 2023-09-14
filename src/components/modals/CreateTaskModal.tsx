@@ -28,7 +28,7 @@ const initTask: taskCardInfo = {
   societyImage: "",
   taskAvailability: false,
   promotion: null,
-  completed: false
+  completed: false,
 };
 
 const CreateTaskModal: React.FC<Props> = ({
@@ -46,6 +46,7 @@ const CreateTaskModal: React.FC<Props> = ({
       console.log(taskData.taskName);
       console.log(taskData.societyId);
       console.log("Success");
+      // api call here
       closeModal;
     }
     setError(true);
