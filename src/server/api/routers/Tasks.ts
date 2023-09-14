@@ -6,9 +6,7 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  // protectedProcedure,
   publicProcedure,
-  // adminProcedure,
 } from "~/server/api/trpc";
 
 
@@ -115,5 +113,22 @@ export const tasksRouter = createTRPCRouter({
       
       return tasks;
     }),
+
+    getLeaderBoard: publicProcedure
+    .query(async ({ctx}) => {
+      const users = ctx.prisma.user.findMany({
+        orderBy: [{
+          totalPoints: 'desc'
+        }],
+        select: {id: true, name: true, image: true, totalPoints: true}
+        
+      });
+
+      return users;
+
+    }),
+
+
+
 
 });
