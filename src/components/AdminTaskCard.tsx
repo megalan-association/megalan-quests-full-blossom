@@ -49,7 +49,7 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
               )}
               <div>
                 <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
-                  {data.taskName.repeat(2)}
+                  {data.taskName}
                 </h1>
                 <h2 className="font-heading text-xs font-medium text-pink md:text-base">
                   {data.societyName}
