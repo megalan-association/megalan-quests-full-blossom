@@ -83,8 +83,9 @@ const Landing: NextPage = () => {
             ))}
             <button className="my-8 block w-full rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]">
               <div
-                onClick={
-                  sessionData ? () => void signOut() : () => void signIn()
+                onClick={() => {
+                  sessionData ? signOut() :  signIn()
+                }
                 }
                 className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-[#EA5873]"
               >
