@@ -1,6 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, type SyntheticEvent } from "react";
-import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
+import {
+  TaskDifficultyOptions,
+  // TaskPointsOptions
+} from "~/utils/constants";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
@@ -25,9 +28,9 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
     if (field === "title") {
       tempData.taskName = value as string;
     }
-    if (field === "points") {
-      tempData.taskPoints = value as number;
-    }
+    // if (field === "points") {
+    //   tempData.taskPoints = value as number;
+    // }
     if (field === "description") {
       tempData.taskDescription = value as string;
       console.log(tempData.taskDescription);
@@ -96,7 +99,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         }
                       />
                     </div>
-                    <div>
+                    {/* <div>
                       <label
                         htmlFor="points"
                         className="font-heading text-base font-medium text-brown"
@@ -109,7 +112,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                         options={TaskPointsOptions}
                         selectedOption={taskData.taskPoints}
                       />
-                    </div>
+                    </div> */}
                     <div>
                       <label
                         htmlFor="description"
