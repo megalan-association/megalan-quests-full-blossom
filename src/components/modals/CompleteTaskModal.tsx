@@ -1,6 +1,6 @@
-import { Dialog, Transition } from "@headlessui/react"
-import { Fragment } from "react"
-import { useQRCode } from 'next-qrcode';
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { useQRCode } from "next-qrcode";
 
 interface Props {
   isOpen: boolean;
@@ -9,9 +9,13 @@ interface Props {
   closeModal: () => void;
 }
 
-const CompleteTaskModal: React.FC<Props> = ({ isOpen, taskId, closeModal, userId }) => {
+const CompleteTaskModal: React.FC<Props> = ({
+  isOpen,
+  taskId,
+  closeModal,
+  userId,
+}) => {
   const { Canvas } = useQRCode();
-
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -39,28 +43,23 @@ const CompleteTaskModal: React.FC<Props> = ({ isOpen, taskId, closeModal, userId
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full h-[60dvh] max-w-md transform overflow-hidden rounded-2xl bg-light-pink p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="h-fit w-full max-w-md transform overflow-hidden rounded-2xl bg-light-pink p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg w-full text-center font-medium leading-6 text-gray-900"
+                  className="w-full text-center font-heading text-xl font-medium leading-6 text-pink"
                 >
                   Present to Society Admin
                 </Dialog.Title>
-                <div className="mt-2 w-full p-2 flex flex-row justify-center">
-                  {/* <p className="text-sm text-gray-500">
-                        TaskId: {taskId}
-                      </p> */}
+                <div className="mt-2 flex w-full flex-row justify-center p-2">
                   <Canvas
                     text={userId + "|" + taskId}
-                    
                     options={{
-                      errorCorrectionLevel: 'M',
+                      errorCorrectionLevel: "M",
                       margin: 3,
                       scale: 7.5,
-                      // width: 200,
                       color: {
-                        dark: '#000000',
-                        light: '#ffffff',
+                        dark: "#000000",
+                        light: "#ffffff",
                       },
                     }}
                   />
@@ -69,7 +68,7 @@ const CompleteTaskModal: React.FC<Props> = ({ isOpen, taskId, closeModal, userId
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-light-green px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-light-green px-4 py-2 font-heading text-sm font-medium text-brown focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     onClick={closeModal}
                   >
                     Close
@@ -81,6 +80,6 @@ const CompleteTaskModal: React.FC<Props> = ({ isOpen, taskId, closeModal, userId
         </div>
       </Dialog>
     </Transition>
-  )
-}
+  );
+};
 export default CompleteTaskModal;

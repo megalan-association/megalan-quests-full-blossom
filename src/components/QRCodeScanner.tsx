@@ -5,8 +5,6 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { api } from "~/utils/api";
 
 const QRCodeScanner = ({ setScanned }: { setScanned: CallableFunction }) => {
-  //   const [scannedCodes, setScannedCodes] = useState("");
-
   const completeTaskMutation = api.admin.completeTask.useMutation();
   function onScanSuccess(decodedText: string, decodedResult: any) {
     // handle the scanned code as you like, for example:
@@ -48,12 +46,10 @@ const QRCodeScanner = ({ setScanned }: { setScanned: CallableFunction }) => {
   }, []);
 
   return (
-    <div id="container">
-      <div
-        id="reader"
-        className="h-full w-full overflow-hidden rounded-2xl border-none bg-gradient-to-br from-pink/10 to-pink/40 p-4 font-heading text-xl font-medium text-pink"
-      ></div>
-    </div>
+    <div
+      id="reader"
+      className="h-full w-full overflow-hidden rounded-2xl border-none bg-gradient-to-br from-pink/10 to-pink/40 p-4 font-heading text-xl font-medium text-pink"
+    />
   );
 };
 
