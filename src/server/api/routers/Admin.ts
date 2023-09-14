@@ -147,7 +147,7 @@ export const adminRouter = createTRPCRouter({
       console.log(name);
 
       // return the winner 
-      return {user: name};
+      return {id: name.id, image: name.image, name: name.name};
 
   }),
 
