@@ -8,7 +8,7 @@ import {
   protectedProcedure,
   adminProcedure,
 } from "~/server/api/trpc";
-
+import { fisherYatesShuffle } from "~/utils/raffle";
 
 
 
@@ -112,4 +112,46 @@ export const adminRouter = createTRPCRouter({
       data: {type: UserType.ADMIN, totalPoints: 0, societies: {connect: {id: soc.id}}}
     });
   }),
+
+
+  getRaffleWinner: adminProcedure
+  .query(async ({ctx}) => {
+    const completedTasks = await ctx.prisma.completedTask.findMany({
+      where: {
+        task: {
+          type: "SOCIETY",
+        },
+        user: {
+          type: "PARTICIPANT"
+        }
+      },
+      include: {
+        task: {
+          select: {
+            points: true,
+          },},},
+    });
+
+    const raffle: string[] = [];
+      completedTasks.forEach((cTask) => {
+        raffle.push(cTask.userID);
+        if (cTask.task.points == 200) raffle.push(cTask.userID);
+      });
+      const winnerList = fisherYatesShuffle(raffle);
+      console.log(winnerList);
+
+      if (winnerList.length === 0) return {user: null}
+
+      // get  the winners name
+      const name = await ctx.prisma.user.findFirstOrThrow({ where: {id: winnerList[0]}});
+      console.log(name);
+
+      // return the winner 
+      return {user: name};
+
+  }),
+
+
+
+  
 });
