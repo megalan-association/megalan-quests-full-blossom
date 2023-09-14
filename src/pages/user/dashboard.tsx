@@ -6,6 +6,8 @@ import { api } from "~/utils/api";
 const Dashboard = () => {
   // get the rooms from the db
   const rooms = api.tasks.getRooms.useQuery();
+  const rank = api.user.getRank.useQuery();
+  const progress = api.user.getProgress.useQuery();
   let roomsData = rooms.data;
   if (!roomsData?.length) {
     roomsData = [{ name: "no data" }];
@@ -22,20 +24,23 @@ const Dashboard = () => {
             Rank
           </h1>
           <p className="font-heading text-5xl font-semibold text-pink md:text-7xl">
-            #10
+            #{rank.data}
           </p>
         </div>
+          {progress && progress.data?.userPoints && progress.data.allPoints ? 
         <div className="space-y-4 md:space-y-8">
           <div className="flex flex-row items-end justify-between">
             <h1 className="font-heading text-2xl font-semibold text-brown md:text-5xl ">
               Progress
             </h1>
             <p className="font-heading text-2xl font-semibold text-green md:text-5xl">
-              {Math.round((1200 / 10000) * 100)}%
+              {Math.round(((progress.data.userPoints ) / progress.data.allPoints) * 100)}%
             </p>
           </div>
-          <ProgressBar points={1200} totalPoints={10000} />
+          <ProgressBar points={progress.data.userPoints} totalPoints={progress.data.allPoints} />  
         </div>
+        : <>Progress: Loading</> }
+        
       </section>
       <section
         id="rooms-selector"

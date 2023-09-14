@@ -8,7 +8,9 @@ import {
   protectedProcedure,
   adminProcedure,
 } from "~/server/api/trpc";
+import { fisherYatesShuffle } from "~/utils/raffle";
 import { type SocietyAdminData } from "~/utils/types";
+
 
 export const adminRouter = createTRPCRouter({
   getAdminTasks: adminProcedure.query(async ({ ctx }) => {
@@ -162,6 +164,43 @@ export const adminRouter = createTRPCRouter({
     return response;
   }),
 
+  getRaffleWinner: adminProcedure
+  .query(async ({ctx}) => {
+    const completedTasks = await ctx.prisma.completedTask.findMany({
+      where: {
+        task: {
+          type: "SOCIETY",
+        },
+        user: {
+          type: "PARTICIPANT"
+        }
+      },
+      include: {
+        task: {
+          select: {
+            points: true,
+          },},},
+    });
+
+    const raffle: string[] = [];
+      completedTasks.forEach((cTask) => {
+        raffle.push(cTask.userID);
+        if (cTask.task.points == 200) raffle.push(cTask.userID);
+      });
+      const winnerList = fisherYatesShuffle(raffle);
+      console.log(winnerList);
+
+      if (winnerList.length === 0) return {user: null}
+
+      // get  the winners name
+      const name = await ctx.prisma.user.findFirstOrThrow({ where: {id: winnerList[0]}});
+      console.log(name);
+
+      // return the winner 
+      return {id: name.id, image: name.image, name: name.name};
+
+  }),
+  
   removeAdmin: protectedProcedure
     .input(z.object({ adminId: z.string(), societyId: z.string() }))
     .mutation(async ({ input, ctx }) => {
