@@ -1,16 +1,30 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import LoadingPage from "~/components/pages/LoadingPage";
+import NotLoggedIn from "~/components/pages/NotLoggedIn";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
-import { placeholderAdminsData } from "~/utils/dummydata";
+import { api } from "~/utils/api";
 
 const ManageAdmins = () => {
+  const { data: sessionData } = useSession();
+
+  const { data: adminData } = api.admin.getAllAdmins.useQuery({
+    userId: sessionData?.user.id ?? "",
+  });
+
   const handleAdminRemove = (adminId: string, societyId: string) => {
     // api call here
     console.log(adminId);
     console.log(societyId);
   };
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+
+  if (!adminData) return <LoadingPage />;
+
   return (
     <UserPageLayout
       headingText="Manage Admins"
@@ -18,7 +32,7 @@ const ManageAdmins = () => {
       backText="Back to Admin Dashboard"
     >
       <section className="h-full w-full space-y-4">
-        {placeholderAdminsData.map((society, index) => (
+        {adminData.map((society, index) => (
           <Disclosure as="div" key={index}>
             {({ open }) => (
               <>
