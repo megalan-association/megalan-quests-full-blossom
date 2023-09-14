@@ -1,16 +1,42 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import LoadingPage from "~/components/pages/LoadingPage";
+import NotLoggedIn from "~/components/pages/NotLoggedIn";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
-import { placeholderAdminsData } from "~/utils/dummydata";
+import { api } from "~/utils/api";
+import { type SocietyAdminData } from "~/utils/types";
 
 const ManageAdmins = () => {
+  const { data: sessionData } = useSession();
+  const [adminData, setAdminData] = useState<SocietyAdminData[]>([]);
+  const admin = api.admin.getAllAdmins.useQuery();
+  const removeAdminMutation = api.admin.removeAdmin.useMutation();
+
   const handleAdminRemove = (adminId: string, societyId: string) => {
-    // api call here
-    console.log(adminId);
-    console.log(societyId);
+    removeAdminMutation
+      .mutateAsync({
+        adminId,
+        societyId,
+      })
+      .then(() => {
+        admin.refetch();
+      });
   };
+
+  useEffect(() => {
+    if (admin.data && admin.data.length > 0) {
+      setAdminData(admin.data);
+    }
+  }, [admin.data, admin.refetch]);
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+
+  if (!admin.data) return <LoadingPage />;
+
   return (
     <UserPageLayout
       headingText="Manage Admins"
@@ -18,7 +44,7 @@ const ManageAdmins = () => {
       backText="Back to Admin Dashboard"
     >
       <section className="h-full w-full space-y-4">
-        {placeholderAdminsData.map((society, index) => (
+        {adminData.map((society, index) => (
           <Disclosure as="div" key={index}>
             {({ open }) => (
               <>
@@ -53,14 +79,16 @@ const ManageAdmins = () => {
                         <p className="p-4 font-heading font-medium">
                           {admin.name}
                         </p>
-                        <button
-                          onClick={() =>
-                            handleAdminRemove(society.societyId, admin.id)
-                          }
-                          className="p-4"
-                        >
-                          <TrashIcon className="h-6 w-6" />
-                        </button>
+                        {admin.id !== sessionData.user.id && (
+                          <button
+                            onClick={() =>
+                              handleAdminRemove(admin.id, society.societyId)
+                            }
+                            className="p-4"
+                          >
+                            <TrashIcon className="h-6 w-6" />
+                          </button>
+                        )}
                       </div>
                     </motion.div>
                   ))}
