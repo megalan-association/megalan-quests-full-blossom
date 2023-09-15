@@ -33,14 +33,13 @@ enum TaskDifficulty {
 }
 
 model Society {
-    id     String  @id @default(cuid())
+    id     String @id @default(cuid())
     admins User[]
     name   String
     image  String
-    secret String  @unique @default("secret")
+    secret String @unique @default("secret")
     tasks  Task[]
-    Room   Room?   @relation(fields: [roomId], references: [id])
-    roomId String?
+    Room   Room[]
 }
 
 // Necessary for Next auth
