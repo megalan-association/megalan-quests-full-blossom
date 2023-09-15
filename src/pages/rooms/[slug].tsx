@@ -6,7 +6,8 @@ import { useState } from "react";
 import TaskCard from "~/components/TaskCard";
 import ListInput from "~/components/input/ListInput";
 import LoadingPage from "~/components/pages/LoadingPage";
-import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import NotLoggedIn from "~/components/pages/NotLoggedInPage";
+import NotParticipantPage from "~/components/pages/NotParticipantPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
@@ -29,7 +30,6 @@ const Room = () => {
     }
   }
 
-
   const doFilter = (rawData: taskCardInfo[]) => {
     const intermediate: taskCardInfo[] = []
     const result: taskCardInfo[] = []
@@ -51,6 +51,8 @@ const Room = () => {
   }
 
   if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+  
+  if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 
   return (requestData.isSuccess ? (
     <UserPageLayout headingText="Quests">

@@ -1,11 +1,15 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import QRCodeScanner from "~/components/QRCodeScanner";
+import NotAdminPage from "~/components/pages/NotAdminPage";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 
 const CompleteTask = () => {
   const [scanned, setScanned] = useState(false);
+  const { data: sessionData } = useSession();
 
   useEffect(() => {
     if (scanned === true) {
@@ -16,6 +20,10 @@ const CompleteTask = () => {
 
     return () => {};
   }, [scanned]);
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
   return (
     <UserPageLayout

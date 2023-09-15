@@ -47,28 +47,30 @@ const Landing: NextPage = () => {
             </div>
           </div>
           <div className="relative z-40 m-auto w-[320px] bg-gradient-to-b from-transparent via-[#FFE6EB] via-20% to-[#FFE6EB] p-8">
-            {sessionData &&
-            sessionData.user &&
-            sessionData.user.type === "ADMIN" ? (
-              <Link
-                href={"/admin/dashboard"}
-                key={"dashboard"}
-                className="my-8 block rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]"
-              >
-                <div className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-pink">
-                  Admin Dashboard
-                </div>
-              </Link>
-            ) : (
-              <Link
-                href={"/user/dashboard"}
-                key={"dashboard"}
-                className="my-8 block rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]"
-              >
-                <div className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-pink">
-                  Dashboard
-                </div>
-              </Link>
+            {sessionData && sessionData.user && (
+              <>
+                {sessionData.user.type === "ADMIN" ? (
+                  <Link
+                    href={"/admin/dashboard"}
+                    key={"dashboard"}
+                    className="my-8 block rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]"
+                  >
+                    <div className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-pink">
+                      Admin Dashboard
+                    </div>
+                  </Link>
+                ) : (
+                  <Link
+                    href={"/user/dashboard"}
+                    key={"dashboard"}
+                    className="my-8 block rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]"
+                  >
+                    <div className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-pink">
+                      Dashboard
+                    </div>
+                  </Link>
+                )}
+              </>
             )}
             {links.map((link) => (
               <Link
@@ -84,9 +86,8 @@ const Landing: NextPage = () => {
             <button className="my-8 block w-full rounded-md bg-gradient-to-b from-[#FDB5C4] to-[#C58895] p-[2px]">
               <div
                 onClick={() => {
-                  sessionData ? signOut() :  signIn()
-                }
-                }
+                  sessionData ? signOut() : signIn();
+                }}
                 className="rounded-md bg-[#FED7DF] p-2 text-center font-heading text-xl font-bold text-[#EA5873]"
               >
                 {sessionData ? "Sign out" : "Sign in"}

@@ -1,8 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import BackgroundImageLayout from "~/layouts/BackgroundImageLayout";
+import { useSession } from "next-auth/react";
+import NotAdminPage from "~/components/pages/NotAdminPage";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 
 const Dashboard = () => {
+  const { data: sessionData } = useSession();
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
   return (
     <BackgroundImageLayout
       headerText="Admin Dashboard"

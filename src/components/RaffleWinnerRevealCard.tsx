@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useConfetti } from "use-confetti-svg";
+import { useSession } from "next-auth/react";
+import NotLoggedInPage from "./pages/NotLoggedInPage";
+import NotAdminPage from "./pages/NotAdminPage";
 
 interface Props {
   winner: {
@@ -12,6 +15,7 @@ interface Props {
 }
 
 const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
+  const { data: sessionData } = useSession();
   const [loading, setLoading] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -46,11 +50,16 @@ const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
   });
 
   const handleRunAnimation = () => {
+    console.log(animating);
     setAnimating(true);
     runAnimation().then(() => {
       setAnimating(false);
     });
   };
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
   return (
     <div className="block h-96 w-full max-w-xl rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">

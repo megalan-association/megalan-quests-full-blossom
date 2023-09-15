@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import { useRouter } from "next/router";
 
 const Setup = () => {
@@ -19,7 +19,7 @@ const Setup = () => {
   const [error, setError] = useState(false);
   const changeNameMutation = api.user.changeName.useMutation();
 
-  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -52,8 +52,7 @@ const Setup = () => {
       });
   };
 
-  // if current name is already taken then directly ask for new name and disable the first radio button option
-
+  
   return (
     <UserPageLayout headingText="Setup">
       <section className="h-full w-full space-y-8">
