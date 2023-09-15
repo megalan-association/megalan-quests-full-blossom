@@ -2,12 +2,13 @@ import { PencilIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import ProfileCard from "~/components/ProfileCard";
-import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
+import NotParticipantPage from "~/components/pages/NotParticipantPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { api } from "~/utils/api";
 
 const Settings = () => {
-  const { data: session } = useSession();
+  const { data: sessionData } = useSession();
   const [adminToken, setAdminToken] = useState("");
   const [newName, setNewName] = useState("");
   const [nameError, setNameError] = useState(false);
@@ -17,7 +18,9 @@ const Settings = () => {
   const updateNameMutation = api.user.changeName.useMutation();
   const becomeAdminMutation = api.admin.becomeAdmin.useMutation();
 
-  if (!(session && session.user)) return <NotLoggedIn />;
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+  
+  if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 
   const handleNameChangeSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ const Settings = () => {
 
     updateNameMutation
       .mutateAsync({
-        userId: session.user.id,
+        userId: sessionData.user.id,
         newName,
       })
       .then(() => {
@@ -62,22 +65,22 @@ const Settings = () => {
       return;
     }
     // api call here
-    becomeAdminMutation.mutateAsync({
-      secret
-    }).then(() => {
-      setTokenError(false);
-      setTokenSuccess(true);
-      setTimeout(() => {
+    becomeAdminMutation
+      .mutateAsync({
+        secret,
+      })
+      .then(() => {
+        setTokenError(false);
+        setTokenSuccess(true);
+        setTimeout(() => {
+          setTokenSuccess(false);
+        }, 2500);
+      })
+      .catch(() => {
+        setAdminToken("");
         setTokenSuccess(false);
-      }, 2500);
-
-    }).catch(() => {
-      setAdminToken("");
-      setTokenSuccess(false);
-      setTokenError(true);
-    });
-
-
+        setTokenError(true);
+      });
   };
 
   return (
@@ -112,10 +115,11 @@ const Settings = () => {
                   id="username"
                   type="text"
                   value={newName}
-                  className={`w-full rounded-xl p-4 ${nameError
+                  className={`w-full rounded-xl p-4 ${
+                    nameError
                       ? "border-4 border-red-500"
                       : "border-4 border-green"
-                    } `}
+                  } `}
                   placeholder="username"
                   onChange={(e) => setNewName(e.currentTarget.value)}
                 />
@@ -170,10 +174,11 @@ const Settings = () => {
                   id="adminToken"
                   type="text"
                   value={adminToken}
-                  className={`w-full rounded-xl p-4 ${tokenError
+                  className={`w-full rounded-xl p-4 ${
+                    tokenError
                       ? "border-4 border-red-500"
                       : "border-4 border-green"
-                    } `}
+                  } `}
                   placeholder="Society Token"
                   onChange={(e) => setAdminToken(e.currentTarget.value)}
                 />

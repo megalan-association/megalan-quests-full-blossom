@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import LoadingPage from "~/components/pages/LoadingPage";
-import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import NotAdminPage from "~/components/pages/NotAdminPage";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
 import { api } from "~/utils/api";
@@ -33,7 +34,9 @@ const ManageAdmins = () => {
     }
   }, [admin.data, admin.refetch]);
 
-  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
   if (!admin.data) return <LoadingPage />;
 

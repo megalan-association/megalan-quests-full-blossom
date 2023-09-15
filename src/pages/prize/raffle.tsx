@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import RaffleWinnerRevealCard from "~/components/RaffleWinnerRevealCard";
-import NotLoggedIn from "~/components/pages/NotLoggedIn";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import Layout from "~/layouts/Layout";
 
 const Raffle = () => {
   const { data: sessionData } = useSession();
   // api call here to get winner
-  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
   return (
     <Layout>
       <div className="relative flex h-full min-h-screen w-full flex-col">

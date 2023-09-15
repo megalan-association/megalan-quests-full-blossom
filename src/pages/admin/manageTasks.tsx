@@ -7,9 +7,18 @@ import { placeholderAdminTasksData } from "~/utils/dummydata";
 import { springTransition } from "~/utils/animations";
 import CreateTaskModal from "~/components/modals/CreateTaskModal";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import NotAdminPage from "~/components/pages/NotAdminPage";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 
 const ManageTasks = () => {
   const [openModal, setOpenModal] = useState(false);
+  const { data: sessionData } = useSession();
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
+
   return (
     <>
       <CreateTaskModal

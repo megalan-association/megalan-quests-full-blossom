@@ -1,10 +1,14 @@
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import ProgressBar from "~/components/ProgressBar";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
+import NotParticipantPage from "~/components/pages/NotParticipantPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { api } from "~/utils/api";
 
 const Dashboard = () => {
   // get the rooms from the db
+  const {data: sessionData} = useSession()
   const rooms = api.tasks.getRooms.useQuery();
   const rank = api.user.getRank.useQuery();
   const progress = api.user.getProgress.useQuery();
@@ -12,6 +16,10 @@ const Dashboard = () => {
   if (!roomsData?.length) {
     roomsData = [{ name: "no data" }];
   }
+
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />
+
+  if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 
   return (
     <UserPageLayout headingText="Dashboard">
