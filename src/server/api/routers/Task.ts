@@ -11,20 +11,19 @@ import {
 } from "~/server/api/trpc";
 
 
+
+
 export const taskRouter = createTRPCRouter({
   createTask: adminProcedure
     .input(z.object({               // can just dump taskData state as input in frontend
         id: z.string(), 
-        taskName: z.string(), 
-        societyName: z.string(),
+        taskName: z.string(),        
         societyId: z.string(),
         taskDescription: z.union([z.string(), z.null()]),
-        taskDifficulty: z.enum(TaskDifficultyConst),
+        taskDifficulty: z.nativeEnum(TaskDifficulty),
         taskPoints: z.number(), 
-        societyImage: z.string(), 
-        taskAvailability: z.boolean(),
         promotion: z.union([z.string(), z.null()]),
-        completed: z.boolean() }))
+         }))
         .mutation( async ({ input, ctx }) => {
         try {
             await ctx.prisma.task.create({
@@ -33,11 +32,9 @@ export const taskRouter = createTRPCRouter({
                     points: input.taskPoints,
                     description: input.taskDescription,
                     difficulty: input.taskDifficulty,
-                    isAvailable: input.taskAvailability,
                     promotedBy: input.promotion,
                     society: {
                         connect: {
-                            name: input.societyName,
                             id: input.societyId,
                         },
                     },
