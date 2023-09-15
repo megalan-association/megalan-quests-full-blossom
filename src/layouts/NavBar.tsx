@@ -107,7 +107,7 @@ const NavBar = () => {
                 key={"home"}
                 href="/"
                 as="a"
-                className="flex h-16 w-full flex-row items-start justify-start bg-contain"
+                className="flex h-16 w-1/2 flex-row items-start justify-start bg-contain"
               >
                 <Image
                   alt="logo"
