@@ -36,12 +36,12 @@ const CompleteTask = () => {
           <h3 className="font-heading text-xl font-medium text-brown">
             Scan the Users QrCode
           </h3>
-          <QRCodeScanner setScanned={setScanned} />
           {scanned && (
             <h3 className="font-heading text-xl font-medium text-pink">
               Code Scanned Successfully !
             </h3>
           )}
+          <QRCodeScanner setScanned={setScanned} />
         </div>
       </div>
     </UserPageLayout>
