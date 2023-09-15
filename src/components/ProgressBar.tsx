@@ -5,38 +5,25 @@ interface Props {
 }
 
 const ProgressBar: React.FC<Props> = ({ points, totalPoints }) => {
-  const widthPercentage = (points / totalPoints) * 100;
+  const progressPercentage = (points / totalPoints) * 100;
+
   return (
-    <div className="flex h-10 w-full flex-row rounded-2xl bg-green drop-shadow">
-      <div className="flex w-full flex-row items-center">
-        <div
-          className="relative flex h-10 flex-col items-end justify-center rounded-2xl bg-light-green"
-          style={{ width: `${widthPercentage}%` }}
-        >
-          {widthPercentage > 50 && (
-            <p className="w-full px-4 text-left font-body font-semibold text-green">
-              {points} / {totalPoints}
-            </p>
-          )}
-          <Image
-            src="/flower-petals.png"
-            alt="Header banner"
-            width={250}
-            height={200}
-            className="absolute h-20 w-fit translate-x-8"
-          />
-        </div>
-      </div>
+    <div className="relative h-10 w-full rounded-xl bg-light-green drop-shadow">
       <div
-        className=" flex h-10 flex-col items-center justify-center rounded-2xl bg-green "
-        style={{ width: `${100 - widthPercentage}%` }}
+        className="relative h-full rounded-xl bg-green"
+        style={{ width: `${progressPercentage}%` }}
       >
-        {widthPercentage < 50 && (
-          <p className="font-body font-semibold text-light-green">
-            {points} / {totalPoints}
-          </p>
-        )}
+        <Image
+          src="/flower-petals.png"
+          alt="Header banner"
+          width={250}
+          height={200}
+          className="float-right h-20 w-fit flex-shrink-0 -translate-y-5 translate-x-8 object-contain"
+        />
       </div>
+      <p className="absolute w-full whitespace-nowrap font-heading text-green">
+        {points} / {totalPoints} xp
+      </p>
     </div>
   );
 };

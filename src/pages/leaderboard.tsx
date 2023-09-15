@@ -1,5 +1,5 @@
 import PaginatedTable from "~/components/PaginatedTable";
-import BackgroundImageLayout from "~/layouts/BackgroudImageLayout";
+import BackgroundImageLayout from "~/layouts/BackgroundImageLayout";
 
 const Leaderboard = () => {
   return (

@@ -1,4 +1,5 @@
 export const roomsList = [
+  "All Tasks",
   "BYOPC",
   "Mini Esports Arena",
   "PC Rhythm",
@@ -7,4 +8,8 @@ export const roomsList = [
   "Keeb (space)",
   "Fight Arena",
   "Dojo",
+  "GDS Lab",
 ];
+
+export const TaskPointsOptions = [100, 200, 300, 400];
+export const TaskDifficultyOptions = ["Hard", "Medium", "Easy"];

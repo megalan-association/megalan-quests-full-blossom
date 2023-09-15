@@ -15,39 +15,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-// Necessary for Next auth
-model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 enum TaskType {
     COSPLAY
     SOCIAL
@@ -59,17 +26,65 @@ enum UserType {
     ADMIN
 }
 
+enum TaskDifficulty {
+    Easy
+    Medium
+    Hard
+}
+
+model Society {
+    id     String  @id @default(cuid())
+    admins User[]
+    name   String
+    image  String
+    secret String  @unique @default("secret")
+    tasks  Task[]
+    Room   Room?   @relation(fields: [roomId], references: [id])
+    roomId String?
+}
+
+// Necessary for Next auth
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Room {
+    id        String    @id @default(cuid())
+    name      String    @unique
+    societies Society[]
+}
+
 model Task {
-    id         String          @id @default(cuid())
-    name       String
-    points     Int             @default(100)
-    type       TaskType        @default(SOCIETY)
-    Society    String
-    societyId  String?
-    users      CompletedTask[]
-    Room       Room?           @relation(fields: [roomId], references: [id])
-    roomId     String?
-    promotedBy String
+    id          String          @id @default(cuid())
+    name        String
+    points      Int             @default(100)
+    description String?
+    difficulty  TaskDifficulty  @default(Easy)
+    type        TaskType        @default(SOCIETY)
+    users       CompletedTask[]
+    isAvailable Boolean
+    promotedBy  String?
+    society     Society?        @relation(fields: [societyId], references: [id])
+    societyId   String?
+}
+
+model User {
+    id             String          @id @default(cuid())
+    name           String?
+    email          String?         @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    totalPoints    Int             @default(0)
+    completedTasks CompletedTask[]
+    type           UserType        @default(PARTICIPANT)
+    societies      Society[]
 }
 
 model CompletedTask {
@@ -83,24 +98,22 @@ model CompletedTask {
     @@id([taskID, userID])
 }
 
-model Room {
-    id        String   @id @default(cuid())
-    name      String   @unique
-    tasks     Task[]
-    societies String[]
-}
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-model User {
-    id             String          @id @default(cuid())
-    name           String?
-    email          String?         @unique
-    emailVerified  DateTime?
-    image          String?
-    accounts       Account[]
-    sessions       Session[]
-    totalPoints    Int             @default(0)
-    completedTasks CompletedTask[]
-    type           UserType @default(PARTICIPANT)
+    @@unique([provider, providerAccountId])
 }
 
 model VerificationToken {

@@ -13,6 +13,7 @@ import TwitchProvider from "next-auth/providers/twitch";
 import GoogleProvider from "next-auth/providers/google";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import { type UserType } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -24,15 +25,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
+      type: UserType;
       // ...other properties
       // role: UserRole;
     };
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    // role: UserRole;
+    type: UserType;
+  }
 }
 
 /**
@@ -42,13 +45,16 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: async ({ session, user }) => {
+      session.user.type = user.type;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -65,7 +71,7 @@ export const authOptions: NextAuthOptions = {
       // clientSecret: env.TWITTER_CLIENT_SECRET,
       clientId: env.TWITTER_CLIENT_ID_TWO,
       clientSecret: env.TWITTER_CLIENT_SECRET_TWO,
-      version: "2.0"
+      version: "2.0",
     }),
     TwitchProvider({
       clientId: env.TWITCH_CLIENT_ID,
@@ -82,7 +88,6 @@ export const authOptions: NextAuthOptions = {
         }
       }
     }),
-
     /**
      * ...add more providers here.
      *
@@ -93,6 +98,12 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  pages: {
+    signIn: "/auth/login",
+    error: "/", // go back home if any error
+    newUser: "/user/setup",
+    signOut: "/",
+  },
 };
 
 /**
