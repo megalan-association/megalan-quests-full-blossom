@@ -15,8 +15,44 @@ const about = () => {
     <Layout>
       <div className="w-11/12 sm:w-10/12 m-auto">
         <h1 className="w-fit bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-3xl font-bold text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-6xl">About Us</h1>
-        <h2 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">Subheading</h2>
-        <p className=" pt-2 font-heading text-pink text-justify">This is a paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque pellentesque libero a urna porttitor, non semper sapien rutrum. Donec gravida, dolor a tempor ultrices, neque mi lacinia neque, vitae mattis ligula dolor non justo. Ut massa odio, fermentum quis interdum vel, iaculis non ipsum. Vestibulum posuere mattis est nec viverra. Donec sodales eu odio eget finibus. Cras placerat et dui at vehicula. Curabitur aliquet, ipsum at malesuada facilisis, dolor ipsum efficitur turpis, non tempus enim ante vitae justo. Aliquam id erat sit amet eros ultricies faucibus. Quisque vitae purus fermentum ligula dictum viverra nec dapibus ipsum. Nulla eu lectus pretium, molestie velit a, dignissim ligula. Sed eget est tincidunt justo placerat dapibus. Vivamus enim orci, viverra vitae nunc quis, vestibulum gravida felis. Donec vel vestibulum elit. Suspendisse enim nibh, cursus nec viverra in, malesuada ut turpis. Mauris vel tellus et magna vehicula ultrices. Maecenas consectetur augue at massa vehicula finibus.</p>
+        <h2 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-2xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">How To Use</h2>
+        <h3 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">
+          1. Sign In 
+        </h3>
+        <p className=" pt-2 font-heading text-pink text-justify">
+          Sign in using the available third-party authentication apps.
+        </p>
+        <h3 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">
+          2. Attempt a Task
+        </h3>
+        <p className=" pt-2 font-heading text-pink text-justify">
+          After you login, you will be presented with a list of rooms. 
+          Each room contains a list of tasks. 
+        </p>
+         <h3 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">
+          2. Complete the Task
+        </h3>
+        <p className=" pt-2 font-heading text-pink text-justify">
+          Once you have completed the task, click on the &quot;complete Task&quot; button.
+          <br />
+          Show the presented qrcode to one of the admins.
+          <br />
+          Once they have scanned the code you will be rewarded the points for completing that task.
+        </p>
+        <h3 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">
+          3. Check the Leaderboard
+        </h3>
+        <p className=" pt-2 font-heading text-pink text-justify">
+          The more points you get the higher your chance of winning prizes in the raffle.
+        </p>
+
+        <h2 className="w-fit pt-8 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-2xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">Stats for Nerds</h2>
+        <p className="pt-2 font-heading text-pink text-justify">
+          This was built using the   
+          <a href="https://create.t3.gg" className="underline text-green"> T3 Stack.</a> 
+          <br />
+          The web-app is hosted on vercel free tier hosting platform and the db on Supabase. (This may make it slightly slow at times).
+        </p>
 
         <h2 className="w-fit pt-8 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">MegaLAN: Full Blossom Quests Website Development Team</h2>
         <div className="w-fit pt-2 m-auto sm:grid sm:grid-cols-2 lg:grid-cols-3">
