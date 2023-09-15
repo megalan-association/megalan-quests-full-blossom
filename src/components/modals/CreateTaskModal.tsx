@@ -53,7 +53,7 @@ const CreateTaskModal: React.FC<Props> = ({
         taskPoints: taskData.taskPoints,
       })
       .then(() => {
-        closeModal;
+        closeModal();
       })
       .catch(() => {
         setError(true);
@@ -158,10 +158,9 @@ const CreateTaskModal: React.FC<Props> = ({
                         defaultValue={taskData.taskName}
                         placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onChange={(e) => {
-                          console.log(e.currentTarget.value);
-                          updateForm("title", e.currentTarget.value);
-                        }}
+                        onChange={(e) =>
+                          updateForm("title", e.currentTarget.value)
+                        }
                       />
                     </div>
                     {error && !taskData.taskName && (
@@ -235,9 +234,7 @@ const CreateTaskModal: React.FC<Props> = ({
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border-2 border-green/20 bg-light-green/40 px-4 py-2 text-base font-medium text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={() => {
-                          submitForm;
-                        }}
+                        onClick={submitForm}
                       >
                         Submit
                       </button>
