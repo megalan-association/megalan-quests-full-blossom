@@ -141,6 +141,7 @@ export const tasksRouter = createTRPCRouter({
         orderBy: [{
           totalPoints: 'desc'
         }],
+        where : {type: "PARTICIPANT"},
         select: {id: true, name: true, image: true, totalPoints: true}
       });
       return users;
