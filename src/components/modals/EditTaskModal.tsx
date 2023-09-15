@@ -1,9 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, type SyntheticEvent } from "react";
-import {
-  TaskDifficultyOptions,
-  // TaskPointsOptions
-} from "~/utils/constants";
+import { TaskDifficultyOptions } from "~/utils/constants";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
@@ -13,7 +10,7 @@ import { api } from "~/utils/api";
 interface Props {
   isOpen: boolean;
   data: taskCardInfo;
-  closeModal: () => void;
+  closeModal: (res: taskCardInfo) => void;
 }
 
 const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
@@ -34,7 +31,7 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
       })
       .then(() => {
         console.log("Submitted");
-        closeModal;
+        closeModal(taskData);
       })
       .catch(() => {
         console.error("Failed to submit");
@@ -61,7 +58,11 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => closeModal(data)}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -166,14 +167,14 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border-2 border-red-500/20 bg-red-200/40 px-4 py-2 text-base font-medium text-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={closeModal}
+                        onClick={() => closeModal(data)}
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border-2 border-green/20 bg-light-green/40 px-4 py-2 text-base font-medium text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={closeModal}
+                        onClick={() => closeModal(taskData)}
                       >
                         Submit
                       </button>
