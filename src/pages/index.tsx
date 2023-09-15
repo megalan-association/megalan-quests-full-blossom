@@ -11,7 +11,7 @@ const Landing: NextPage = () => {
     },
     {
       href: "about-us",
-      name: "About Us",
+      name: "About",
     },
   ];
   const { data: sessionData } = useSession();

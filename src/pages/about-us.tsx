@@ -14,7 +14,7 @@ const about = () => {
   return (<>
     <Layout>
       <div className="w-11/12 sm:w-10/12 m-auto">
-        <h1 className="w-fit bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-3xl font-bold text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-6xl">About Us</h1>
+        <h1 className="w-fit bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-3xl font-bold text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-6xl">About</h1>
         <h2 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-2xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">How To Use</h2>
         <h3 className="w-fit pt-4 sm:pt-8 pb-2 bg-gradient-to-b from-[#915D3A] to-[#613E26] to-75% bg-clip-text font-heading text-xl text-transparent drop-shadow-[0px_4px_20px_#FFA2B4] sm:text-4xl">
           1. Sign In 
