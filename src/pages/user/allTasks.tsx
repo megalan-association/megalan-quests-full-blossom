@@ -51,7 +51,14 @@ const Room = () => {
   if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 
   return requestData.isSuccess ? (
-    <UserPageLayout headingText="Quests">
+    <UserPageLayout
+      headingText="Quests"
+      backHref="/user/dashboard"
+      backText="Back to Dashboard"
+    >
+      <h1 className="py-4 font-heading text-2xl font-semibold text-brown md:text-5xl">
+        All Tasks
+      </h1>
       <div className="m-auto w-full font-heading font-bold sm:w-4/5 md:w-[640px]">
         <p className="text-[#F38DB4]">Filter By:</p>
         <div className="grid grid-cols-2 space-x-2">
@@ -78,19 +85,79 @@ const Room = () => {
           />
         </div>
       </div>
+      <div className="grid h-full w-full grid-cols-1 gap-8 py-4 md:grid-cols-3">
+        {doFilter(requestData.data || []).map((task, index) => (
+          <>
+            {task.taskAvailability && !task.completed && (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  ...springTransition,
+                  delay: index / 10,
+                }}
+              >
+                <TaskCard
+                  key={index}
+                  data={task}
+                  userId={sessionData.user.id}
+                />
+              </motion.div>
+            )}
+          </>
+        ))}
+      </div>
+      <h1 className="font-heading text-2xl font-semibold text-brown md:text-5xl ">
+        Unavailable Tasks
+      </h1>
       <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
         {doFilter(requestData.data || []).map((task, index) => (
-          <motion.div
-            key={index}
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              ...springTransition,
-              delay: index / 10,
-            }}
-          >
-            <TaskCard key={index} data={task} userId={sessionData.user.id} />
-          </motion.div>
+          <>
+            {!task.taskAvailability && (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  ...springTransition,
+                  delay: index / 10,
+                }}
+              >
+                <TaskCard
+                  key={index}
+                  data={task}
+                  userId={sessionData.user.id}
+                />
+              </motion.div>
+            )}
+          </>
+        ))}
+      </div>
+      <h1 className="font-heading text-2xl font-semibold text-brown md:text-5xl ">
+        Completed Tasks
+      </h1>
+      <div className="grid h-full w-full grid-cols-1 gap-8 py-8 md:grid-cols-3">
+        {doFilter(requestData.data || []).map((task, index) => (
+          <>
+            {task.completed && (
+              <motion.div
+                key={index}
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  ...springTransition,
+                  delay: index / 10,
+                }}
+              >
+                <TaskCard
+                  key={index}
+                  data={task}
+                  userId={sessionData.user.id}
+                />
+              </motion.div>
+            )}
+          </>
         ))}
       </div>
     </UserPageLayout>

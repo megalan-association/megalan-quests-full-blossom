@@ -33,8 +33,8 @@ export const tasksRouter = createTRPCRouter({
           promotedBy: true, 
           society: true, 
           isAvailable: true,
+
           users: {where: {userID: ctx.session.user.id}}
-          
         }
       });
 
@@ -73,7 +73,28 @@ export const tasksRouter = createTRPCRouter({
 
       const rt = await ctx.prisma.room.findFirst({
         where: { name: input.roomName },
-        select: { societies: { select: { id: true, name: true, image: true, tasks: { select: { id: true, description: true, users:true,difficulty: true, isAvailable: true, name: true, points: true, type: true, promotedBy: true, } } } } }
+        select: {
+          societies: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+              tasks: {
+                select: {
+                  id: true,
+                  description: true,
+                  users: true,
+                  difficulty: true,
+                  isAvailable: true,
+                  name: true,
+                  points: true,
+                  type: true,
+                  promotedBy: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       if (!rt) {
@@ -121,18 +142,7 @@ export const tasksRouter = createTRPCRouter({
           totalPoints: 'desc'
         }],
         select: {id: true, name: true, image: true, totalPoints: true}
-        
       });
-
       return users;
-
     }),
-
-    
-
-
-
-
-
-
 });
