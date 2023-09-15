@@ -43,20 +43,21 @@ const CreateTaskModal: React.FC<Props> = ({
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (taskData.societyId && taskData.taskName) {
-      createTaskMutation.mutateAsync({
+    if (!(taskData.societyId && taskData.taskName)) return;
+    createTaskMutation
+      .mutateAsync({
         taskName: taskData.taskName,
         societyId: taskData.societyId,
         taskDescription: taskData.taskDescription,
         taskDifficulty: taskData.taskDifficulty,
         taskPoints: taskData.taskPoints,
-      }).then(() => {
-        // console.log(res);
-        closeModal;
-      }).catch(() => {
+      })
+      .then(() => {
+        closeModal();
+      })
+      .catch(() => {
         setError(true);
       });
-    }
   };
 
   const updateForm = (field: string, value: string | number) => {
@@ -76,14 +77,12 @@ const CreateTaskModal: React.FC<Props> = ({
     }
     if (field === "description") {
       tempData.taskDescription = value as string;
-      console.log(tempData.taskDescription);
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
       tempData.taskDifficulty = value as TaskDifficulty;
     }
     setTaskData(tempData);
-    console.log(tempData);
   };
 
   return (
@@ -159,10 +158,9 @@ const CreateTaskModal: React.FC<Props> = ({
                         defaultValue={taskData.taskName}
                         placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onChange={(e) => {
-                          console.log(e.currentTarget.value);
-                          updateForm("title", e.currentTarget.value);
-                        }}
+                        onChange={(e) =>
+                          updateForm("title", e.currentTarget.value)
+                        }
                       />
                     </div>
                     {error && !taskData.taskName && (
