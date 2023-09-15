@@ -26,7 +26,8 @@ const config = {
       "cdn.discordapp.com",
       "a.ppy.sh",
       "pbs.twimg.com",
-      "static-cdn.jtvnw.net"
+      "static-cdn.jtvnw.net",
+      "lh3.googleusercontent.com",
     ],
   },
 };
