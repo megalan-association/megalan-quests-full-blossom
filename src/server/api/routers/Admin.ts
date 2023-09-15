@@ -15,7 +15,7 @@ export const adminRouter = createTRPCRouter({
   getAdminTasks: adminProcedure.query(async ({ ctx }) => {
     const adminTasks = await ctx.prisma.society.findMany({
       where: {
-        admins: { every: { id: ctx.session.user.id } },
+        admins: { some: { id: ctx.session.user.id } },
       },
       select: {
         id: true,
