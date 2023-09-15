@@ -43,20 +43,21 @@ const CreateTaskModal: React.FC<Props> = ({
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (taskData.societyId && taskData.taskName) {
-      createTaskMutation.mutateAsync({
+    if (!(taskData.societyId && taskData.taskName)) return;
+    createTaskMutation
+      .mutateAsync({
         taskName: taskData.taskName,
         societyId: taskData.societyId,
         taskDescription: taskData.taskDescription,
         taskDifficulty: taskData.taskDifficulty,
         taskPoints: taskData.taskPoints,
-      }).then(() => {
-        // console.log(res);
+      })
+      .then(() => {
         closeModal;
-      }).catch(() => {
+      })
+      .catch(() => {
         setError(true);
       });
-    }
   };
 
   const updateForm = (field: string, value: string | number) => {
@@ -76,14 +77,12 @@ const CreateTaskModal: React.FC<Props> = ({
     }
     if (field === "description") {
       tempData.taskDescription = value as string;
-      console.log(tempData.taskDescription);
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
       tempData.taskDifficulty = value as TaskDifficulty;
     }
     setTaskData(tempData);
-    console.log(tempData);
   };
 
   return (
@@ -236,7 +235,9 @@ const CreateTaskModal: React.FC<Props> = ({
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border-2 border-green/20 bg-light-green/40 px-4 py-2 text-base font-medium text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={submitForm}
+                        onClick={() => {
+                          submitForm;
+                        }}
                       >
                         Submit
                       </button>
