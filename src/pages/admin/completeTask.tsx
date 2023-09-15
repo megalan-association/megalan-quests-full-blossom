@@ -42,7 +42,6 @@ const CompleteTask = () => {
             </h3>
           )}
           <QRCodeScanner setScanned={setScanned} />
-         
         </div>
       </div>
     </UserPageLayout>

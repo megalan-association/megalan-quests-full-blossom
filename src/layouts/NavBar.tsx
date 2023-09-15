@@ -26,7 +26,7 @@ const NavBar = () => {
         <Link href={"/"}>
           <Image
             alt="logo"
-            src="/cherry-3.png"
+            src="/megalan-logo.png"
             height={500}
             width={500}
             className="h-16 w-fit object-contain"
@@ -106,7 +106,7 @@ const NavBar = () => {
               <Menu.Item key={"home"} href="/" as="a">
                 <Image
                   alt="logo"
-                  src="/cherry-3.png"
+                  src="/megalan-logo.png"
                   height={500}
                   width={500}
                   className="h-16 w-fit object-contain"
