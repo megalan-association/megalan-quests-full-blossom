@@ -41,8 +41,6 @@ const CreateTaskModal: React.FC<Props> = ({
   const [error, setError] = useState(false);
   const createTaskMutation = api.admin.createTask.useMutation();
 
-  
-
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
     if (taskData.societyId && taskData.taskName) {
@@ -52,15 +50,13 @@ const CreateTaskModal: React.FC<Props> = ({
         taskDescription: taskData.taskDescription,
         taskDifficulty: taskData.taskDifficulty,
         taskPoints: taskData.taskPoints,
-      }).then((res) => {
-        console.log(res);
+      }).then(() => {
+        // console.log(res);
         closeModal;
       }).catch(() => {
         setError(true);
       });
-           
     }
-    setError(true);
   };
 
   const updateForm = (field: string, value: string | number) => {

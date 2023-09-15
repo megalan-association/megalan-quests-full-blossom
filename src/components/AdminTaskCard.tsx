@@ -11,7 +11,8 @@ interface Props {
 }
 
 const AdminTaskCard: React.FC<Props> = ({ data }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [taskData, setTaskData] = useState(data);
+  const [enabled, setEnabled] = useState(data.taskAvailability);
   const [editing, setEditing] = useState(false);
   const toggleMutation = api.admin.toggleTaskAvailability.useMutation();
 
@@ -29,7 +30,10 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
       <EditTaskModal
         data={data}
         isOpen={editing}
-        closeModal={() => setEditing(false)}
+        closeModal={(res) => {
+          setEditing(false);
+          setTaskData(res);
+        }}
       />
       <div
         className={`block h-fit w-full rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2 transition duration-300 ${
@@ -48,10 +52,10 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
               />
             </div>
             <div className="flex w-full flex-row items-center justify-start space-x-4 px-4 py-2">
-              {data.societyImage ? (
+              {taskData.societyImage ? (
                 <Image
                   alt="society logo"
-                  src={data.societyImage}
+                  src={taskData.societyImage}
                   width={150}
                   height={150}
                   className="h-12 w-12 flex-shrink-0 rounded-3xl object-cover"
@@ -61,10 +65,10 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
               )}
               <div>
                 <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
-                  {data.taskName}
+                  {taskData.taskName}
                 </h1>
                 <h2 className="font-heading text-xs font-medium text-pink md:text-base">
-                  {data.societyName}
+                  {taskData.societyName}
                 </h2>
               </div>
             </div>
@@ -72,15 +76,15 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
           <div className="relative h-full space-y-2 bg-[#FDB3C2]">
             <div className="h-full w-full px-4 py-2">
               <p className="font-heading text-base font-medium text-white md:text-xl">
-                {data.taskPoints} Points upon completion !
+                {taskData.taskPoints} Points upon completion !
               </p>
               <p className="font-body text-xs font-medium text-white md:text-base">
-                {data.taskDescription && (
-                  <SeeMore text={data.taskDescription} />
+                {taskData.taskDescription && (
+                  <SeeMore text={taskData.taskDescription} />
                 )}
               </p>
               <p className="w-full pt-2 text-right font-heading text-base font-medium text-pink md:text-xl">
-                Task Difficulty: {data.taskDifficulty}
+                Task Difficulty: {taskData.taskDifficulty}
               </p>
             </div>
           </div>

@@ -1,9 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, type SyntheticEvent } from "react";
-import {
-  TaskDifficultyOptions,
-  // TaskPointsOptions
-} from "~/utils/constants";
+import { TaskDifficultyOptions } from "~/utils/constants";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
@@ -13,7 +10,7 @@ import { api } from "~/utils/api";
 interface Props {
   isOpen: boolean;
   data: taskCardInfo;
-  closeModal: () => void;
+  closeModal: (res: taskCardInfo) => void;
 }
 
 const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
@@ -23,21 +20,22 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    if (taskData.taskName) {
+    if (taskData.taskName === "") return;
 
-      editTaskMutation.mutateAsync({
+    editTaskMutation
+      .mutateAsync({
         id: taskData.id,
         taskName: taskData.taskName,
         taskDescription: taskData.taskDescription,
         taskDifficulty: taskData.taskDifficulty,
-      }).then((res) => {
-        console.log(res);
+      })
+      .then(() => {
         console.log("Submitted");
-        closeModal;
-      }).catch((err) => {
-        console.log(err);
+        closeModal(taskData);
+      })
+      .catch(() => {
+        console.error("Failed to submit");
       });
-    }
   };
 
   const updateForm = (field: string, value: string | number) => {
@@ -50,19 +48,21 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
     // }
     if (field === "description") {
       tempData.taskDescription = value as string;
-      console.log(tempData.taskDescription);
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
       tempData.taskDifficulty = value as TaskDifficulty;
     }
-    setTaskData(tempData);
-    console.log(tempData);
+    setTaskData({ ...tempData });
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => closeModal(data)}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -108,12 +108,10 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <input
                         id="title"
                         type="text"
-                        value={taskData.taskName}
+                        defaultValue={taskData.taskName}
                         placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onSubmit={(e) =>
-                          updateForm("title", e.currentTarget.value)
-                        }
+                        onChange={(e) => updateForm("title", e.target.value)}
                       />
                     </div>
                     {/* <div>
@@ -169,14 +167,14 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border-2 border-red-500/20 bg-red-200/40 px-4 py-2 text-base font-medium text-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={closeModal}
+                        onClick={() => closeModal(data)}
                       >
                         Cancel
                       </button>
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border-2 border-green/20 bg-light-green/40 px-4 py-2 text-base font-medium text-green focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:text-xl"
-                        onClick={closeModal}
+                        onClick={() => closeModal(taskData)}
                       >
                         Submit
                       </button>

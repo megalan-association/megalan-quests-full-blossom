@@ -3,31 +3,39 @@ import { motion } from "framer-motion";
 import { ChevronUpIcon, PlusIcon } from "@heroicons/react/24/solid";
 import AdminTaskCard from "~/components/AdminTaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
-import { placeholderAdminTasksData } from "~/utils/dummydata";
 import { springTransition } from "~/utils/animations";
 import CreateTaskModal from "~/components/modals/CreateTaskModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import NotAdminPage from "~/components/pages/NotAdminPage";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import { api } from "~/utils/api";
 import LoadingPage from "~/components/pages/LoadingPage";
+import { type AdminsTaskData } from "~/utils/types";
 
 const ManageTasks = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [data, setData] = useState<AdminsTaskData>();
+
   const { data: sessionData } = useSession();
   const response = api.admin.getAdminTasks.useQuery();
+
+  useEffect(() => {
+    if (!response.isLoading && response.data) {
+      setData(response.data);
+    }
+  }, [response.data, response.isLoading, response.refetch]);
 
   if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
 
   if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
-  if (response.isLoading) return <LoadingPage />;
+  if (!data) return <LoadingPage />;
 
   return (
     <>
       <CreateTaskModal
-        societies={placeholderAdminTasksData.map((society) => {
+        societies={data.map((society) => {
           return { id: society.societyId, name: society.societyName };
         })}
         isOpen={openModal}
@@ -46,7 +54,7 @@ const ManageTasks = () => {
             <p className="font-heading font-medium">Create Task</p>
             <PlusIcon className="h-6 w-6" />
           </button>
-          {response.data?.map((society) => (
+          {data.map((society) => (
             <Disclosure key={society.societyId}>
               {({ open }) => (
                 <>
