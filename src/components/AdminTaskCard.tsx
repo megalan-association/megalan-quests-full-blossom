@@ -11,7 +11,7 @@ interface Props {
 }
 
 const AdminTaskCard: React.FC<Props> = ({ data }) => {
-  const [enabled, setEnabled] = useState(false);
+  const [enabled, setEnabled] = useState(data.taskAvailability);
   const [editing, setEditing] = useState(false);
   const toggleMutation = api.admin.toggleTaskAvailability.useMutation();
 

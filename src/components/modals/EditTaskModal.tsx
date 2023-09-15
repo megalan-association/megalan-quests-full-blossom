@@ -23,21 +23,22 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    if (taskData.taskName) {
+    if (taskData.taskName === "") return;
 
-      editTaskMutation.mutateAsync({
+    editTaskMutation
+      .mutateAsync({
         id: taskData.id,
         taskName: taskData.taskName,
         taskDescription: taskData.taskDescription,
         taskDifficulty: taskData.taskDifficulty,
-      }).then((res) => {
-        console.log(res);
+      })
+      .then(() => {
         console.log("Submitted");
         closeModal;
-      }).catch((err) => {
-        console.log(err);
+      })
+      .catch(() => {
+        console.error("Failed to submit");
       });
-    }
   };
 
   const updateForm = (field: string, value: string | number) => {
@@ -50,14 +51,12 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
     // }
     if (field === "description") {
       tempData.taskDescription = value as string;
-      console.log(tempData.taskDescription);
     }
     if (field === "difficulty") {
       if (!TaskDifficultyOptions.includes(value as string)) return;
       tempData.taskDifficulty = value as TaskDifficulty;
     }
-    setTaskData(tempData);
-    console.log(tempData);
+    setTaskData({ ...tempData });
   };
 
   return (
@@ -108,12 +107,10 @@ const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
                       <input
                         id="title"
                         type="text"
-                        value={taskData.taskName}
+                        defaultValue={taskData.taskName}
                         placeholder="Title Here"
                         className="h-10 w-full rounded-xl px-4 py-2 text-brown drop-shadow-md"
-                        onSubmit={(e) =>
-                          updateForm("title", e.currentTarget.value)
-                        }
+                        onChange={(e) => updateForm("title", e.target.value)}
                       />
                     </div>
                     {/* <div>

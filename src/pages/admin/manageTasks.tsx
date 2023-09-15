@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { ChevronUpIcon, PlusIcon } from "@heroicons/react/24/solid";
 import AdminTaskCard from "~/components/AdminTaskCard";
 import UserPageLayout from "~/layouts/UserPageLayout";
-import { placeholderAdminTasksData } from "~/utils/dummydata";
 import { springTransition } from "~/utils/animations";
 import CreateTaskModal from "~/components/modals/CreateTaskModal";
 import { useState } from "react";
@@ -22,12 +21,12 @@ const ManageTasks = () => {
 
   if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
-  if (response.isLoading) return <LoadingPage />;
+  if (response && !response.data) return <LoadingPage />;
 
   return (
     <>
       <CreateTaskModal
-        societies={placeholderAdminTasksData.map((society) => {
+        societies={response.data.map((society) => {
           return { id: society.societyId, name: society.societyName };
         })}
         isOpen={openModal}
