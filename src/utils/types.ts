@@ -1,5 +1,11 @@
 import { type TaskDifficulty } from "@prisma/client";
 
+export type AdminsTaskData = {
+  societyId: string;
+  societyName: string;
+  tasks: taskCardInfo[];
+}[];
+
 export interface taskInfo {
   id: string;
   isSponsorTask: boolean;

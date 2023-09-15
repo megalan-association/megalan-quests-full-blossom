@@ -9,31 +9,58 @@ import {
   adminProcedure,
 } from "~/server/api/trpc";
 import { fisherYatesShuffle } from "~/utils/raffle";
-import { type SocietyAdminData } from "~/utils/types";
-
+import { type AdminsTaskData, type SocietyAdminData } from "~/utils/types";
 
 export const adminRouter = createTRPCRouter({
   getAdminTasks: adminProcedure.query(async ({ ctx }) => {
-    const adminTasks = ctx.prisma.society.findMany({
+    const adminTasks = await ctx.prisma.society.findMany({
       where: {
         admins: { every: { id: ctx.session.user.id } },
       },
       select: {
+        id: true,
         name: true,
+        image: true,
         tasks: {
           select: {
             id: true,
             name: true,
+            description: true,
             points: true,
             type: true,
             promotedBy: true,
             isAvailable: true,
+            difficulty: true,
           },
         },
       },
     });
 
-    return adminTasks;
+    const response: AdminsTaskData = [];
+
+    for (const s of adminTasks) {
+      response.push({
+        societyId: s.id,
+        societyName: s.name,
+        tasks: s.tasks.map((t) => {
+          return {
+            id: t.id,
+            completed: false,
+            taskName: t.name,
+            taskPoints: t.points,
+            societyId: s.id,
+            societyImage: s.image,
+            societyName: s.name,
+            taskAvailability: t.isAvailable,
+            taskDescription: t.description,
+            taskDifficulty: t.difficulty,
+            promotion: t.promotedBy,
+          };
+        }),
+      });
+    }
+
+    return response;
   }),
 
   toggleTaskAvailability: adminProcedure
@@ -164,43 +191,45 @@ export const adminRouter = createTRPCRouter({
     return response;
   }),
 
-  getRaffleWinner: adminProcedure
-  .query(async ({ctx}) => {
+  getRaffleWinner: adminProcedure.query(async ({ ctx }) => {
     const completedTasks = await ctx.prisma.completedTask.findMany({
       where: {
         task: {
           type: "SOCIETY",
         },
         user: {
-          type: "PARTICIPANT"
-        }
+          type: "PARTICIPANT",
+        },
       },
       include: {
         task: {
           select: {
             points: true,
-          },},},
+          },
+        },
+      },
     });
 
     const raffle: string[] = [];
-      completedTasks.forEach((cTask) => {
-        raffle.push(cTask.userID);
-        if (cTask.task.points == 200) raffle.push(cTask.userID);
-      });
-      const winnerList = fisherYatesShuffle(raffle);
-      console.log(winnerList);
+    completedTasks.forEach((cTask) => {
+      raffle.push(cTask.userID);
+      if (cTask.task.points == 200) raffle.push(cTask.userID);
+    });
+    const winnerList = fisherYatesShuffle(raffle);
+    console.log(winnerList);
 
-      if (winnerList.length === 0) return {user: null}
+    if (winnerList.length === 0) return { user: null };
 
-      // get  the winners name
-      const name = await ctx.prisma.user.findFirstOrThrow({ where: {id: winnerList[0]}});
-      console.log(name);
+    // get  the winners name
+    const name = await ctx.prisma.user.findFirstOrThrow({
+      where: { id: winnerList[0] },
+    });
+    console.log(name);
 
-      // return the winner 
-      return {id: name.id, image: name.image, name: name.name};
-
+    // return the winner
+    return { id: name.id, image: name.image, name: name.name };
   }),
-  
+
   removeAdmin: protectedProcedure
     .input(z.object({ adminId: z.string(), societyId: z.string() }))
     .mutation(async ({ input, ctx }) => {

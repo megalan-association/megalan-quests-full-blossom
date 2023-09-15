@@ -10,14 +10,19 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import NotAdminPage from "~/components/pages/NotAdminPage";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
+import { api } from "~/utils/api";
+import LoadingPage from "~/components/pages/LoadingPage";
 
 const ManageTasks = () => {
   const [openModal, setOpenModal] = useState(false);
   const { data: sessionData } = useSession();
+  const response = api.admin.getAdminTasks.useQuery();
 
   if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
 
   if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
+
+  if (response.isLoading) return <LoadingPage />;
 
   return (
     <>
@@ -41,7 +46,7 @@ const ManageTasks = () => {
             <p className="font-heading font-medium">Create Task</p>
             <PlusIcon className="h-6 w-6" />
           </button>
-          {placeholderAdminTasksData.map((society) => (
+          {response.data?.map((society) => (
             <Disclosure key={society.societyId}>
               {({ open }) => (
                 <>

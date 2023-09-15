@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import ProfileCard from "~/components/ProfileCard";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
-import NotParticipantPage from "~/components/pages/NotParticipantPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { api } from "~/utils/api";
 
@@ -19,8 +18,6 @@ const Settings = () => {
   const becomeAdminMutation = api.admin.becomeAdmin.useMutation();
 
   if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
-  
-  if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 
   const handleNameChangeSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -189,7 +186,7 @@ const Settings = () => {
                 )}
                 {tokenSuccess && (
                   <p className="px-4 font-body text-xs font-medium text-green">
-                    Your Token is Valid !
+                    You have been added to the society
                   </p>
                 )}
               </div>
