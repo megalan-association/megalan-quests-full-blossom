@@ -8,6 +8,7 @@ import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { type TaskDifficulty } from "@prisma/client";
+import { api } from "~/utils/api";
 
 interface Props {
   isOpen: boolean;
@@ -17,10 +18,26 @@ interface Props {
 
 const EditTaskModal: React.FC<Props> = ({ isOpen, data, closeModal }) => {
   const [taskData, setTaskData] = useState<taskCardInfo>(data);
+  const editTaskMutation = api.admin.editTask.useMutation();
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log("Submitted");
+
+    if (taskData.taskName) {
+
+      editTaskMutation.mutateAsync({
+        id: taskData.id,
+        taskName: taskData.taskName,
+        taskDescription: taskData.taskDescription,
+        taskDifficulty: taskData.taskDifficulty,
+      }).then((res) => {
+        console.log(res);
+        console.log("Submitted");
+        closeModal;
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const updateForm = (field: string, value: string | number) => {
