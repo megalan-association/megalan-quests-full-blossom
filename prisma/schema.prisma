@@ -67,7 +67,7 @@ model Task {
     difficulty  TaskDifficulty  @default(Easy)
     type        TaskType        @default(SOCIETY)
     users       CompletedTask[]
-    isAvailable Boolean
+    isAvailable Boolean         @default(false)
     promotedBy  String?
     society     Society?        @relation(fields: [societyId], references: [id])
     societyId   String?

@@ -5,6 +5,7 @@ import { TaskDifficultyOptions, TaskPointsOptions } from "~/utils/constants";
 import { type taskCardInfo } from "~/utils/types";
 import ListInput from "../input/ListInput";
 import { TaskDifficulty } from "@prisma/client";
+import { api } from "~/utils/api";
 
 interface Props {
   isOpen: boolean;
@@ -38,16 +39,26 @@ const CreateTaskModal: React.FC<Props> = ({
 }) => {
   const [taskData, setTaskData] = useState<taskCardInfo>(initTask);
   const [error, setError] = useState(false);
+  const createTaskMutation = api.admin.createTask.useMutation();
+
+  
 
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
     if (taskData.societyId && taskData.taskName) {
-      // add remaining properties about society
-      console.log(taskData.taskName);
-      console.log(taskData.societyId);
-      console.log("Success");
-      // api call here
-      closeModal;
+      createTaskMutation.mutateAsync({
+        taskName: taskData.taskName,
+        societyId: taskData.societyId,
+        taskDescription: taskData.taskDescription,
+        taskDifficulty: taskData.taskDifficulty,
+        taskPoints: taskData.taskPoints,
+      }).then((res) => {
+        console.log(res);
+        closeModal;
+      }).catch(() => {
+        setError(true);
+      });
+           
     }
     setError(true);
   };

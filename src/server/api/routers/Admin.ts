@@ -1,4 +1,4 @@
-import { UserType } from "@prisma/client";
+import { TaskDifficulty, UserType } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
 import { z } from "zod";
@@ -14,6 +14,7 @@ import { type SocietyAdminData } from "~/utils/types";
 
 export const adminRouter = createTRPCRouter({
   getAdminTasks: adminProcedure.query(async ({ ctx }) => {
+
     const adminTasks = ctx.prisma.society.findMany({
       where: {
         admins: { every: { id: ctx.session.user.id } },
@@ -32,7 +33,6 @@ export const adminRouter = createTRPCRouter({
         },
       },
     });
-
     return adminTasks;
   }),
 
@@ -165,24 +165,26 @@ export const adminRouter = createTRPCRouter({
   }),
 
   getRaffleWinner: adminProcedure
-  .query(async ({ctx}) => {
-    const completedTasks = await ctx.prisma.completedTask.findMany({
-      where: {
-        task: {
-          type: "SOCIETY",
+    .query(async ({ ctx }) => {
+      const completedTasks = await ctx.prisma.completedTask.findMany({
+        where: {
+          task: {
+            type: "SOCIETY",
+          },
+          user: {
+            type: "PARTICIPANT"
+          }
         },
-        user: {
-          type: "PARTICIPANT"
-        }
-      },
-      include: {
-        task: {
-          select: {
-            points: true,
-          },},},
-    });
+        include: {
+          task: {
+            select: {
+              points: true,
+            },
+          },
+        },
+      });
 
-    const raffle: string[] = [];
+      const raffle: string[] = [];
       completedTasks.forEach((cTask) => {
         raffle.push(cTask.userID);
         if (cTask.task.points == 200) raffle.push(cTask.userID);
@@ -190,17 +192,17 @@ export const adminRouter = createTRPCRouter({
       const winnerList = fisherYatesShuffle(raffle);
       console.log(winnerList);
 
-      if (winnerList.length === 0) return {user: null}
+      if (winnerList.length === 0) return { user: null }
 
       // get  the winners name
-      const name = await ctx.prisma.user.findFirstOrThrow({ where: {id: winnerList[0]}});
+      const name = await ctx.prisma.user.findFirstOrThrow({ where: { id: winnerList[0] } });
       console.log(name);
 
       // return the winner 
-      return {id: name.id, image: name.image, name: name.name};
+      return { id: name.id, image: name.image, name: name.name };
 
-  }),
-  
+    }),
+
   removeAdmin: protectedProcedure
     .input(z.object({ adminId: z.string(), societyId: z.string() }))
     .mutation(async ({ input, ctx }) => {
@@ -246,4 +248,67 @@ export const adminRouter = createTRPCRouter({
 
       return response;
     }),
+
+
+  createTask: adminProcedure
+    .input(z.object({               // can just dump taskData state as input in frontend
+      taskName: z.string(),
+      societyId: z.string(),
+      taskDescription: z.union([z.string(), z.null()]),
+      taskDifficulty: z.nativeEnum(TaskDifficulty),
+      taskPoints: z.number(),
+      // promotion: z.union([z.string(), z.null()]),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.prisma.task.create({
+          data: {
+            name: input.taskName,
+            points: input.taskPoints,
+            description: input.taskDescription,
+            difficulty: input.taskDifficulty,
+            // promotedBy: input.promotion,
+            society: {
+              connect: {
+                id: input.societyId,
+              },
+            },
+          },
+        });
+        return { status: "success" };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An unexpected error occurred, please try again later.",
+          cause: error,
+        });
+      }
+    }),
+  editTask: adminProcedure
+    .input(z.object({               // can just dump taskData state as input in frontend
+      id: z.string(),
+      taskName: z.string(),
+      taskDescription: z.union([z.string(), z.null()]),
+      taskDifficulty: z.nativeEnum(TaskDifficulty),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      try {
+        await ctx.prisma.task.update({
+          where: { id: input.id },
+          data: {
+            name: input.taskName,
+            description: input.taskDescription,
+            difficulty: input.taskDifficulty,
+          },
+        });
+        return { status: "success" };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An unexpected error occurred, please try again later.",
+          cause: error,
+        });
+      }
+    }),
+
 });
