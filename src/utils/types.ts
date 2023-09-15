@@ -5,7 +5,6 @@ export type AdminsTaskData = {
   societyName: string;
   tasks: taskCardInfo[];
 }[];
-
 export interface taskInfo {
   id: string;
   isSponsorTask: boolean;
