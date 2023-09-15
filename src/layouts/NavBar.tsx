@@ -103,13 +103,18 @@ const NavBar = () => {
             }`}
           >
             <div className="flex h-fit flex-row items-center justify-between">
-              <Menu.Item key={"home"} href="/" as="a">
+              <Menu.Item
+                key={"home"}
+                href="/"
+                as="a"
+                className="flex h-16 w-full flex-row items-start justify-start bg-contain"
+              >
                 <Image
                   alt="logo"
                   src="/megalan-logo.png"
                   height={500}
-                  width={500}
-                  className="h-16 w-fit object-contain"
+                  width={1000}
+                  className="h-full w-fit object-scale-down"
                 />
               </Menu.Item>
               <div className="flex w-fit flex-row space-x-2">
