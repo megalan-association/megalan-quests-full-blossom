@@ -4,6 +4,7 @@ import SeeMore from "./SeeMore";
 import { useState } from "react";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import EditTaskModal from "./modals/EditTaskModal";
+import { api } from "~/utils/api";
 
 interface Props {
   data: taskCardInfo;
@@ -12,6 +13,17 @@ interface Props {
 const AdminTaskCard: React.FC<Props> = ({ data }) => {
   const [enabled, setEnabled] = useState(false);
   const [editing, setEditing] = useState(false);
+  const toggleMutation = api.admin.toggleTaskAvailability.useMutation();
+
+  const handleToggle = () => {
+    toggleMutation
+      .mutateAsync({ taskId: data.id, availability: !enabled })
+      .then(() => {
+        setEnabled(!enabled);
+      })
+      .catch(() => {});
+  };
+
   return (
     <>
       <EditTaskModal
@@ -93,7 +105,7 @@ const AdminTaskCard: React.FC<Props> = ({ data }) => {
                 </span>
               </button>
               <button
-                onClick={() => setEnabled(!enabled)}
+                onClick={() => handleToggle()}
                 className="flex items-center rounded-xl border-2 border-green/20 bg-light-green/40 px-4 py-2 font-heading text-xs font-medium text-green md:text-base"
               >
                 {enabled ? "Deactivate Task" : "Activate Task"}
