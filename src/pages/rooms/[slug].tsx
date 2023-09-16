@@ -6,7 +6,7 @@ import { useState } from "react";
 import TaskCard from "~/components/TaskCard";
 import ListInput from "~/components/input/ListInput";
 import LoadingPage from "~/components/pages/LoadingPage";
-import NotLoggedIn from "~/components/pages/NotLoggedInPage";
+import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import NotParticipantPage from "~/components/pages/NotParticipantPage";
 import UserPageLayout from "~/layouts/UserPageLayout";
 import { springTransition } from "~/utils/animations";
@@ -15,17 +15,13 @@ import { type taskCardInfo } from "~/utils/types";
 
 const Room = () => {
   const router = useRouter();
-  const room = router.query; // Updated parameter name
-  const societies: string[] = [];
-
+  const room = router.query;
   const { data: sessionData } = useSession();
-  const [filterDifficulty, updateFilterDifficulty] =
-    useState("All difficulties");
-  const [filterSociety, updateFilterSociety] = useState("All societies");
 
   const requestData = api.tasks.getRoomTasks.useQuery({
-    roomName: room.slug ? room.slug.toString() : "_",
+    roomName: room.slug as string,
   });
+  const societies: string[] = [];
 
   for (const t of requestData.data || []) {
     if (!societies.includes(t.societyName)) {
@@ -33,6 +29,9 @@ const Room = () => {
     }
   }
 
+  const [filterDifficulty, updateFilterDifficulty] =
+    useState("All difficulties");
+  const [filterSociety, updateFilterSociety] = useState("All societies");
   const doFilter = (rawData: taskCardInfo[]) => {
     const intermediate: taskCardInfo[] = [];
     const result: taskCardInfo[] = [];
@@ -50,10 +49,11 @@ const Room = () => {
         result.push(t);
       }
     }
+    console.log(result);
     return result;
   };
 
-  if (!(sessionData && sessionData.user)) return <NotLoggedIn />;
+  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
 
   if (sessionData.user.type !== "PARTICIPANT") return <NotParticipantPage />;
 

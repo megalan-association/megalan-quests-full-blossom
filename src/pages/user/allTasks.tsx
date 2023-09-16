@@ -12,7 +12,7 @@ import { type taskCardInfo } from "~/utils/types";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import NotParticipantPage from "~/components/pages/NotParticipantPage";
 
-const Room = () => {
+const AllTasks = () => {
   const { data: sessionData } = useSession();
   const requestData = api.tasks.getAllTasks.useQuery();
   const societies: string[] = [];
@@ -166,4 +166,4 @@ const Room = () => {
   );
 };
 
-export default Room;
+export default AllTasks;
