@@ -79,6 +79,7 @@ const AllTasks = () => {
             id="society-filter"
             options={["All societies", ...societies]}
             selectedOption="All societies"
+            
             onSelect={(v) => {
               updateFilterSociety(v.toString());
             }}
