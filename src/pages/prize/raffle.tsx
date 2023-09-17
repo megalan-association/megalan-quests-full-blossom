@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import RaffleWinnerRevealCard from "~/components/RaffleWinnerRevealCard";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
