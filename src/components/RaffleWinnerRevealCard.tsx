@@ -11,7 +11,7 @@ interface Props {
   category: string;
 }
 
-const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
+const RaffleWinnerRevealCard: React.FC<Props> = ({ winner, category }) => {
   const [loading, setLoading] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -68,7 +68,7 @@ const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
           </div>
           <div className="flex w-full flex-row items-center justify-start space-x-4 px-4 py-2">
             <h1 className="font-heading text-xl font-medium text-brown md:text-3xl">
-              Winner
+              Winner {category}
             </h1>
           </div>
         </div>
