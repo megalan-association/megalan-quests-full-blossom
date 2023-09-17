@@ -3,11 +3,18 @@ import Image from "next/image";
 import RaffleWinnerRevealCard from "~/components/RaffleWinnerRevealCard";
 import NotLoggedInPage from "~/components/pages/NotLoggedInPage";
 import Layout from "~/layouts/Layout";
+import { api } from "~/utils/api";
 
 const Raffle = () => {
   const { data: sessionData } = useSession();
   // api call here to get winner
-  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
+
+  const users = api.tasks.getLeaderBoard.useQuery();
+
+  
+  
+
+  if (!(users.data)) return <NotLoggedInPage />;
   return (
     <Layout>
       <div className="relative flex h-full min-h-screen w-full flex-col">
@@ -31,13 +38,29 @@ const Raffle = () => {
               height={150}
             />
           </div>
-          <div className="z-40 flex h-full w-full flex-col items-center justify-center px-16">
+          <div className="z-40 flex h-full w-full flex-row items-center justify-center px-16">
             <RaffleWinnerRevealCard
               category="Society Tasks"
               winner={{
-                id: sessionData.user.id,
-                image: sessionData.user.image ?? "",
-                name: sessionData.user.name ?? "name",
+                id: users.data[0]?.id ?? "",
+                image: users.data[0]?.image ?? "",
+                name: users.data[0]?.name ?? "name",
+              }}
+            />
+            <RaffleWinnerRevealCard
+              category="Society Tasks"
+              winner={{
+                id: users.data[1]?.id ?? "",
+                image: users.data[1]?.image ?? "",
+                name: users.data[1]?.name ?? "name",
+              }}
+            />
+            <RaffleWinnerRevealCard
+              category="Society Tasks"
+              winner={{
+                id: users.data[2]?.id ?? "",
+                image: users.data[2]?.image ?? "",
+                name: users.data[2]?.name ?? "name",
               }}
             />
           </div>

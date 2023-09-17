@@ -59,7 +59,7 @@ const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
 
   if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
 
-  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
+  // if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
 
   return (
     <div className="block h-96 w-full max-w-xl rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
