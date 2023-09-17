@@ -1,9 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useConfetti } from "use-confetti-svg";
-import { useSession } from "next-auth/react";
-import NotLoggedInPage from "./pages/NotLoggedInPage";
-import NotAdminPage from "./pages/NotAdminPage";
 
 interface Props {
   winner: {
@@ -11,11 +8,10 @@ interface Props {
     name: string;
     image: string;
   };
-  category: "Cosplay" | "Society Tasks" | "Social Tasks";
+  category: string;
 }
 
 const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
-  const { data: sessionData } = useSession();
   const [loading, setLoading] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -57,12 +53,8 @@ const RaffleWinnerRevealCard: React.FC<Props> = ({ winner }) => {
     });
   };
 
-  if (!(sessionData && sessionData.user)) return <NotLoggedInPage />;
-
-  if (sessionData.user.type !== "ADMIN") return <NotAdminPage />;
-
   return (
-    <div className="block h-96 w-full max-w-xl rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
+    <div className="block h-96 w-96 max-w-xl rounded-2xl bg-gradient-to-b from-yellow-900 to-[#CCC786] p-2">
       <div className="flex h-full w-full flex-col gap-2">
         <div className="relative rounded-t-xl bg-white">
           <div className="pointer-events-none absolute -right-4 -top-6 flex h-full w-full flex-row items-end justify-end">
