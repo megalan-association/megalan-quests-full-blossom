@@ -19,7 +19,7 @@ A Stamp Rally Website Developed for MegaLAN Full Blossom during September 2023
 ### 🎨 Design
 
 - Renee
-- Christine
+- [Christine](https://github.com/Christin322)
 
 ## 🍃 Documentation
 
