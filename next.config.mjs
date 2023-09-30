@@ -22,6 +22,7 @@ const config = {
     domains: [
       "avatars.githubusercontent.com",
       "media.discordapp.net",
+      "i.imgur.com",
       "media.licdn.com",
       "cdn.discordapp.com",
       "a.ppy.sh",
